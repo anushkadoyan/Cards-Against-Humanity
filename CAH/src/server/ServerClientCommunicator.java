@@ -31,7 +31,7 @@ public class ServerClientCommunicator extends Thread {
 		try {
 			obj = ois.readObject();
 		} catch (ClassNotFoundException e) {
-			//error
+			System.out.println("Error reading object in ServerClientCommunicator: " + e.getMessage());
 		}
 		if(obj instanceof Player){
 			Player p = (Player)obj;
@@ -104,10 +104,10 @@ public class ServerClientCommunicator extends Thread {
 			try {
 				socket.close();
 			} catch (IOException ioe1) {
-				//error
+				System.out.println("ioe attempting to close socket in ServerClientCommunicator.run(): " + ioe1.getMessage());
 			}
 		} catch (ClassNotFoundException e) {
-			//error
+			System.out.println("ClassNotFoundException in ServerClientCommunicator.run(): " + e.getMessage());
 		}
 	}
 }

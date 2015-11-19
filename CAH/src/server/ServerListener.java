@@ -33,21 +33,21 @@ public class ServerListener extends Thread {
 						sccVector.add(scc);
 					}
 				} catch (IOException ioe) {
-					//error
+					System.out.println("ioe in ServerListener.run() while(true): " + ioe.getMessage());
 				}
 			}
 		} catch(BindException be) {
-			//error
+			System.out.println("be in ServerListener.run(): " + be.getMessage());
 		}
 		catch (IOException ioe) {
-			//error
+			System.out.println("ioe in ServerListener.run() initial try block: " + ioe.getMessage());
 		} 
 		finally {
 			if (ss != null) {
 				try {
 					ss.close();
 				} catch (IOException ioe) {
-					//error
+					System.out.println("ioe in ServerListener.run() finally block: " + ioe.getMessage());
 				}
 			}
 		}

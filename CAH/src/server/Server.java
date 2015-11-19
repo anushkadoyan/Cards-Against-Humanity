@@ -11,7 +11,7 @@ public class Server {
 			ss = new ServerSocket(6788);
 		}
 		catch(IOException ioe){
-			//TODO
+			System.out.println("Error initializing server: " + ioe.getMessage());
 		}
 		serverListener = new ServerListener(ss);
 		serverListener.start();

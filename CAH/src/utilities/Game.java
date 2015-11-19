@@ -9,15 +9,18 @@ public class Game {
 	private Player host;
 	private Player judge;
 	private Deck deck;
+	
 	public Game(Player host, Deck deck){
 		this.ID = -1;
 		this.host = host;
 		this.deck = deck;
 		turn=0;
 	}
+	
 	public int getID(){
 		return ID;
 	}
+	
 	public void setID(int ID){
 		this.ID = ID;
 	}
