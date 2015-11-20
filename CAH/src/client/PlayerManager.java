@@ -8,11 +8,11 @@ import utilities.Deck;
 import utilities.Player;
 
 public class PlayerManager {
-	private static Socket socket;
-	public static void setSocket(Socket s){
-		socket = s;
-	}
+	private static ServerCommunicator sc = null;
+	private static Player player = null;
+
 	public static Card createCard(Card c){
+		
 		//TODO
 		return new Card(null, null);
 	}
@@ -33,8 +33,11 @@ public class PlayerManager {
 	public static void selectCard(Card c){
 		//TODO
 	}
-	public static Vector<Player> getScores(){
+	public Vector<Player> getScores(){
 		return new Vector<Player>();
 		//TODO
+	}
+	public static void setServerCommunicator(ServerCommunicator sc2){
+		sc = sc2;
 	}
 }

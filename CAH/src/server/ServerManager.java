@@ -25,12 +25,14 @@ public class ServerManager {
 			result = -2;//sqlconnection error
 		}
 		p.setID(result);
+		if(result>0){
+			p=loadPlayerInfo(p);
+		}
 		return p;
 	}
 	
 	public static Card AddCard(Card c, int deckID){//receives card with no id
-		c.setID(deckID);
-		return new Card(c.getDesc(), c.getBlackness());
+		return c;
 		//TODO: see verifyCredentials(), pass primitives only to DBAccess, get ID, return card with id.
 	}
 	
@@ -38,5 +40,15 @@ public class ServerManager {
 		g.setID(gameIndex);
 		gameIndex++;
 		return g;
+	}
+	public static Player loadPlayerInfo(Player p){
+		/*try {
+			p.loadDecks(DBAccess.getPlayerDecks(p.getID()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		return p;
 	}
 }

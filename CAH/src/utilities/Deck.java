@@ -9,6 +9,11 @@ public class Deck {
 	private Vector<Card> cards;
 	private int ID;
 	
+	public Deck(int id, String name){
+		this.ID = id;
+		this.name = name;
+	}
+	
 	public Deck(String name){
 		this.ID = -1;
 		this.name = name;
@@ -47,6 +52,10 @@ public class Deck {
 	
 	public void reshuffle() {
 		Collections.shuffle(cards);
+	}
+	
+	public void setCards(Vector<Card> cards){
+		this.cards = cards;
 	}
 	//do NOT call ServerManager methods directly here. Load the deck from the ServerManager and set the cards from there.
 }

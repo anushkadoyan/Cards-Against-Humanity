@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import client.PlayerManager;
 import utilities.Card;
 import utilities.Deck;
 import utilities.Game;
@@ -27,22 +28,7 @@ public class ServerClientCommunicator extends Thread {
 		this.oos = new ObjectOutputStream(socket.getOutputStream());
 		this.ois = new ObjectInputStream(socket.getInputStream());
 		gc = null;
-		Object obj = null;
-		try {
-			obj = ois.readObject();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error reading object in ServerClientCommunicator: " + e.getMessage());
-		}
-		if(obj instanceof Player){
-			Player p = (Player)obj;
-			player = ServerManager.VerifyCredentials(p);
-			oos.writeObject(player);
-			oos.flush();
-			valid=player.getID()>0||player.isGuest();			
-		}
-		else{
-			//error
-		}
+		
 	}
 	public Boolean isValid(){
 		return valid;
@@ -50,7 +36,32 @@ public class ServerClientCommunicator extends Thread {
 	
 	public void run() {
 		try {
-			Object obj = ois.readObject();
+			//validating log-in
+			Object obj = null;
+			while(obj!=null){
+				try {
+					obj = ois.readObject();
+				} catch (ClassNotFoundException e) {
+					System.out.println("Error reading object in ServerClientCommunicator: " + e.getMessage());
+				}
+				if(obj instanceof Player){
+					Player p = (Player)obj;
+					player = ServerManager.VerifyCredentials(p);
+					oos.writeObject(player);
+					oos.flush();
+					valid=player.getID()>0||player.isGuest();
+					if(valid){
+						serverListener.addValidSCC(this);
+						break;
+					}
+				}
+				else{
+					System.out.println("Expected to receive log-in credentials");
+				}
+			}
+			
+			
+			obj = ois.readObject();
 			while(obj!=null){
 				if(gc==null){
 					if(obj instanceof Game){
@@ -99,6 +110,7 @@ public class ServerClientCommunicator extends Thread {
 				obj = ois.readObject();
 			}			
 		} catch (IOException ioe) {
+			serverListener.removeValidSCC(this);
 			serverListener.removeServerClientCommunicator(this);
 			// this means that the socket is closed since no more lines are being received
 			try {
