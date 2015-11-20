@@ -37,4 +37,7 @@ public class Card {
 		this.deckID = i;
 	}
 	
+	public int getDeckID() {
+		return deckID;
+	}
 }

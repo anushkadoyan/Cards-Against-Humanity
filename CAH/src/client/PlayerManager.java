@@ -1,6 +1,5 @@
 package client;
 
-import java.net.Socket;
 import java.util.Vector;
 
 import utilities.Card;
@@ -11,8 +10,7 @@ public class PlayerManager {
 	private static ServerCommunicator sc = null;
 	private static Player player = null;
 
-	public static Card createCard(Card c){
-		
+	public static Card createCard(Card c){		
 		//TODO
 		return new Card(null, null);
 	}
@@ -39,5 +37,26 @@ public class PlayerManager {
 	}
 	public static void setServerCommunicator(ServerCommunicator sc2){
 		sc = sc2;
+	}
+	
+	// Accessors for player members.
+	public String getPlayerUsername() {
+		return player.getName();
+	}
+	
+	public String getPlayerPassword() {
+		return player.getPassword();
+	}
+	
+	public int getPlayerID() {
+		return player.getID();
+	}
+	
+	public boolean isGuest() {
+		return player.isGuest();
+	}
+	
+	public Vector<Deck> getDecks() {
+		return player.getPlayerDecks();
 	}
 }

@@ -109,6 +109,27 @@ public class DBAccess {
 	}
 	public static Player getFullPlayerInfo(int playerID){
 		//TODO: gets all player info, with cards, decks, etc.
-		return new Player("", "");
+		Vector<Deck> playerDecks = null;
+		Player player = null;
+		try {
+			playerDecks = getPlayerDecks(playerID); // Gets player decks.
+			for( int i = 0; i < playerDecks.size(); i++ ) {
+				playerDecks.get(i).setCards(getDeckCards(playerDecks.get(i).getID())); // Sets deck cards for each deck.
+			}
+			connect();
+			String statement = "SELECT * from Player_Table WHERE id = " + playerID;
+			PreparedStatement ps = conn.prepareStatement(statement);
+			ResultSet rs = ps.executeQuery();
+			player = new Player(rs.getString("user_name"), rs.getString("password"));
+			disconnect();
+		} catch (SQLException e) {
+			System.out.println("Error establishing database connection in DBAccess.getFullPlayerInfo(): " + e.getMessage());
+		}
+		
+		// Now that we have the cards and created our Player, assign them to the Player.
+		// Should a null check be here?
+		player.loadDecks(playerDecks);
+		player.setID(playerID);
+		return player;
 	}
 }

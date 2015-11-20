@@ -14,25 +14,36 @@ public class Player {
 		ID=0;
 		guest = name.startsWith("Guest");
 	}
+	
 	public String getName(){
 		return name;
 	}
+	
 	public String getPassword(){
 		return password;
 	}
+	
 	public void setID(int id){
 		ID=id;
 	}
+	
 	public int getID(){
 		return ID;
 	}
+	
 	public void setAsGuest(Boolean guestStatus){
 		guest = guestStatus;
 	}
+	
 	public Boolean isGuest(){
 		return guest;
 	}
+	
 	public void loadDecks(Vector<Deck> loadedDecks){
 		decks = loadedDecks;
+	}
+	
+	public Vector<Deck> getPlayerDecks() {
+		return decks;
 	}
 }
