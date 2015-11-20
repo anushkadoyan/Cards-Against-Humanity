@@ -37,4 +37,9 @@ public class PlayerManager {
 		return new Vector<Player>();
 		//TODO
 	}
+	public static Deck getDeck(int deckID){//get
+		//TODO
+		return new Deck(null);
+		
+	}
 }
