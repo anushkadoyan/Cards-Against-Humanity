@@ -2,6 +2,9 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.GrayFilter;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,24 +22,29 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+
+import client.PlayerManager;
+import utilities.Card;
+import utilities.Deck;
 
 public class DeckEditorWindow extends JFrame{
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 //	private JList deckList, cardList;
 //	private JScrollPane deckScroll, cardScroll;
 //	private JButton createDeckButton, createCardButton, saveCardButton;
 //	private JTextArea cardViewer;
 //	private JRadioButton blackCard, whiteCard;
+	private Deck cDeck;
 	private ButtonGroup group;
 	private DefaultListModel <String>deckListModel, cardListModel;
+	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
+	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	
 
 	public DeckEditorWindow() {
@@ -115,18 +125,50 @@ public class DeckEditorWindow extends JFrame{
 		JPanel radioPanel = new JPanel();
 		radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.X_AXIS));
 		
-//		JTextArea cardTextArea = new JTextArea();
-//		cardTextArea.setText("Cards Against Humanity");
-//		cardDisplayPanel.add(cardTextArea);
-//		cardTextArea.setPreferredSize(new Dimension(400, 400));
+		class MyTextArea extends JTextArea {
+		    private Image backgroundImage;
+
+		    public MyTextArea() {
+		        super();
+		        setOpaque(false);
+		    }
+
+		    public void setBackgroundImage(Image image) {
+		        this.backgroundImage = image;
+		        this.repaint();
+		    }
+
+		    @Override
+		    protected void paintComponent(Graphics g) {
+		        g.setColor(getBackground());
+		        g.fillRect(0, 0, getWidth(), getHeight());
+
+		        if (backgroundImage != null) {
+		            g.drawImage(backgroundImage, 0, 0, this);
+		        }
+
+		        super.paintComponent(g);
+		    }
+		}
 		
-		JTextPane cardTextPane = new JTextPane();
-		StyledDocument doc = cardTextPane.getStyledDocument();
-		SimpleAttributeSet center = new SimpleAttributeSet();
-		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-		cardTextPane.setPreferredSize(new Dimension(400, 400));
-		cardDisplayPanel.add(cardTextPane);
+		
+		
+		MyTextArea cardTextArea = new MyTextArea();
+		cardTextArea.setText("Cards Against Humanity");
+		cardTextArea.setLineWrap(true);
+		cardTextArea.setBackgroundImage(whiteCard);
+		cardTextArea.setFont(new Font("Helvetica", Font.BOLD, 16));
+		cardTextArea.setForeground(Color.BLACK);
+		cardTextArea.setPreferredSize(new Dimension(400, 400));
+		cardDisplayPanel.add(cardTextArea);
+		
+//		JTextPane cardTextPane = new JTextPane();
+//		StyledDocument doc = cardTextPane.getStyledDocument();
+//		SimpleAttributeSet center = new SimpleAttributeSet();
+//		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+//		doc.setParagraphAttributes(0, doc.getLength(), center, false);
+//		cardTextPane.setPreferredSize(new Dimension(400, 400));
+//		cardDisplayPanel.add(cardTextPane);
 		
 		
 		
@@ -135,7 +177,36 @@ public class DeckEditorWindow extends JFrame{
 		radioPanel.add(whiteRadioButton);
 		JRadioButton blackRadioButton = new JRadioButton("Black Card");
 		radioPanel.add(blackRadioButton);
-						
+		whiteRadioButton.setSelected(true);
+		
+		whiteRadioButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent arg0) {
+	        	cardTextArea.setBackgroundImage(whiteCard);
+	        	cardTextArea.setForeground(Color.BLACK);
+	        	revalidate();
+	        	repaint();
+	        	
+	    			
+	    			//put in if statement to check if card is black or white
+	    			//PlayerManager.editCard(new Card(line, true));
+	    		
+	            
+	        }});
+		blackRadioButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent arg0) {
+	        	cardTextArea.setBackgroundImage(blackCard);
+	        	cardTextArea.setForeground(Color.WHITE);
+	        	revalidate();
+	        	repaint();
+	        	
+	    			
+	    			//put in if statement to check if card is black or white
+	    			//PlayerManager.editCard(new Card(line, true));
+	    		
+	            
+	        }});
+		
+		
 		group = new ButtonGroup();
 		group.add(whiteRadioButton);
 		group.add(blackRadioButton);
@@ -143,19 +214,35 @@ public class DeckEditorWindow extends JFrame{
 		JButton saveCardButton = new JButton("Save Card");
 		saveCardButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
-	        	try {
-	    			String line = cardTextPane.getDocument().getText(0,  cardTextPane.getDocument().getLength());
+	      
+	    			String line = cardTextArea.getText();
 	    			System.out.println(line);
-	    		} catch (BadLocationException e) {
-	    			// TODO Auto-generated catch block
-	    			e.printStackTrace();
-	    		}
+	    			//put in if statement to check if card is black or white
+	    			//PlayerManager.editCard(new Card(line, true));
+	    		
 	            
 	        }});
 		radioPanel.add(saveCardButton);
 		
 		cardDisplayPanel.add(radioPanel);
 		
+		
+		/*createCardButton.addActionListener(new ActionListener() {
+			//when create card is clicked, create a blank card 
+			//blank card will have description string "new card" 
+			//to do this, call 
+	        public void actionPerformed(ActionEvent arg0) {
+	        	try {
+	    			String line = cardTextPane.getDocument().getText(0,  cardTextPane.getDocument().getLength());
+	    			System.out.println(line);
+	    			//put in if statement to check if card is black or white
+	    			PlayerManager.editCard(new Card(line, true));
+	    		} catch (BadLocationException e) {
+	    			// TODO Auto-generated catch block
+	    			e.printStackTrace();
+	    		}
+	            
+	        }});*/
 		
 		
 		this.setVisible(true);
