@@ -1,10 +1,13 @@
 package utilities;
 
+import java.util.Vector;
+
 public class Player {
 	private int ID;
 	private String name;
 	private String password;
 	private Boolean guest;
+	private Vector<Deck> decks;
 	public Player(String username, String pwd){
 		name = username;
 		password = pwd;
@@ -28,5 +31,8 @@ public class Player {
 	}
 	public Boolean isGuest(){
 		return guest;
+	}
+	public void loadDecks(Vector<Deck> loadedDecks){
+		decks = loadedDecks;
 	}
 }

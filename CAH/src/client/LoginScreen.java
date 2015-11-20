@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import customUI.ImagePanel;
+import utilities.Player;
 
 public class LoginScreen extends ImagePanel{
 	private static final long serialVersionUID = -7404180270690905673L;
@@ -35,6 +38,26 @@ public class LoginScreen extends ImagePanel{
 			loginButton.setPreferredSize(new Dimension(90,40));
 			loginButton.addActionListener(loginAction);
 			loginButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			/*
+			loginButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent ae){
+					Socket s = null;
+					try{
+						s = new Socket(name, port);
+					}
+					catch(Exception ex){
+						//unsuccessful connect
+					}
+					Player p = null;
+					ServerCommunicator sc = new ServerCommunicator(s, p);
+					Boolean loginWasValid = sc.isValid();
+					if(loginWasValid){
+						PlayerManager.setServerCommunicator(sc);
+						//do stuff
+					}
+				}
+			});*/
 		registerButton = new JButton("Register");
 			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			registerButton.setPreferredSize(new Dimension(90,40));
@@ -90,4 +113,5 @@ public class LoginScreen extends ImagePanel{
 		
 		
 	}
+
 }

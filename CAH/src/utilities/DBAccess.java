@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 public class DBAccess {
 	private static Connection conn = null;
@@ -57,5 +58,57 @@ public class DBAccess {
 			id=rs.getInt("ID");
 		}
 		return id;
+	}
+	public static Vector<Deck> getPlayerDecks(int playerID) throws SQLException{
+		Vector<Deck> result = new Vector<Deck>();
+		Vector<Integer> deckIDs = getPlayerDeckIDs(playerID);
+		for(Integer deckId:deckIDs){
+			result.add(getPlayerDeck(deckId));
+		}
+		return result;
+	}
+	public static Vector<Integer> getPlayerDeckIDs(int playerID) throws SQLException{
+		Vector<Integer> result = new Vector<Integer>();
+		connect();
+		PreparedStatement ps = conn.prepareStatement("SELECT deck_id FROM Player_Decks_Table WHERE player_id = ?");
+		ps.setInt(1, playerID);
+		ResultSet rs = ps.executeQuery();
+		disconnect();
+		while(rs.next()){
+			result.add(rs.getInt("deck_id"));
+		}
+		return result;
+	}
+	public static Deck getPlayerDeck(int deckID) throws SQLException{
+		connect();
+		PreparedStatement ps = conn.prepareStatement("SELECT deck_name FROM Decks_Table WHERE id = ?");
+		ps.setInt(1, deckID);
+		ResultSet rs = ps.executeQuery();
+		disconnect();
+		String name = "";
+		if(rs.next()){
+			name=rs.getString("deck_name");
+		}
+		Deck deck = new Deck(deckID, name);
+		deck.setCards(getDeckCards(deckID));
+		return deck;
+	}
+	public static Vector<Card> getDeckCards(int deckID) throws SQLException{
+		Vector<Card> result = new Vector<Card>();
+		connect();
+		PreparedStatement ps = conn.prepareStatement("SELECT id, text, is_black FROM Cards_Table WHERE deck_id = ?");
+		ps.setInt(1, deckID);
+		ResultSet rs = ps.executeQuery();
+		disconnect();
+		while(rs.next()){
+			Card c = new Card(rs.getInt("id"), rs.getString("text"), rs.getBoolean("is_black"));
+			c.setDeckID(deckID);
+			result.add(c);
+		}
+		return result;
+	}
+	public static Player getFullPlayerInfo(int playerID){
+		//TODO: gets all player info, with cards, decks, etc.
+		return new Player("", "");
 	}
 }
