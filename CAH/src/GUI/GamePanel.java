@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -22,10 +23,13 @@ import customUI.PaintedButton;
 import customUI.PaintedPanel;
 
 public class GamePanel extends PaintedPanel{
+	private static final long serialVersionUID = 1L;
+
 	private Image toDraw;
 
 	public GamePanel(Image i) {
 		super(i);
+		
 		setLayout(new BorderLayout());
 //		PaintedPanel back = new PaintedPanel(image);
 //		add(back);
@@ -152,13 +156,27 @@ public class GamePanel extends PaintedPanel{
 
 		add(top, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
-
 	}
 	
+	public static void main(String[] args) {
+		createGamePanel();
+	}
+	
+	private static void createGamePanel() {
+		System.out.println("Running the game panel");
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		// create the image
+		Image i = ImageLibrary.getImage("images/casino.jpg");
+		
+		// create the game panel
+		GamePanel gp = new GamePanel(i);
+
+		// create the frame
+		JFrame jf = new JFrame("THE FRAME");
+		jf.add(gp); // add the panel
+		jf.setBounds(0, 0, 1200, 800); // 3:2 display ratio for now
+		jf.repaint();
+		jf.setVisible(true);
+	}
 
 }
