@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import customUI.ImagePanel;
@@ -22,7 +23,8 @@ public class RegisterScreen extends ImagePanel{
 	
 	private JButton registerButton, cancelButton;
 	private JLabel userLabel, passLabel;
-	private JTextField userText, passText;
+	private JTextField userText;
+	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
 	
 	public RegisterScreen(Image inImage){
@@ -52,8 +54,9 @@ public class RegisterScreen extends ImagePanel{
 		userText = new JTextField(8);
 		userText.setFont(new Font("Andalus", Font.PLAIN, 20));
 		
-		passText = new JTextField(8);
+		passText = new JPasswordField(8);
 		passText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		passText.setEchoChar('*');
 		
 		userPanel = new JPanel();
 		userPanel.setLayout(new FlowLayout());
