@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -69,6 +71,7 @@ public class LobbyScreen extends ImagePanel{
 				return false;
 			}
 		};
+		
 		gameTable = new JTable(tableModel){
 			private static final long serialVersionUID = -6465578622780769821L;
 
@@ -81,7 +84,21 @@ public class LobbyScreen extends ImagePanel{
 				return c;
 			}
 		};
-			gameTable.setOpaque(false);
+		
+		//gameTable.getColumn("Game/Host").setPreferredWidth();
+		gameTable.getColumn("Players").setPreferredWidth(50);
+		gameTable.getColumn("Progress").setPreferredWidth(100);
+		
+		gameTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e){
+				if (gameTable.getSelectedRow() > -1){
+					//Do something
+				}
+			}
+		});
+		gameTable.setOpaque(false);
+		
 		jsp = new JScrollPane(gameTable);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
