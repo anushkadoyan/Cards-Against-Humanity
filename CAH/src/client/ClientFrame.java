@@ -12,10 +12,11 @@ public class ClientFrame extends JFrame{
 	private static final long serialVersionUID = -7114633140703492838L;
 	
 	{
+
 		setTitle("CAH");
 		setSize(new Dimension(640,480));
-		setMinimumSize(new Dimension(640,480));
-		setMaximumSize(new Dimension(960,720));
+		setMinimumSize(new Dimension(1024,768));
+		setMaximumSize(new Dimension(1024,768));
 		add(new ClientPanel());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
