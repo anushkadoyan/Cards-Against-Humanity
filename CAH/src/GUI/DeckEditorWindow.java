@@ -47,6 +47,7 @@ public class DeckEditorWindow extends JFrame{
 	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Vector<Deck> decks;
+	private 
 
 	public DeckEditorWindow() {
 		super("Deck Editor");
@@ -282,7 +283,9 @@ public class DeckEditorWindow extends JFrame{
 	    			String line = "new card";
 	    			System.out.println("new card created");
 	    			//put in if statement to check if card is black or white
-	    			PlayerManager.createCard(new Card(line, false));
+	    			Card newCard = new Card(line, false);
+	    			//newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
+	    			PlayerManager.createCard(newCard);
 	    			decks = PlayerManager.getDecks();
 	    			
 	    		}
