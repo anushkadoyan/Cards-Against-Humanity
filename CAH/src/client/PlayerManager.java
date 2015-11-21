@@ -10,7 +10,9 @@ public class PlayerManager {
 	private static ServerCommunicator sc = null;
 	private static Player player = null;
 
-	public static Card createCard(Card c){		
+	public static Card createCard(Card c){	
+		// Receives a card with no ID.
+		// Return a card with an ID to the client.
 		//TODO
 		return new Card(null, null);
 	}
@@ -35,15 +37,16 @@ public class PlayerManager {
 		return new Vector<Player>();
 		//TODO
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	public static Deck getDeck(int deckID){//get
 		//TODO
 		return new Deck(null);
+	}
 		
-=======
+//=======
 	public static void setServerCommunicator(ServerCommunicator sc2){
 		sc = sc2;
->>>>>>> 2fa0c81ba1f5e20bffa3217406b836c21b1e6262
+//>>>>>>> 2fa0c81ba1f5e20bffa3217406b836c21b1e6262
 	}
 	
 	// Accessors for player members.
