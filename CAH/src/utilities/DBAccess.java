@@ -107,6 +107,11 @@ public class DBAccess {
 		}
 		return result;
 	}
+	
+	public static int getCardID(String cardText, boolean isWhite) {
+		// TODO: Access the database and get the card ID, using the text and isWhite boolean to do so.
+		return 0;
+	}
 	public static Player getFullPlayerInfo(int playerID){
 		//TODO: gets all player info, with cards, decks, etc.
 		Vector<Deck> playerDecks = null;
