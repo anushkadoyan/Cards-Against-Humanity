@@ -191,7 +191,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		
 		
-		MyTextArea cardTextArea = new MyTextArea();
+		final MyTextArea cardTextArea = new MyTextArea();
 		cardTextArea.setText("Cards Against Humanity");
 		cardTextArea.setLineWrap(true);
 		cardTextArea.setBackgroundImage(whiteCard);
