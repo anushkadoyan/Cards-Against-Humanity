@@ -13,6 +13,9 @@ import customUI.PaintedPanel;
 import utilities.Card;
 
 public class GamePanel extends PaintedPanel{
+	
+	//Images and icons
+
 	private Image toDraw;
 	private static final long serialVersionUID = 1L;
 	private JPanel top, bottom, bottom1, bottom2, left, right;
@@ -25,20 +28,15 @@ public class GamePanel extends PaintedPanel{
 	private JLabel cigarL = new JLabel(cigar);
 	private Icon whiskey = new ImageIcon("images/whiskey.png");
 	private JLabel whiskeyL = new JLabel(whiskey);
+	
+	
 	//Constructor
 	public GamePanel(Image i) {
 		super(i);
 		setLayout(new BorderLayout());
-//		PaintedPanel back = new PaintedPanel(image);
-//		add(back);
 		this.setOpaque(false);
-		
-		
-		//Images and icons
-		
-		
-		
 		toDraw = white;
+		
 		PaintedPanel wCard = new PaintedPanel(white);
 		wCard.setOpaque(false);
 		top = new JPanel();
@@ -135,21 +133,21 @@ public class GamePanel extends PaintedPanel{
 		
 		
 		for(int i = 1; i<=5;i++) {
-			PaintedButton card = new PaintedButton("Bad word " + Integer.toString(counter),white);
-			card.setOpaque(false);
+			cards[i] = new PaintedButton("Bad word " + Integer.toString(counter),white);
+			cards[i].setOpaque(false);
 //			card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
-			  card.setHorizontalAlignment(SwingConstants.LEFT);
-			  card.setVerticalAlignment(SwingConstants.TOP);
-			  card.setFont(new Font("Helvetica", Font.BOLD, 16));
-			  card.setMargin(new Insets(20,20, 20, 20));
-//			  card.setMargin(new Insets(1,1,1,1));
-			  card.setBackground(null);
-			  card.setOpaque(false);
-			  card.setBorderPainted(false);
-			card.setContentAreaFilled(false);
-			bottom2.add(card);
+			cards[i].setHorizontalAlignment(SwingConstants.LEFT);
+			cards[i].setVerticalAlignment(SwingConstants.TOP);
+			cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
+			cards[i].setMargin(new Insets(20,20, 20, 20));
+//			  cards[i].setMargin(new Insets(1,1,1,1));
+			cards[i].setBackground(null);
+			cards[i].setOpaque(false);
+			cards[i].setBorderPainted(false);
+			cards[i].setContentAreaFilled(false);
+			bottom2.add(cards[i]);
 			counter++;
-			card.addActionListener(new ActionListener() {
+			cards[i].addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -165,6 +163,23 @@ public class GamePanel extends PaintedPanel{
 	
 	public void removeCards() {
 		
+	}
+	
+	public void addCard(Card card) {
+		
+	  	PaintedButton pCard = new PaintedButton("<html><font color=\"white\">"+card.getDesc()+"</font></html>",white);
+	  	pCard.setHorizontalAlignment(SwingConstants.LEFT);
+	  	pCard.setVerticalAlignment(SwingConstants.TOP);
+	  	pCard.setFont(new Font("Helvetica", Font.BOLD, 16));
+	  	pCard.setMargin(new Insets(20,20, 20, 20));
+	  	pCard.setBackground(null);
+	  	pCard.setOpaque(false);
+	  	pCard.setBorderPainted(false);
+	  	pCard.setContentAreaFilled(false);
+	  	pCard.setVisible(false);
+		top.add(pCard);
+				
+		 
 	}
 
 }
