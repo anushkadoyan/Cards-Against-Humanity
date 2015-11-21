@@ -10,9 +10,8 @@ public class PlayerManager {
 	private static ServerCommunicator sc = null;
 	private static Player player = null;
 
-	public static Card createCard(Card c){		
-		//TODO
-		return new Card(null, null);
+	public static void createCard(Card c){		
+		
 	}
 	public static void editCard(Card c){
 		//TODO
@@ -21,7 +20,7 @@ public class PlayerManager {
 		//TODO
 		return new Player(null, null);
 	}
-	public static Deck createDeck(Deck d, Player p){
+	public static Deck createDeck(Deck d){
 		//TODO
 		return new Deck(null);
 	}
