@@ -32,7 +32,7 @@ public class ClientPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
-				ClientPanel.this.add(lobbyScreen);
+				ClientPanel.this.add(registerScreen);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
