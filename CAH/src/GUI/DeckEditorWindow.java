@@ -47,7 +47,7 @@ public class DeckEditorWindow extends JFrame{
 	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Vector<Deck> decks;
-	private 
+	
 
 	public DeckEditorWindow() {
 		super("Deck Editor");
@@ -267,10 +267,15 @@ public class DeckEditorWindow extends JFrame{
 	    		
 	            
 	        }});
-		
-		
-		
-		
+		/*
+		-----------------------------------------------------------------
+		IMPORTANT FOR CREATING NEW DECK
+//		Deck newDeck = new Deck(deckName);
+//		newDeck.setOwnerID(PlayerManager.getPlayerID());
+//		PlayerManager.createDeck(newDeck);
+//		PlayerManager.getDecks();
+-------------------------------------------------------------------------
+		*/
 		
 		
 		
