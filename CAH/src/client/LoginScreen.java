@@ -15,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import customUI.ImagePanel;
@@ -25,7 +26,8 @@ public class LoginScreen extends ImagePanel{
 	
 	private JButton loginButton, registerButton, guestButton;
 	private JLabel userLabel, passLabel;
-	private JTextField userText, passText;
+	private JTextField userText;
+	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
 	
 	public LoginScreen(Image inImage, ActionListener loginAction, ActionListener registerAction, ActionListener guestAction){
@@ -78,8 +80,9 @@ public class LoginScreen extends ImagePanel{
 			
 		userText = new JTextField(8);
 			userText.setFont(new Font("Andalus", Font.PLAIN, 20));
-		passText = new JTextField(8);
+		passText = new JPasswordField(8);
 			passText.setFont(new Font("Andalus", Font.PLAIN, 20));
+			passText.setEchoChar('*');
 			
 		userPanel = new JPanel();
 			userPanel.setLayout(new FlowLayout());
