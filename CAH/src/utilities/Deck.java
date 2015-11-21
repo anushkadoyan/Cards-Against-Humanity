@@ -29,7 +29,7 @@ public class Deck {
 	}
 	
 	public int getOwnerID(){
-		return ID;
+		return playerID;
 	}
 	
 	public void setOwnerID(int id) {
