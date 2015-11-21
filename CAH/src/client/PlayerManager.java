@@ -45,23 +45,23 @@ public class PlayerManager {
 	}
 	
 	// Accessors for player members.
-	public String getPlayerUsername() {
+	public static String getPlayerUsername() {
 		return player.getName();
 	}
 	
-	public String getPlayerPassword() {
+	public static String getPlayerPassword() {
 		return player.getPassword();
 	}
 	
-	public int getPlayerID() {
+	public static int getPlayerID() {
 		return player.getID();
 	}
 	
-	public boolean isGuest() {
+	public static boolean isGuest() {
 		return player.isGuest();
 	}
 	
-	public Vector<Deck> getDecks() {
+	public static Vector<Deck> getDecks() {
 		return player.getPlayerDecks();
 	}
 }
