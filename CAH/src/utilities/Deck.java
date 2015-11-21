@@ -24,6 +24,10 @@ public class Deck {
 		return ID;
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
 	public void setID(int id) {
 		this.ID = id;
 	}
