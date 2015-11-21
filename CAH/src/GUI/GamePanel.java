@@ -143,10 +143,11 @@ public class GamePanel extends PaintedPanel{
 		System.out.println("Running the game panel");
 
 		// create the image
-		Image i = ImageLibrary.getImage("images/casino.jpg");
+		Image i = ImageLibrary.getImage("images/wallpaper.png");
 		
 		// create the game panel
 		GamePanel gp = new GamePanel(i);
+		gp.displayCards(null);
 
 		// create the frame
 		JFrame jf = new JFrame("THE FRAME");
@@ -159,8 +160,6 @@ public class GamePanel extends PaintedPanel{
 	public void displayCards(Card[] cardss) {
 		PaintedButton[] cards = new PaintedButton[5];
 		int counter = 1;
-
-		
 		
 		for(int i = 1; i<=5;i++) {
 			PaintedButton card = new PaintedButton("Bad word " + Integer.toString(counter),white);
