@@ -84,8 +84,8 @@ public class DeckEditorWindow extends JFrame{
 		//create the list models for the GUI Lists
 		//deck list model
 		deckListModel = new DefaultListModel<String>();
-		for(int i = decks.size(); i > 0; i++){
-			deckListModel.addElement(decks.elementAt(i).getName());
+		for(int i = decks.size(); i > 0; i--){
+			deckListModel.addElement(decks.elementAt(i-1).getName());
 			System.out.println("PLS WORK");
 		}
 	
@@ -167,7 +167,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		JRadioButton whiteRadioButton = new JRadioButton("White Card");
 		radioPanel.add(whiteRadioButton);
-		JRadioButton blackRadioButton = new JRadioButton("Black Card");
+		final JRadioButton blackRadioButton = new JRadioButton("Black Card");
 		radioPanel.add(blackRadioButton);
 		whiteRadioButton.setSelected(true);
 		
@@ -335,7 +335,7 @@ public class DeckEditorWindow extends JFrame{
 	}
 
 	public static void main(String [] args) {
-		System.out.println("MAIN FN");
+//		System.out.println("MAIN FN");
 		DeckEditorWindow cs = new DeckEditorWindow();
 	}
 
