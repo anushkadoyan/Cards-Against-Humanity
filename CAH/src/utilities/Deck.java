@@ -8,6 +8,7 @@ public class Deck {
 	private String name;
 	private Vector<Card> cards;
 	private int ID;
+	private int playerID;
 	
 	public Deck(int id, String name){
 		this.ID = id;
@@ -22,10 +23,17 @@ public class Deck {
 	public int getID(){
 		return ID;
 	}
-	//TODO: methods to get/set id (done), get white/black cards (done), reshuffle, etc.
 	
 	public void setID(int id) {
 		this.ID = id;
+	}
+	
+	public int getOwnerID(){
+		return playerID;
+	}
+	
+	public void setOwnerID(int id) {
+		playerID = id;
 	}
 	
 	public Vector<Card> getWhiteCards() {
