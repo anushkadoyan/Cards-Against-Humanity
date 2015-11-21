@@ -288,7 +288,7 @@ public class DeckEditorWindow extends JFrame{
 	    		}
 	            
 	        });
-		
+
 		
 		this.setVisible(true);
 	}

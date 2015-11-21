@@ -20,15 +20,28 @@ public class Database {
 
     private static Connection connection = null;
 	
-    public static void main(String[] args) {
-    	Database db = new Database();
-    }
-
-   
+//    public static void main(String[] args) {
+//    	Database db = new Database(true);
+//    }
+//   
+    
     public Database() {
     	// create connection to db
     	selectDriver();
     	connect();
+
+    	// check if the database already exists.. if it doesn't generate the database, tables ,etc
+    }
+
+    public Database(boolean createEverything) {
+    	// create connection to db
+    	selectDriver();
+    	connect();
+
+    	// don't create the databse, default decks, etc.. they should already be in the mysql database if we return here
+    	if (!createEverything) {
+    		return;
+    	}
 
     	// create db
     	createDatabase(db_name, true);
@@ -43,6 +56,11 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    private boolean doesDatabaseExist(String databaseName) {
+    	
+    	return true;
     }
     // input/output: none
     // creates the decks (and cards) based on the textfiles (which must be specified inside this function)
