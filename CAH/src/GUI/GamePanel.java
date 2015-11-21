@@ -134,8 +134,8 @@ public class GamePanel extends PaintedPanel{
 
 		
 		
-		for(PaintedButton card: cards) {
-			card = new PaintedButton("Bad word " + Integer.toString(counter),white);
+		for(int i = 1; i<=5;i++) {
+			PaintedButton card = new PaintedButton("Bad word " + Integer.toString(counter),white);
 			card.setOpaque(false);
 //			card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
 			  card.setHorizontalAlignment(SwingConstants.LEFT);
