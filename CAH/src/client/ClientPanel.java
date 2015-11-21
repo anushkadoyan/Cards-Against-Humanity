@@ -32,14 +32,6 @@ public class ClientPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
-				ClientPanel.this.add(registerScreen);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
-			}
-		}, new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent ae){
-				ClientPanel.this.removeAll();
 				ClientPanel.this.add(lobbyScreen);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
@@ -53,7 +45,15 @@ public class ClientPanel extends JPanel{
 	
 	private void refreshComponents(){
 		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"));
-		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"));
+		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				ClientPanel.this.removeAll();
+				ClientPanel.this.add(loginScreen);
+				ClientPanel.this.revalidate();
+				ClientPanel.this.repaint();
+			}
+		});
 	}
 
 }

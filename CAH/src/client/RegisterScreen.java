@@ -5,12 +5,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -27,21 +30,27 @@ public class RegisterScreen extends ImagePanel{
 	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
 	
-	public RegisterScreen(Image inImage){
+	public RegisterScreen(Image inImage, ActionListener returnAction){
 		super(inImage);
 		this.setOpaque(false);
 		
 		registerButton = new JButton("Register");
 		registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		registerButton.setPreferredSize(new Dimension(90,40));
-		//registerButton.addActionListener();
-		registerButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		registerButton.addActionListener(returnAction);
+		registerButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				JOptionPane.showMessageDialog(RegisterScreen.this, "Account Created", "Notice", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		cancelButton.setPreferredSize(new Dimension(90,40));
-		//cancelButton.addActionListener();
-		cancelButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		cancelButton.addActionListener(returnAction);
+		cancelButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 		
 		userLabel = new JLabel("Username:");
 		userLabel.setFont(new Font("Andalus", Font.BOLD, 20));

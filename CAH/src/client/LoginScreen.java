@@ -30,7 +30,7 @@ public class LoginScreen extends ImagePanel{
 	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
 	
-	public LoginScreen(Image inImage, ActionListener loginAction, ActionListener registerAction, ActionListener guestAction){
+	public LoginScreen(Image inImage, ActionListener loginAction, ActionListener registerAction){
 		super(inImage);
 		
 		this.setOpaque(false);
@@ -39,7 +39,7 @@ public class LoginScreen extends ImagePanel{
 			loginButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			loginButton.setPreferredSize(new Dimension(90,40));
 			loginButton.addActionListener(loginAction);
-			loginButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			loginButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 			/*
 			loginButton.addActionListener(new ActionListener(){
 				@Override
@@ -64,12 +64,12 @@ public class LoginScreen extends ImagePanel{
 			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			registerButton.setPreferredSize(new Dimension(90,40));
 			registerButton.addActionListener(registerAction);
-			registerButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 		guestButton = new JButton("Guest");
 			guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			guestButton.setPreferredSize(new Dimension(90,40));
-			guestButton.addActionListener(guestAction);
-			guestButton.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+			guestButton.addActionListener(loginAction);
+			guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 		
 		userLabel = new JLabel("Username:");
 			userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
