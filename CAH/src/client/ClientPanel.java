@@ -53,6 +53,7 @@ public class ClientPanel extends JPanel{
 	
 	private void refreshComponents(){
 		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"));
+		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"));
 	}
 
 }
