@@ -48,6 +48,7 @@ public class DeckEditorWindow extends JFrame{
 	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Vector<Deck> decks;
 	
+	
 
 	public DeckEditorWindow() {
 		super("Deck Editor");
@@ -57,17 +58,40 @@ public class DeckEditorWindow extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
+		//TEST CODE
+		Vector<Deck> decks = new Vector<Deck>();
+		
+		Deck TESTDECK = new Deck("Snap");
+		Vector<Card> cards = new Vector<Card>();
+		Deck TESTDECK2 = new Deck("Pop");
+		Vector<Card> cards2 = new Vector<Card>();
+		decks.add(TESTDECK);
+		decks.add(TESTDECK2);
+		
+		for(int i = 0; i < 5; i++){
+			
+			Card testCard = new Card(Integer.toString(i), false);
+			cards.add(testCard);
+			
+		}
+		TESTDECK.setCards(cards);
+		for(int i = 4; i > 0; i--){
+			Card testCard2 = new Card(Integer.toString(i), false);
+			cards2.add(testCard2);
+		}
+		TESTDECK2.setCards(cards2);
+		
 		//create the list models for the GUI Lists
 		//deck list model
 		deckListModel = new DefaultListModel<String>();
-        deckListModel.addElement("Jane Doe");
-        deckListModel.addElement("John Smith");
-        deckListModel.addElement("Kathy Green");
+		for(int i = decks.size(); i > 0; i++){
+			deckListModel.addElement(decks.elementAt(i).getName());
+			System.out.println("PLS WORK");
+		}
+	
         //card list model
         cardListModel = new DefaultListModel<String>();
-        cardListModel.addElement("Jane Doe");
-        cardListModel.addElement("John Smith");
-        cardListModel.addElement("Kathy Green");
+        
 		
         //create top deck panel
 		JPanel deckPanel = new JPanel();//top panel
@@ -262,9 +286,10 @@ public class DeckEditorWindow extends JFrame{
 	      
 	    			String line = cardTextArea.getText();
 	    			System.out.println(line);
+	    			
 	    			//put in if statement to check if card is black or white
 	    			//PlayerManager.editCard(new Card(line, true));
-	    		
+	    			
 	            
 	        }});
 		/*
@@ -287,11 +312,19 @@ public class DeckEditorWindow extends JFrame{
 	        	
 	    			String line = "new card";
 	    			System.out.println("new card created");
-	    			//put in if statement to check if card is black or white
-	    			Card newCard = new Card(line, false);
+	    			//put in if statement to check if card is black or whit
+	    			if(blackRadioButton.isSelected() ==  true){
+	    				Card newCard = new Card(line, true);
+	    				PlayerManager.createCard(newCard);
+	    			}
+	    			else{
+	    				Card newCard = new Card(line, false);
+	    				PlayerManager.createCard(newCard);
+	    			}
+	    			
 	    			//newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
-	    			PlayerManager.createCard(newCard);
-	    			decks = PlayerManager.getDecks();
+	    			
+	    			//decks = PlayerManager.getDecks();
 	    			
 	    		}
 	            
@@ -302,6 +335,7 @@ public class DeckEditorWindow extends JFrame{
 	}
 
 	public static void main(String [] args) {
+		System.out.println("MAIN FN");
 		DeckEditorWindow cs = new DeckEditorWindow();
 	}
 
