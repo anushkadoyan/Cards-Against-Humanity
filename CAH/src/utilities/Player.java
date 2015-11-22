@@ -7,11 +7,14 @@ public class Player {
 	private String name;
 	private String password;
 	private Boolean guest;
+	private Boolean isJudge;
 	private Vector<Deck> decks;
+	
 	public Player(String username, String pwd){
 		name = username;
 		password = pwd;
 		ID=0;
+		isJudge = false;
 		guest = name.startsWith("Guest");
 	}
 	

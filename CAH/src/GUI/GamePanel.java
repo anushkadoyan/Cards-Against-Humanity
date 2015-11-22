@@ -3,6 +3,7 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
@@ -12,6 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
+import com.sun.glass.events.MouseEvent;
+
 import javax.swing.*;
 
 import customUI.ImageLibrary;
@@ -157,7 +163,6 @@ public class GamePanel extends PaintedPanel{
 	public void displayCards(Card[] pCards) {
 		PaintedButton[] cards = new PaintedButton[5];
 		int counter = 1;
-		
 		for(int i = 0; i<=4;i++) {
 			if(pCards!=null) {
 
@@ -173,8 +178,18 @@ public class GamePanel extends PaintedPanel{
 				cards[i].setOpaque(false);
 				cards[i].setBorderPainted(false);
 				cards[i].setContentAreaFilled(false);
+			    Border border = new LineBorder(Color.BLACK, 5);
+
 				bottom2.add(cards[i]);
 				counter++;
+//				cards[i].addMouseListener(new MouseAdapter()
+//		        {
+//		            public void mouseEntered(MouseEvent e)
+//		            {
+//		            	e.getClass().setBorder(border);
+//
+//		            }
+//		        });
 				cards[i].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
