@@ -31,7 +31,8 @@ public class ServerManager {
 		return p;
 	}
 	
-	public static Card AddCard(Card c, int deckID){//receives card with no id
+	public static Card AddCard(Card c, int deckID) throws SQLException{//receives card with no id
+		c.setID(DBAccess.addCard(c.getDesc(), c.getBlackness(), c.getDeckID()));
 		return c;
 		//TODO: see verifyCredentials(), pass primitives only to DBAccess, get ID, return card with id.
 	}
@@ -41,14 +42,16 @@ public class ServerManager {
 		gameIndex++;
 		return g;
 	}
+	
 	public static Player loadPlayerInfo(Player p){
-		/*try {
+		try {
 			p.loadDecks(DBAccess.getPlayerDecks(p.getID()));
+			// Make sure to load other info too.
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		return p;
 	}
 }

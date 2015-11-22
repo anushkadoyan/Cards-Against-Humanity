@@ -409,8 +409,48 @@ public class DeckEditorWindow extends JFrame{
 	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
 	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
 	  						
+<<<<<<< HEAD
+	  		        }
+	    			
+
+	    			try {
+		    			if(blackRadioButton.isSelected() ==  true){
+		    				Card newCard = new Card(line, true);
+		    				PlayerManager.createCard(newCard);
+		    			}
+		    			else{
+		    				Card newCard = new Card(line, false);
+		    				PlayerManager.createCard(newCard);
+		    			}
+	    			} catch( SQLException sqle ) {
+	    				System.out.println("Error creating card: " + sqle.getMessage());
+	    			}
+		    			
+
+	    			//put in if statement to check if card is black or whit
+//	    			if(blackRadioButton.isSelected() ==  true){
+//	    				Card newCard = new Card(line, true);
+//	    				PlayerManager.createCard(newCard);
+//	    			}
+//	    			else{
+//	    				Card newCard = new Card(line, false);
+//	    				PlayerManager.createCard(newCard);
+//	    			}
+//	    			
+//	    			newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
+//	    			
+//	    			decks = PlayerManager.getDecks();
+	    			//put in if statement to check if card is black or white
+	    			try {
+						PlayerManager.createCard(new Card(line, false));
+					} catch (SQLException e) {
+						System.out.println("Error creating card: " + e.getMessage());
+					}
+	    			decks = PlayerManager.getDecks();
+=======
 	  		    	}
 	        	}catch(Exception e){
+>>>>>>> 4c87b5c179e29466723d4c58bad2c62479380831
 
 	    		}
 	        }
