@@ -1,8 +1,10 @@
 package utilities;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Player {
+public class Player implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int ID;
 	private String name;
 	private String password;

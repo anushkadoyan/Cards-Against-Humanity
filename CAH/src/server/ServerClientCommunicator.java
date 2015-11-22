@@ -1,22 +1,21 @@
 package server;
 
-import java.io.BufferedReader;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 
-import client.PlayerManager;
 import utilities.Card;
-import utilities.DBAccess;
 import utilities.Deck;
 import utilities.Game;
 import utilities.Player;
 
-public class ServerClientCommunicator extends Thread {
+public class ServerClientCommunicator  extends Thread {
 	private Socket socket;
 	private ObjectOutputStream oos;
+	private BufferedOutputStream bos;
 	private ObjectInputStream ois;
 	private ServerListener serverListener;
 	private GameController gc;
@@ -26,11 +25,12 @@ public class ServerClientCommunicator extends Thread {
 	public ServerClientCommunicator(Socket socket, ServerListener serverListener) throws IOException {
 		this.socket = socket;
 		this.serverListener = serverListener;
-		this.oos = new ObjectOutputStream(socket.getOutputStream());
-		this.ois = new ObjectInputStream(socket.getInputStream());
+		this.oos = new ObjectOutputStream(this.socket.getOutputStream());
+		this.oos.flush();
+		this.ois = new ObjectInputStream(this.socket.getInputStream());
 		gc = null;
-		
 	}
+
 	public Boolean isValid(){
 		return valid;
 	}
@@ -39,29 +39,53 @@ public class ServerClientCommunicator extends Thread {
 		try {
 			//validating log-in
 			Object obj = null;
-			while(obj!=null){
+			System.out.println("Validating.");
+			boolean validated = false;
+			while (!validated) {
 				try {
 					obj = ois.readObject();
 				} catch (ClassNotFoundException e) {
 					System.out.println("Error reading object in ServerClientCommunicator: " + e.getMessage());
 				}
-				if(obj instanceof Player){
-					Player p = (Player)obj;
-					player = ServerManager.VerifyCredentials(p);
-					oos.writeObject(player);
-					oos.flush();
-					valid=player.getID()>0||player.isGuest();
-					if(valid){
+				if (obj instanceof String) {
+					System.out.println("Received stuff.");
+					String loginInfo = (String) obj;
+
+					String username = loginInfo.substring(0, loginInfo.indexOf(','));
+					String password = loginInfo.substring(loginInfo.indexOf(',')+1, loginInfo.length());
+					System.out.println("Server receives username and password: " + username + ", " + password);
+					Player player = ServerManager.VerifyCredentials(new Player(username, password));
+					if (player == null) {
+						System.out.println("Could not find the player. Sadface.");
+						oos.writeObject(null);
+					} else {
+						System.out.println("Found the player.");
+						System.out.println("player un: " + username + "... player pw: " +password);
+						valid = true;
 						serverListener.addValidSCC(this);
-						break;
+						oos.writeObject(player);
+						oos.flush();
 					}
 				}
-				else{
+				
+//				if(obj instanceof Player){
+//					Player p = (Player)obj;
+//					player = ServerManager.VerifyCredentials(p);
+//					oos.writeObject(player);
+//					oos.flush();
+//					valid=player.getID()>0||player.isGuest();
+//					if(valid){
+//						serverListener.addValidSCC(this);
+//						break;
+//					}
+//				}
+				else {
 					System.out.println("Expected to receive log-in credentials");
 				}
 			}
 			
 			obj = ois.readObject();
+			System.out.println("Validating 2.");
 			while(obj!=null){
 				if(gc==null){
 					if(obj instanceof Game){
@@ -85,7 +109,12 @@ public class ServerClientCommunicator extends Thread {
 					else if(obj instanceof Card){
 						Card c = (Card)obj;
 						if(c.getID()==-1){
-							ServerManager.AddCard(c);
+							try {
+								ServerManager.AddCard(c);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						else{
 							ServerManager.editCard(c);

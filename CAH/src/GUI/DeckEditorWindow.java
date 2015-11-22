@@ -58,6 +58,7 @@ public class DeckEditorWindow extends JFrame{
 		setLocation(100, 100);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		
 		//TEST CODE
@@ -362,12 +363,12 @@ public class DeckEditorWindow extends JFrame{
 	    			
 	
 	    			Card newCard = new Card(line, blackRadioButton.isSelected());
-	    			
-	    			addCard(newCard, decks.elementAt(deckSelection).getCards());
+
 //	    			newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
+	    			
 //	    			//PlayerManager.createCard(newCard);
-//	    			decks.elementAt(deckList.getSelectedIndex()).getCards().add(newCard);
-//	    			
+	    			addCard(newCard, decks.elementAt(deckSelection).getCards());
+	    			//might have to remove newCard and cards vector once the server code is added in
 //	    			
 //	    			
 //	    			cardListModel.addElement(newCard.getDesc());
@@ -418,7 +419,7 @@ public class DeckEditorWindow extends JFrame{
 	    });
 		
 		
-		this.setVisible(true);
+		this.setVisible(false);
 	}
 	
 	public void addDeck(Deck d) { 
@@ -468,9 +469,12 @@ public class DeckEditorWindow extends JFrame{
 	}
 	
 	public void addCard(Card c, Vector<Card> cards) { 
+		
+		//might have to remove from here
 		System.out.println("Adding a new card");
 		cards.add(c);
 		System.out.println("added the card");
+		//to here
 		clearDeck();
 		showDeck();
 		selectDeck();
@@ -502,9 +506,9 @@ public class DeckEditorWindow extends JFrame{
 
 	}
 
-	public static void main(String [] args) {
-		
-		new DeckEditorWindow();
-	}
+//	public static void main(String [] args) {
+//		
+//		new DeckEditorWindow();
+//	}
 
 }

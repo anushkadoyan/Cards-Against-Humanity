@@ -25,8 +25,12 @@ public class ServerManager {
 			result = -2;//sqlconnection error
 		}
 		p.setID(result);
-		if(result>0){
+		System.out.println("the result: " + result);
+		if(result>0) {
+			System.out.println("The player id is > 0 yay!");
 			p=loadPlayerInfo(p);
+		} else {
+			p = null; // no player
 		}
 		return p;
 	}

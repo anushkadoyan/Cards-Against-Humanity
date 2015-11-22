@@ -11,7 +11,7 @@ import utilities.Player;
 public class PlayerManager {
 	private static ServerCommunicator sc = null;
 	private static Player player = null;
-
+	
 	public static Card createCard(Card c) throws SQLException{	
 		c.setID(DBAccess.addCard(c.getDesc(), c.getBlackness(), c.getDeckID()));
 		return c;

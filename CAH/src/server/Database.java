@@ -22,8 +22,29 @@ public class Database {
 	
     public static void main(String[] args) {
     	Database db = new Database();
+//    	db.createPlayers();
+//    	db.testDBRetreival();
     }
     
+    public int testDBRetreival() {
+    	this.connect();
+    	int id = -1;
+    	try {
+    		PreparedStatement ps = connection.prepareStatement("SELECT id FROM Player_Table WHERE user_name = ? AND password = ?");
+			ps.setString(1, "jm");
+			ps.setString(2, "pw");
+			ResultSet rs = ps.executeQuery();
+			id = -1;
+			if(rs.next()){
+				id=rs.getInt("id");
+			}
+			System.out.println("THE ID IS...: " + id);
+    	} catch(SQLException e) {
+    		
+    	}
+    	return id;
+    }
+
     public Database() {
     	// create connection to db
     	selectDriver();
@@ -41,7 +62,7 @@ public class Database {
     	selectDriver();
     	connect();
 
-    	// don't create the databse, default decks, etc.. they should already be in the mysql database if we return here
+    	// don't create the database, default decks, etc.. they should already be in the mysql database if we return here
     	if (!createEverything) {
     		return;
     	}
@@ -56,15 +77,21 @@ public class Database {
     	// create the tables
     	generateTables();
     	
-    	// create the default decks
+    	// create the default decks and player
     	try {
 			createDefaultDecks();
+			createPlayers();
 			disconnect();
 		} catch (IOException e) {
 			disconnect();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    private void createPlayers() {
+    	insertRecord("Player_Table", new String[] {"user_name", "password", "name"},
+    			new String[] {"jm", "pw", "Jamal"});
     }
     
     private boolean doesDatabaseExist(String databaseName) {
@@ -338,7 +365,7 @@ public class Database {
     	}
     }
     
-    private void connect() {
+    public void connect() {
     	System.out.println("Connecting to mySQL database.");
     	try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull",
@@ -360,10 +387,26 @@ public class Database {
 			e1.printStackTrace();
 		}
     }
-
-    private static void disconnect(){
+    
+    public void disconnect(){
 		try {
 			connection.close();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
+    public Connection getConnection() { return connection; }
+    
+    public void drop() { 
+    	System.out.println("Dropping database.");
+		connect();
+		Statement s;
+		try {
+			s = connection.createStatement();
+			s.executeUpdate("DROP DATABASE " + db_name);
+			System.out.println("Database dropped.");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Database not dropped.");
+			e.printStackTrace();
+		}
+    }
 }

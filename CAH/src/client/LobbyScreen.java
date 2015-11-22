@@ -33,6 +33,7 @@ public class LobbyScreen extends ImagePanel{
 	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
 	private boolean isGuest = false;
+	private DeckEditorWindow deckEditor = new DeckEditorWindow();
 	
 	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction){
 		super(inImage);
@@ -55,7 +56,8 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
-				new DeckEditorWindow();
+				deckEditor.setVisible(true);
+				
 			}
 		});
 			
