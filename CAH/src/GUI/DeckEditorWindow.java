@@ -61,7 +61,7 @@ public class DeckEditorWindow extends JFrame{
 		//TEST CODE
 		
 		
-		final Deck TESTDECK = new Deck("Snap");
+		Deck TESTDECK = new Deck("Snap");
 		Vector<Card> cards = new Vector<Card>();
 		Deck TESTDECK2 = new Deck("Pop");
 		Vector<Card> cards2 = new Vector<Card>();
@@ -238,26 +238,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		JButton saveCardButton = new JButton("Save Card");
 		cardDisplayPanel.add(saveCardButton);
-
-		
-		/*
-		-----------------------------------------------------------------------
-		IMPORTANT CODE
-		USE FOR PAINTING THE TEXT AREA
-		CHECK IF THE CARD SELECTED IN CARDLIST IS BLACK OR WHITE AND CHANGE 
-		THE BACKGROUND ACCORDINGLY USING THE FOLLOWING CODE
-		
-//		cardTextArea.setBackgroundImage(blackCard);
-//    	cardTextArea.setForeground(Color.WHITE);
-//    	revalidate();
-//    	repaint();
-		
-		------------------------------------------------------------------------
-		*/
-		
-		
-		
-		
+			
 		
 		saveCardButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
@@ -265,6 +246,23 @@ public class DeckEditorWindow extends JFrame{
 	    			String line = cardTextArea.getText();
 //	    			PlayerManager.editCard(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex()).getID(), line);
 //	    			PlayerManager.getDecks();
+	    			Card selectedCard = decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex());
+	    			String oldDesc = selectedCard.getDesc();
+	    			System.out.println("Changing the card.. oldDesc:" + oldDesc);
+	    			
+	    			selectedCard.setDesc(line);
+	    			System.out.println("kine: " + line);
+	    			System.out.println("new desc: " + selectedCard.getDesc());
+	    			
+	    			
+//	    			cardList.setSelectedValue(line, true);
+	    			
+	    			int index = cardList.getSelectedIndex();
+	    			cardListModel.remove(index);
+	    			cardListModel.insertElementAt(line, index);
+//	    			cardListModel.getElementAt(cardList.getSelectedIndex());
+	    			
+	    			
 	    			
 	        	}
 	        	catch(Exception e){
@@ -335,13 +333,18 @@ public class DeckEditorWindow extends JFrame{
 	        public void actionPerformed(ActionEvent arg0) {
 	        	try{
 	    			String line = "new card";
-	    			System.out.println("new card created");
+	    			
 	
 	    			Card newCard = new Card(line, blackRadioButton.isSelected());
 	    			newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
 	    			//PlayerManager.createCard(newCard);
 	    			decks.elementAt(deckList.getSelectedIndex()).getCards().add(newCard);
+	    			
+	    			
+	    			
 	    			cardListModel.addElement(newCard.getDesc());
+	    			
+//	    			decks = PlayerManager.getDecks();
 
 				
 	    			
@@ -363,20 +366,15 @@ public class DeckEditorWindow extends JFrame{
 	    			String deckName = deckNameTF.getText();
 	    			if(!deckName.equals("")){
 		    			Deck newDeck = new Deck(deckName);
-		    			
-		    			
-		    			
 		    			Vector<Card> newCardset = new Vector<Card>();
 		    			newDeck.setCards(newCardset);
+//		    			newDeck.setOwnerID(PlayerManager.getPlayerID());
+//		    			PlayerManager.createDeck(newDeck);
 		    			
 		    			decks.add(newDeck);
 //	    			
 		    			deckListModel.addElement(newDeck.getName());
 		    			
-//		    			
-		    			
-	
-						
 						
 		    			decks = PlayerManager.getDecks();
 		    			deckNameTF.setText("");
