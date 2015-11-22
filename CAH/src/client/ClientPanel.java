@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,7 +24,15 @@ public class ClientPanel extends JPanel{
 	private LobbyScreen lobbyScreen;
 	private GamePanel gamePanel;
 	private boolean isGuest;
+
+	// stream
+	private ObjectOutputStream oos;
+	private ObjectInputStream ios;
 	
+	public ClientPanel(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
+		oos = outputStream;
+		ios = inputStream;
+	}
 	{	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
 			new ActionListener() {
@@ -31,11 +42,39 @@ public class ClientPanel extends JPanel{
 				if(button.getText().equals("Guest")) {
 					isGuest= true;
 				}
-				ClientPanel.this.removeAll();
-				
-				ClientPanel.this.add(lobbyScreen);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
+				System.out.println("Lobby screen");
+
+				String userName = loginScreen.getUsername();
+				String password = loginScreen.getPassword();
+				System.out.println("username, pw: " + userName + ", " + password);
+
+				try {
+					oos.writeObject(userName + "," + password);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				Object player = null;
+				try {
+					System.out.println("Trying to receive player object back from server to fulfill the login credentials");
+					player = ios.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					if (player != null) {
+						System.out.println("Going to lobby screen cuz the player credentials were correct");
+						ClientPanel.this.removeAll();
+						ClientPanel.this.add(lobbyScreen);
+						ClientPanel.this.revalidate();
+						ClientPanel.this.repaint();
+					} else {
+						System.out.println("Player credentials incorrect. Go back to login screen.");
+					}
+				}
 			}
 		}, new ActionListener(){
 			@Override

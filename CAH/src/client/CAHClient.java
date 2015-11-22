@@ -1,5 +1,7 @@
 package client;
 
+import java.io.BufferedOutputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class CAHClient {
