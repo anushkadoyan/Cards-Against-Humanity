@@ -26,7 +26,8 @@ public class LobbyScreen extends ImagePanel{
 	private static final long serialVersionUID = 9038189205616516369L;
 	private JPanel centerPanel, southPanel, westPanel, eastPanel, northPanel;
 	private JButton viewDeckButton, createGameButton, connectButton;
-	private JTable gameTable;
+	private static JTable gameTable;
+	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
 	private Image img;
 	
@@ -64,7 +65,7 @@ public class LobbyScreen extends ImagePanel{
 		
 		
 		Object[] tableHeaders = new Object[] {"Game/Host", "Players", "Progress"};
-		DefaultTableModel tableModel = new DefaultTableModel(tableHeaders, 0){
+		tableModel = new DefaultTableModel(tableHeaders, 0){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public boolean isCellEditable(int row, int column){
@@ -85,7 +86,6 @@ public class LobbyScreen extends ImagePanel{
 			}
 		};
 		
-		//gameTable.getColumn("Game/Host").setPreferredWidth();
 		gameTable.getColumn("Players").setPreferredWidth(50);
 		gameTable.getColumn("Progress").setPreferredWidth(100);
 		
@@ -119,6 +119,14 @@ public class LobbyScreen extends ImagePanel{
 		this.setOpaque(false);
 		centerPanel.setOpaque(false);
 		southPanel.setOpaque(false);
+		
+		add("Test Game 1", 2, "Waiting");
+		add("Test Game 2", 4, "In Progress");
 	
+	}
+	
+	public void add (String host, int numPlayers, String progress){
+		Object[] row = {host, numPlayers + "/4", progress};
+		tableModel.addRow(row);
 	}
 }

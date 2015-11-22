@@ -37,6 +37,10 @@ public class GamePanel extends PaintedPanel{
 	private JLabel whiskeyL = new JLabel(whiskey);
 	
 	
+	// menu stuff
+	JMenuBar menuBar;
+	JMenu menu;
+
 	//Constructor
 	public GamePanel(Image i) {
 		super(i);
@@ -140,6 +144,7 @@ public class GamePanel extends PaintedPanel{
 		jf.repaint();
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
+		gp.addMenu(jf);
 	}
 
 	public void displayCards(Card[] pCards) {
@@ -240,4 +245,43 @@ public class GamePanel extends PaintedPanel{
 		 
 	}
 
+	// creates menu bar and attaches it to the given JFrame
+	private void addMenu(final JFrame jf) {
+		// initialize
+		menuBar = new JMenuBar();
+		menu = new JMenu("Settings");
+
+		// setting options
+		JMenuItem menuItem1 = new JMenuItem("Go to Lobby");
+		JMenuItem menuItem2 = new JMenuItem("Close Client");
+
+		// add the "Go To Lobby" listener
+		menuItem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: GO TO LOBBY (SO DISCONNECT FROM THE GAME
+				// AND SHOW THE LOBBY GUI);
+				System.out.println("Clicked on 'Go To Lobby'");
+			}
+		});
+		
+		// add the "Close Client" listener
+		menuItem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: DISCONNECT FROM GAME AND CLOSE THE FRAME
+				System.out.println("Clicked on 'Close Client'");
+				
+				// close the frame
+				jf.dispose();
+			}
+		});
+		
+		// add menuItems to menu. Add menu to menuBar. Add menuBar to JFrame
+		menuBar.add(menu);
+		menu.add(menuItem1);
+		menu.add(menuItem2);
+		jf.setJMenuBar(menuBar);
+	}
+	
 }
