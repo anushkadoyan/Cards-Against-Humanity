@@ -8,6 +8,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -43,21 +45,22 @@ public class GamePanel extends PaintedPanel{
 	private int cardPosition = 0;
 	private PaintedButton lastCard = new PaintedButton("",white);
 	JLabel scoreLabel;
-	
+	private HashMap<String,Integer> map;
 	
 	// menu stuff
 	JMenuBar menuBar;
 	JMenu menu;
 
 	//Constructor
-	public GamePanel(Image i) {
+	public GamePanel(HashMap<String,Integer>map , Image i) {
 		super(i);
+		this.map = map;
+
 		score = 0;
 		setLayout(new BorderLayout());
 		this.setOpaque(false);
 		createGUI();
 	}
-	
 	
 	public void createGUI () {
 		toDraw = white;
@@ -96,11 +99,14 @@ public class GamePanel extends PaintedPanel{
 		}
 		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+judge+"</font></html>");
 		
-		scoreLabel = new JLabel("<html><font color=\"white\">Score: 0</font></html>");
+		scoreLabel = new JLabel();
+		
+		
+		
 		
 		left.add(info);
 		info.setOpaque(false);
-		info.add(judgeLabel);
+//		info.add(judgeLabel);
 		info.add(scoreLabel);
 
 		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
@@ -118,15 +124,12 @@ public class GamePanel extends PaintedPanel{
 		right.add(cigarL);
 		right.setBorder(BorderFactory.createEmptyBorder(0,0,20,0)); 
 
-
 		//top left bottom right
 		top.setBorder(BorderFactory.createEmptyBorder(40,0,30,0));
 //		top.setBorder(BorderFactory.creatEmpty // Especially important
 //		bottom1.setBackground(Color.red);
 		top.setLayout(new GridLayout(1,5,10,40));
 //		PaintedButton blackC = new PaintedButton("<html><font color=\"white\">Bad word?</font></html>",black);
-		
-
 		
 //		top.add(wCard);
 //		top.add(new JButton("1"));
@@ -139,6 +142,7 @@ public class GamePanel extends PaintedPanel{
 		add(top, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
 	}
+	
 	public static void main(String[] args) {
 		createGamePanel();
 	}
@@ -150,8 +154,13 @@ public class GamePanel extends PaintedPanel{
 		Image i = ImageLibrary.getImage("images/wallpaper.png");
 		
 		// create the game panel
-		GamePanel gp = new GamePanel(i);
-		
+		 HashMap<String, Integer> m = new HashMap<String, Integer>();
+		  m.put("You",0);  
+		  m.put("Player1",0);  
+		  m.put("Guest",0);  
+		  m.put("Johnny",0);  
+
+		GamePanel gp = new GamePanel(m,i);
 		//	public Card(int id, String desc, Boolean black){
 		Card[] cards = new Card[5];
 		for(int a=0; a<cards.length; a++) {
@@ -170,10 +179,9 @@ public class GamePanel extends PaintedPanel{
 		jf.repaint();
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
-		gp.addMenu(jf);
-		
-		
+		gp.addMenu(jf);		
 	}
+	
 	public void addCardToHand(Card card) {
 		for(int i=0; i<bottom2.getComponents().length; i++) {
 			PaintedButton pCard = (PaintedButton) bottom2.getComponent(i);
@@ -187,6 +195,7 @@ public class GamePanel extends PaintedPanel{
 			}
 		}
 	}
+	
 	public void addCardToTable(String text) {
 		String lastCard = "";
 		//if haven't placed card yet, find available card area
@@ -253,7 +262,7 @@ public class GamePanel extends PaintedPanel{
 				        String buttonText = button.getText();
 						addCardToTable(buttonText);
 						button.setVisible(false);
-						updateScore();
+						updateScore(map);
 						
 						/*
 						 * 
@@ -268,22 +277,16 @@ public class GamePanel extends PaintedPanel{
 
 							if(!card.isVisible()) {
 //								System.out.println(top.getComponent(i).getClass());
-								
 								card.setVisible(true);
-
-
 							}
 						}
 						button.setVisible(false);
-
 					}
-					
 				});
 			}
-			
-			
 		}
 	}
+	
 	public void setTable() {
 		PaintedButton[] topCards = new PaintedButton[5];
 		int index = 1;
@@ -306,7 +309,6 @@ public class GamePanel extends PaintedPanel{
 			}
 			index++;
 		}
-		
 	}
 	
 	public void cleanHand() {
@@ -339,7 +341,6 @@ public class GamePanel extends PaintedPanel{
 			card.setVisible(false);
 		}
 	}
-	
 	
 	// creates menu bar and attaches it to the given JFrame
 	private void addMenu(final JFrame jf) {
@@ -405,9 +406,18 @@ public class GamePanel extends PaintedPanel{
 		revalidate();
 		repaint();
 	}
-	private void updateScore() {
-
+	
+	private void updateScore(HashMap<String,Integer> m) {
+		  String stuff = "", key= null;
+		  int value = 0;
+		for (HashMap.Entry<String, Integer> entry : m.entrySet()) {
+		   
+			if(entry.getKey()!=null) { key = entry.getKey();}
+		    if(entry.getValue()!=null) { value = entry.getValue();}
+		     stuff += key+": " + value+ "<br>";
+		    
+		}
 		score+=1;
-		scoreLabel.setText("<html><font color=\"white\">Score: "+Integer.toString(score)+"</font></html>");
+		scoreLabel.setText("<html><font color=\"white\">"+stuff+"</font></html>");
 	}
 }
