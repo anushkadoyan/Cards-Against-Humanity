@@ -108,29 +108,21 @@ public class DBAccess {
 		return result;
 	}
 	
-	public static int getCardID(String cardText, boolean isWhite) {
-		// TODO: Access the database and get the card ID, using the text and isWhite boolean to do so.
-		return 0;
-	}
-	public static Player getFullPlayerInfo(int playerID){
+	public static Player getFullPlayerInfo(int playerID) throws SQLException{
 		//TODO: gets all player info, with cards, decks, etc.
 		Vector<Deck> playerDecks = null;
 		Player player = null;
-		try {
-			playerDecks = getPlayerDecks(playerID); // Gets player decks.
-			for( int i = 0; i < playerDecks.size(); i++ ) {
-				playerDecks.get(i).setCards(getDeckCards(playerDecks.get(i).getID())); // Sets deck cards for each deck.
-			}
-			connect();
-			String statement = "SELECT * from Player_Table WHERE id = " + playerID;
-			PreparedStatement ps = conn.prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
-			player = new Player(rs.getString("user_name"), rs.getString("password"));
-			disconnect();
-		} catch (SQLException e) {
-			System.out.println("Error establishing database connection in DBAccess.getFullPlayerInfo(): " + e.getMessage());
+		playerDecks = getPlayerDecks(playerID); // Gets player decks.
+		for( int i = 0; i < playerDecks.size(); i++ ) {
+			playerDecks.get(i).setCards(getDeckCards(playerDecks.get(i).getID())); // Sets deck cards for each deck.
 		}
-		
+		connect();
+		String statement = "SELECT * from Player_Table WHERE id = " + playerID;
+		PreparedStatement ps = conn.prepareStatement(statement);
+		ResultSet rs = ps.executeQuery();
+		player = new Player(rs.getString("user_name"), rs.getString("password"));
+		disconnect();
+
 		// Now that we have the cards and created our Player, assign them to the Player.
 		// Should a null check be here?
 		player.loadDecks(playerDecks);
