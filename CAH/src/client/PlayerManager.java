@@ -17,12 +17,16 @@ public class PlayerManager {
 		return c;
 	}
 
+<<<<<<< HEAD
 
 
 	public static void editCard(int cardID, String cardText){
 
+=======
+	public static void editCard(int cardID, String cardText){
+>>>>>>> 86a5ed73294b7e1465f1c9802abb94ecf1881e33
 		//TODO
-		
+		DBAccess.editCardDescription(cardId, cardText);
 	}
 	
 	public static Player login(Player p) throws SQLException{
