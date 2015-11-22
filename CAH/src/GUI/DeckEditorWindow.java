@@ -374,7 +374,7 @@ public class DeckEditorWindow extends JFrame{
 	    			String line = "new card";
 	    			System.out.println("new card created");
 	    			
-<<<<<<< HEAD
+
 	    			if(blackRadioButton.isSelected() ==  true){
 	    				Card newCard = new Card(line, true);
 	    				newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
@@ -444,7 +444,7 @@ public class DeckEditorWindow extends JFrame{
 	  						
 	  		        }
 	    			
-=======
+
 	    			try {
 		    			if(blackRadioButton.isSelected() ==  true){
 		    				Card newCard = new Card(line, true);
@@ -458,7 +458,7 @@ public class DeckEditorWindow extends JFrame{
 	    				System.out.println("Error creating card: " + sqle.getMessage());
 	    			}
 		    			
->>>>>>> 1b077b047be1a2a83c40e7f9fe3e06f1fa9a6aff
+
 	    			//put in if statement to check if card is black or whit
 //	    			if(blackRadioButton.isSelected() ==  true){
 //	    				Card newCard = new Card(line, true);
