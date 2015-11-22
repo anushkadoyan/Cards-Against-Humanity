@@ -5,14 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -44,6 +40,8 @@ public class GamePanel extends PaintedPanel{
 	private boolean placedCard = false;
 	private int cardPosition = 0;
 	private PaintedButton lastCard = new PaintedButton("",white);
+	JLabel score;
+	
 	// menu stuff
 	JMenuBar menuBar;
 	JMenu menu;
@@ -83,7 +81,13 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
 		right = new JPanel();
+		
+		JLabel judgeLabel = new JLabel("Judge");
+		JLabel scores = new JLabel("0");
+		left.add(judgeLabel);
+		left.setFont(new Font("Helvetica", Font.BOLD, 20));
 
+		
 		left.setOpaque(false);
 		bottom1.add(left,BorderLayout.CENTER);
 		bottom1.add(right, BorderLayout.EAST);
@@ -102,18 +106,7 @@ public class GamePanel extends PaintedPanel{
 //		bottom1.setBackground(Color.red);
 		top.setLayout(new GridLayout(1,5,10,40));
 //		PaintedButton blackC = new PaintedButton("<html><font color=\"white\">Bad word?</font></html>",black);
-		PaintedButton blackC = new PaintedButton("",blackback);
-
-		blackC.setHorizontalAlignment(SwingConstants.LEFT);
-		blackC.setVerticalAlignment(SwingConstants.TOP);
-		blackC.setFont(new Font("Helvetica", Font.BOLD, 16));
-		blackC.setMargin(new Insets(20,20, 20, 20));
-//		  card.setMargin(new Insets(1,1,1,1));
-		blackC.setBackground(null);
-		blackC.setOpaque(false);
-		blackC.setBorderPainted(false);
-		blackC.setContentAreaFilled(false);
-		top.add(blackC);
+		
 
 		
 //		top.add(wCard);
@@ -132,23 +125,25 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	private static void createGamePanel() {
-		System.out.println("Running the game panel");
+//		System.out.println("Running the game panel");
 
 		// create the image
 		Image i = ImageLibrary.getImage("images/wallpaper.png");
 		
 		// create the game panel
 		GamePanel gp = new GamePanel(i);
+		
 		//	public Card(int id, String desc, Boolean black){
-
 		Card[] cards = new Card[5];
 		for(int a=0; a<cards.length; a++) {
 			cards[a] = new Card(a, "test card " +a,false);
 		}
-
-		gp.displayCards(cards);
+		Card blackCard = new Card(567, "Black card description", true);
+		gp.displayHand(cards);
 		
-		gp.setTopCards();
+		gp.setBlackCard(blackCard);
+//		gp.cleanHand();
+		gp.setTable();
 		// create the frame
 		JFrame jf = new JFrame("THE FRAME");
 		jf.add(gp); // add the panel
@@ -158,9 +153,50 @@ public class GamePanel extends PaintedPanel{
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 		gp.addMenu(jf);
 		
+		
+	}
+	public void addCardToHand(Card card) {
+		for(int i=0; i<bottom2.getComponents().length; i++) {
+			PaintedButton pCard = (PaintedButton) bottom2.getComponent(i);
+
+			if(!pCard.isVisible()) {
+				System.out.println(bottom2.getComponent(i).getClass());
+				
+				pCard.setText(card.getDesc());
+				pCard.setVisible(true);
+ 				break;
+			}
+		}
+	}
+	public void addCardToTable(String text) {
+		String lastCard = "";
+		//if haven't placed card yet, find available card area
+		if(!placedCard) {
+			for(int i=1; i<top.getComponents().length; i++) {
+				PaintedButton card = (PaintedButton) top.getComponent(i);
+
+				if(!card.isVisible()) {
+//					System.out.println(top.getComponent(i).getClass());
+					
+					card.setText(text);
+					card.setVisible(true);
+					placedCard=true;
+					cardPosition = i;
+
+					break;
+				}
+			}
+
+		}
+		else {
+			PaintedButton card = (PaintedButton) top.getComponent(cardPosition);
+			card.setText(text);
+			card.setVisible(true);
+			placedCard=true;
+		}
 	}
 
-	public void displayCards(Card[] pCards) {
+	public void displayHand(Card[] pCards) {
 		PaintedButton[] cards = new PaintedButton[5];
 		int counter = 1;
 		for(int i = 0; i<=4;i++) {
@@ -172,7 +208,7 @@ public class GamePanel extends PaintedPanel{
 				cards[i].setHorizontalAlignment(SwingConstants.LEFT);
 				cards[i].setVerticalAlignment(SwingConstants.TOP);
 				cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
-				cards[i].setMargin(new Insets(20,20, 20, 20));
+				cards[i].setMargin(new Insets(20,10, 20, 20));
 //				  cards[i].setMargin(new Insets(1,1,1,1));
 				cards[i].setBackground(null);
 				cards[i].setOpaque(false);
@@ -196,9 +232,17 @@ public class GamePanel extends PaintedPanel{
 						PaintedButton button = (PaintedButton)e.getSource();
 
 				        String buttonText = button.getText();
-						addCard(buttonText);
-						// TODO Auto-generated method stub
+						addCardToTable(buttonText);
+						button.setVisible(false);
+
 						
+						/*
+						 * 
+						 * Card a = new Card(234,"stuff",false);
+							addCardToHand(a);		
+						 */
+						// TODO Auto-generated method stub
+									
 						//When other card placed, the one before reappears in its original position
 						for(int i=0; i<bottom2.getComponents().length; i++) {
 							PaintedButton card = (PaintedButton) bottom2.getComponent(i);
@@ -208,9 +252,9 @@ public class GamePanel extends PaintedPanel{
 								
 								card.setVisible(true);
 
+
 							}
 						}
-						button.setVisible(false);
 
 					}
 					
@@ -220,7 +264,7 @@ public class GamePanel extends PaintedPanel{
 			
 		}
 	}
-	public void setTopCards() {
+	public void setTable() {
 		PaintedButton[] topCards = new PaintedButton[5];
 		int index = 1;
 
@@ -230,7 +274,7 @@ public class GamePanel extends PaintedPanel{
 				card.setHorizontalAlignment(SwingConstants.LEFT);
 				card.setVerticalAlignment(SwingConstants.TOP);
 				card.setFont(new Font("Helvetica", Font.BOLD, 16));
-				card.setMargin(new Insets(20,20, 20, 20));
+				card.setMargin(new Insets(20,10, 20, 20));
 //				  card.setMargin(new Insets(1,1,1,1));
 				card.setBackground(null);
 				card.setOpaque(false);
@@ -248,42 +292,38 @@ public class GamePanel extends PaintedPanel{
 		
 	}
 	
-	public void removeCards() {
+	public void cleanHand() {
+		for(int i=0; i<bottom2.getComponents().length; i++) {
+			PaintedButton card = (PaintedButton) bottom2.getComponent(i);
+			card.setVisible(false);
+		}
+	}
+	
+	public void setBlackCard(Card card) {
+//		PaintedButton blackC = new PaintedButton("<html><font color=\"white\">Bad word?</font></html>",black);
+
+		PaintedButton blackC = new PaintedButton("<html><font color=\"white\">"+card.getDesc()+"</font></html>",black);
+
+		blackC.setHorizontalAlignment(SwingConstants.LEFT);
+		blackC.setVerticalAlignment(SwingConstants.TOP);
+		blackC.setFont(new Font("Helvetica", Font.BOLD, 16));
+		blackC.setMargin(new Insets(20,10,20,20));
+//		  card.setMargin(new Insets(1,1,1,1));
+		blackC.setBackground(null);
+		blackC.setOpaque(false);
+		blackC.setBorderPainted(false);
+		blackC.setContentAreaFilled(false);
+		top.add(blackC);
+	}
+	
+	public void cleanTable() {
 		for(int i=1; i<top.getComponents().length; i++) {
 			PaintedButton card = (PaintedButton) top.getComponent(i);
 			card.setVisible(false);
 		}
 	}
 	
-	public void addCard(String text) {
-		String lastCard = "";
-		//if haven't placed card yet, find available card area
-		if(!placedCard) {
-			for(int i=1; i<top.getComponents().length; i++) {
-				PaintedButton card = (PaintedButton) top.getComponent(i);
-
-				if(!card.isVisible()) {
-//					System.out.println(top.getComponent(i).getClass());
-					
-					card.setText(text);
-					card.setVisible(true);
-					placedCard=true;
-					cardPosition = i;
-					break;
-				}
-			}
-		}
-		else {
-			PaintedButton card = (PaintedButton) top.getComponent(cardPosition);
-			card.setText(text);
-			card.setVisible(true);
-			placedCard=true;
-
-		}
-		
-		 
-	}
-
+	
 	// creates menu bar and attaches it to the given JFrame
 	private void addMenu(final JFrame jf) {
 		// initialize
@@ -323,4 +363,29 @@ public class GamePanel extends PaintedPanel{
 		jf.setJMenuBar(menuBar);
 	}
 	
+//	public void endGame(String winnerName, int score) {
+//		JOptionPane.showMessageDialog(
+//				null, 
+//				winnerName + " player won!", 
+//				"Cards Against Humanity", 
+//				JOptionPane.NO_OPTION
+//			);
+//		
+//		
+//		
+//		JButton exit = new JButton("");
+//		exit.addActionListener(mQuitAction);
+//		exit.doClick();
+//	}
+	private void swap(JPanel c) {
+		removeAll();
+		add(c);
+		revalidate();
+		repaint();
+	}
+	private void updateScore() {
+		
+		int s = Integer.parseInt(score.getText());
+		score.setText(Integer.toString(s+1));
+	}
 }

@@ -6,18 +6,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import utilities.Game;
+import utilities.Player;
+
 
 public class ServerListener extends Thread {
 
 	private ServerSocket ss;
 	private Vector<ServerClientCommunicator> sccVector;
 	private Vector<ServerClientCommunicator> validscc;
-	private GameController gc;
+	private Vector<GameController> gcVector;
 	public ServerListener(ServerSocket ss) {
 		this.ss = ss;
 		sccVector = new Vector<ServerClientCommunicator>();
 		validscc = new Vector<ServerClientCommunicator>();
-		gc = null;
 	}
 	
 	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
@@ -57,5 +59,55 @@ public class ServerListener extends Thread {
 				}
 			}
 		}
+	}
+	public void addGame(Game g){
+		GameController gc = new GameController(g);
+		gcVector.add(gc);
+	}
+	public void removeGame(Game g){
+		for(GameController gc: gcVector){
+			if(gc.getGame().getID()==g.getID()){
+				gcVector.remove(gc);
+				break;
+			}
+		}
+	}
+	public void joinGame(Player p, int gameID){
+		for(GameController gc: gcVector){
+			if(gc.getGame().getID()==gameID){
+				gc.addPlayer(p);
+				break;
+			}
+		}
+	}
+	public void sendGameInfo(int gameID){
+		try{
+			for(GameController gc: gcVector){
+				if(gc.getGame().getID()==gameID){
+					Vector<Player> players = gc.getPlayers();
+					for(Player p:players){
+						for(ServerClientCommunicator scc: sccVector){
+							if(scc.getPlayer().getID()==p.getID()){
+								scc.sendGameState(gc.getGame());
+								break;
+							}
+						}
+						//error
+					}
+					break;
+				}
+			}
+		}
+		catch(IOException ioe){
+			//error
+		}
+	}
+	public ServerClientCommunicator getSCC(int playerID){
+		for(ServerClientCommunicator scc:sccVector){
+			if(scc.getPlayer().getID()==playerID){
+				return scc;
+			}
+		}
+		return null;
 	}
 }

@@ -18,7 +18,9 @@ public class PlayerManager {
 	}
 
 
+
 	public static void editCard(int cardID, String cardText) throws SQLException{
+
 		//TODO
 		DBAccess.editCardDescription(cardID, cardText);
 	}
