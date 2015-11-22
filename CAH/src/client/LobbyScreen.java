@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import GUI.DeckEditorWindow;
 import customUI.ImagePanel;
 
 public class LobbyScreen extends ImagePanel{
@@ -47,6 +48,12 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.setPreferredSize(new Dimension(120,40));
 		viewDeckButton.setBackground(Color.WHITE);
 		viewDeckButton.setOpaque(true);
+		viewDeckButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				new DeckEditorWindow();
+			}
+		});
 			
 		createGameButton = new JButton("Create Game");
 		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
@@ -136,7 +143,7 @@ public class LobbyScreen extends ImagePanel{
 	}
 	
 	public void add (String host, int numPlayers, String progress){
-		Object[] row = {host, numPlayers + "/4", progress};
+		Object[] row = {host, numPlayers + "/5", progress};
 		tableModel.addRow(row);
 	}
 }

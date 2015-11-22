@@ -50,7 +50,7 @@ public class ClientPanel extends JPanel{
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
 				//Update to add gamePanel
-				ClientPanel.this.add(gamePanel);
+				ClientPanel.this.add(loginScreen);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
