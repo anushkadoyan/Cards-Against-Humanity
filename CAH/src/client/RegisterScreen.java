@@ -25,11 +25,11 @@ public class RegisterScreen extends ImagePanel{
 	private static final long serialVersionUID = 2012111864876508736L;
 	
 	private JButton registerButton, cancelButton;
-	private JLabel userLabel, passLabel;
-	private JTextField userText;
+	private JLabel userLabel, passLabel, nameLabel;
+	private JTextField userText, nameText;
 	private JPasswordField passText;
-	private JPanel userPanel, passPanel, buttonPanel;
-	private String username, password;
+	private JPanel userPanel, passPanel, buttonPanel, namePanel;
+	private String name, username, password;
 	
 	public RegisterScreen(Image inImage, ActionListener returnAction, ActionListener cancelAction){
 		super(inImage);
@@ -39,6 +39,14 @@ public class RegisterScreen extends ImagePanel{
 		registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		registerButton.setPreferredSize(new Dimension(90,40));
 		registerButton.addActionListener(returnAction);
+		registerButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				name = nameText.getText();
+				username = userText.getText();
+				password = new String(passText.getPassword());
+			}
+		});
 		registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 		registerButton.setBackground(Color.WHITE);
 		registerButton.setOpaque(true);
@@ -51,6 +59,10 @@ public class RegisterScreen extends ImagePanel{
 		cancelButton.setBackground(Color.WHITE);
 		cancelButton.setOpaque(true);
 		
+		nameLabel = new JLabel("Name:");
+		nameLabel.setFont(new Font("Andalus", Font.BOLD, 20));
+		nameLabel.setForeground(Color.WHITE);
+		
 		userLabel = new JLabel("Username:");
 		userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
 		userLabel.setForeground(Color.WHITE);
@@ -59,12 +71,18 @@ public class RegisterScreen extends ImagePanel{
 		passLabel.setFont(new Font("Andalus", Font.BOLD, 20));
 		passLabel.setForeground(Color.WHITE);
 		
+		nameText = new JTextField(8);
+		nameText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		
 		userText = new JTextField(8);
 		userText.setFont(new Font("Andalus", Font.PLAIN, 20));
 		
 		passText = new JPasswordField(8);
 		passText.setFont(new Font("Andalus", Font.PLAIN, 20));
 		passText.setEchoChar('*');
+		
+		namePanel = new JPanel();
+		namePanel.setLayout(new FlowLayout());
 		
 		userPanel = new JPanel();
 		userPanel.setLayout(new FlowLayout());
@@ -75,6 +93,9 @@ public class RegisterScreen extends ImagePanel{
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
+		namePanel.add(nameLabel);
+		namePanel.add(nameText);
+		
 		userPanel.add(userLabel);
 		userPanel.add(userText);
 		
@@ -84,6 +105,7 @@ public class RegisterScreen extends ImagePanel{
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(registerButton);
 		
+		namePanel.setOpaque(false);
 		userPanel.setOpaque(false);
 		passPanel.setOpaque(false);
 		buttonPanel.setOpaque(false);
@@ -91,21 +113,12 @@ public class RegisterScreen extends ImagePanel{
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		this.add(Box.createGlue());
+		
+		this.add(namePanel);
 		this.add(userPanel);
 		this.add(passPanel);
 		this.add(Box.createGlue());
 		this.add(buttonPanel);
-	}
-	
-	private boolean validInfo(String user, String pass){
-		if (user.equals(null) || pass.equals(null)){
-			return false;
-		}
-		if (pass.length() < 4){
-			return false;
-		}
-		return true;
 	}
 	
 	public String getUsername(){
@@ -114,5 +127,9 @@ public class RegisterScreen extends ImagePanel{
 	
 	public String getPassword(){
 		return password;
+	}
+	
+	public String getName(){
+		return name;
 	}
 }
