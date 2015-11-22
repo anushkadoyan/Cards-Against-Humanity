@@ -82,12 +82,6 @@ public class ClientPanel extends JPanel{
 						System.out.println("Player credentials incorrect. Go back to login screen.");
 					}
 				}
-				ClientPanel.this.removeAll();
-				
-				ClientPanel.this.add(lobbyScreen);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
-
 			}
 		}, new ActionListener(){
 			@Override
