@@ -44,6 +44,10 @@ public class Player implements Serializable {
 		return guest;
 	}
 	
+	public void addDeck(Deck deck) {
+		decks.addElement(deck);
+	}
+	
 	public void loadDecks(Vector<Deck> loadedDecks){
 		decks = loadedDecks;
 	}

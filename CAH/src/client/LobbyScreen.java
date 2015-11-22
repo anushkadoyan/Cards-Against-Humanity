@@ -33,10 +33,14 @@ public class LobbyScreen extends ImagePanel{
 	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
 	private boolean isGuest = false;
+	private DeckEditorWindow deckEditor = new DeckEditorWindow();
 	
-	public LobbyScreen(Image inImage, boolean isGuest, ActionListener connectAction){
+	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction){
 		super(inImage);
-		this.isGuest = isGuest;
+		this.isGuest = guest;
+		System.out.println("in lobbyscreen");
+
+		System.out.println(isGuest);
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
 		eastPanel = new JPanel();
@@ -52,12 +56,13 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
-				new DeckEditorWindow();
+				deckEditor.setVisible(true);
+				
 			}
 		});
 			
 		createGameButton = new JButton("Create Game");
-		if(!isGuest) {
+		if(isGuest == true) {
 			createGameButton.setEnabled(false);
 			viewDeckButton.setEnabled(false);
 
@@ -69,7 +74,7 @@ public class LobbyScreen extends ImagePanel{
 			
 		
 		connectButton = new JButton("Connect");
-
+//		connectButton.setEnabled(false);
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.setBackground(Color.WHITE);
@@ -148,6 +153,12 @@ public class LobbyScreen extends ImagePanel{
 		centerPanel.setOpaque(false);
 		southPanel.setOpaque(false);
 	
+	}
+	
+	public void setGuest(boolean is) {
+		isGuest = is;
+		createGameButton.setEnabled(false);
+		viewDeckButton.setEnabled(false);
 	}
 	
 	public void add (String host, int numPlayers, String progress){
