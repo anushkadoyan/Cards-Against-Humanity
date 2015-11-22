@@ -30,11 +30,9 @@ public class LobbyScreen extends ImagePanel{
 	private static JTable gameTable;
 	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
-	private Image img;
 	
 	public LobbyScreen(Image inImage, ActionListener connectAction){
 		super(inImage);
-		img = inImage;
 		
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
@@ -58,7 +56,7 @@ public class LobbyScreen extends ImagePanel{
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				int index = gameTable.getSelectedRow();
-				//Connect to game with index 'index'
+				//Connect to game 'index'
 			}
 		});
 		connectButton.addActionListener(connectAction);
@@ -71,10 +69,8 @@ public class LobbyScreen extends ImagePanel{
 		southPanel.add(new JLabel(""));
 		southPanel.add(createGameButton);
 		southPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		southPanel.setOpaque(false);
-			
 		
-		
+		//Create table
 		Object[] tableHeaders = new Object[] {"Game/Host", "Players", "Progress"};
 		tableModel = new DefaultTableModel(tableHeaders, 0){
 			private static final long serialVersionUID = 1L;
@@ -97,17 +93,17 @@ public class LobbyScreen extends ImagePanel{
 			}
 		};
 		
+		//Sizing columns
 		gameTable.getColumnModel().getColumn(0).setPreferredWidth(400);
 		gameTable.getColumnModel().getColumn(1).setPreferredWidth(50);
 		gameTable.getColumnModel().getColumn(2).setPreferredWidth(100);
 		
+		//Align center
 		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
 		center.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 		for (int i = 0; i < 3; i++){
 			gameTable.getColumnModel().getColumn(i).setCellRenderer(center);
 		}
-		
-		gameTable.setOpaque(false);
 		
 		jsp = new JScrollPane(gameTable);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -117,7 +113,6 @@ public class LobbyScreen extends ImagePanel{
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(jsp, BorderLayout.CENTER);
 		centerPanel.setBorder(BorderFactory.createEmptyBorder(80,80,30,80));
-		centerPanel.setOpaque(false);
 		
 		this.setLayout(new BorderLayout());
 		this.add(centerPanel, BorderLayout.CENTER);
@@ -126,12 +121,10 @@ public class LobbyScreen extends ImagePanel{
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(eastPanel, BorderLayout.EAST);
 		
+		gameTable.setOpaque(false);
 		this.setOpaque(false);
 		centerPanel.setOpaque(false);
 		southPanel.setOpaque(false);
-		
-		add("Test Game 1", 2, "Waiting");
-		add("Test Game 2", 4, "In Progress");
 	
 	}
 	

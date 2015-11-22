@@ -106,7 +106,6 @@ public class LoginScreen extends ImagePanel{
 		passPanel.setOpaque(false);
 		buttonPanel.setOpaque(false);
 		
-		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		this.add(Box.createGlue());
@@ -114,7 +113,6 @@ public class LoginScreen extends ImagePanel{
 		this.add(passPanel);
 		this.add(Box.createGlue());
 		this.add(buttonPanel);
-		
 		
 	}
 

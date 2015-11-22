@@ -5,14 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -83,7 +79,12 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
 		right = new JPanel();
+		
+		JLabel judgeLabel = new JLabel("Judge");
+		left.add(judgeLabel);
+		left.setFont(new Font("Helvetica", Font.BOLD, 20));
 
+		
 		left.setOpaque(false);
 		bottom1.add(left,BorderLayout.CENTER);
 		bottom1.add(right, BorderLayout.EAST);
@@ -132,15 +133,15 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	private static void createGamePanel() {
-		System.out.println("Running the game panel");
+//		System.out.println("Running the game panel");
 
 		// create the image
 		Image i = ImageLibrary.getImage("images/wallpaper.png");
 		
 		// create the game panel
 		GamePanel gp = new GamePanel(i);
+		
 		//	public Card(int id, String desc, Boolean black){
-
 		Card[] cards = new Card[5];
 		for(int a=0; a<cards.length; a++) {
 			cards[a] = new Card(a, "test card " +a,false);
@@ -157,6 +158,7 @@ public class GamePanel extends PaintedPanel{
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 		gp.addMenu(jf);
+		
 		
 	}
 
@@ -323,4 +325,24 @@ public class GamePanel extends PaintedPanel{
 		jf.setJMenuBar(menuBar);
 	}
 	
+//	public void endGame(String winnerName, int score) {
+//		JOptionPane.showMessageDialog(
+//				null, 
+//				winnerName + " player won!", 
+//				"Cards Against Humanity", 
+//				JOptionPane.NO_OPTION
+//			);
+//		
+//		
+//		
+//		JButton exit = new JButton("");
+//		exit.addActionListener(mQuitAction);
+//		exit.doClick();
+//	}
+	private void swap(JPanel c) {
+		removeAll();
+		add(c);
+		revalidate();
+		repaint();
+	}
 }
