@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.net.Socket;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 

@@ -1,13 +1,12 @@
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.JPanel;
 
+import GUI.GamePanel;
 import customUI.AllImages;
 
 public class ClientPanel extends JPanel{
@@ -17,6 +16,7 @@ public class ClientPanel extends JPanel{
 	private LoginScreen loginScreen;
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
+	private GamePanel gamePanel;
 	
 	{	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
@@ -49,7 +49,7 @@ public class ClientPanel extends JPanel{
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
 				//Update to add gamePanel
-				ClientPanel.this.add(loginScreen);
+				ClientPanel.this.add(gamePanel);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
@@ -63,6 +63,7 @@ public class ClientPanel extends JPanel{
 				ClientPanel.this.repaint();
 			}
 		});
+		gamePanel = new GamePanel(AllImages.getImage("images/wallpaper.png"));
 	}
 
 }

@@ -62,7 +62,8 @@ public class LoginScreen extends ImagePanel{
 						//do stuff
 					}
 				}
-			});*/
+			});
+			*/
 		registerButton = new JButton("Register");
 			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			registerButton.setPreferredSize(new Dimension(90,40));
