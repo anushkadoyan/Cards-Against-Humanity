@@ -12,6 +12,21 @@ import utilities.Player;
 
 public class GameController extends Thread {
 	private Game game;
+	
+	//The actual players playing the game
+	private Player livePlayers[];
+	private int currentPlaying;
+	
+	//Winning information
+	private boolean gameOver = false;
+	public boolean isGameOver() {return gameOver;}
+	private String winnerName = null;
+	public String getWinner() {return winnerName;}
+	
+	//GamePanel to update
+	private GUI.GamePanel mGamePanel;
+		
+	
 	private Vector<ServerClientCommunicator> sccVector;
 	public GameController(Game g) {
 		game = ServerManager.getGame(g);
