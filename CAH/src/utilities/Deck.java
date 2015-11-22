@@ -13,11 +13,13 @@ public class Deck {
 	public Deck(int id, String name){
 		this.ID = id;
 		this.name = name;
+		cards = new Vector<Card>();
 	}
 	
 	public Deck(String name){
 		this.ID = -1;
 		this.name = name;
+		cards = new Vector<Card>();
 	}
 	
 	public int getID(){

@@ -40,12 +40,14 @@ public class DeckEditorWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Deck cDeck;
 	private ButtonGroup group;
-	private DefaultListModel <String>deckListModel, cardListModel;
+	private DefaultListModel <String> deckListModel = new DefaultListModel<String>(), cardListModel = new DefaultListModel<String>();
 	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
 	private Vector<Deck> decks = new Vector<Deck>();
-	private int deckSelection = 0;
-	private int cardSelection = 0;
+	private int deckSelection = -1;
+	private int cardSelection = -1;
+	JList<String> deckList = new JList<String>(deckListModel);
+	JList<String> cardList = new JList<String>(cardListModel);
 	
 	
 
@@ -83,7 +85,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		//create the list models for the GUI Lists
 		//deck list model
-		deckListModel = new DefaultListModel<String>();
+		//deckListModel = new DefaultListModel<String>();
 		
 	
 		
@@ -94,7 +96,7 @@ public class DeckEditorWindow extends JFrame{
 		
 	
         //card list model
-        cardListModel = new DefaultListModel<String>();
+        
         
         
         
@@ -113,7 +115,7 @@ public class DeckEditorWindow extends JFrame{
 		deckPanel.add(deckLabelPanel);
 		
 		//create deck list
-		final JList<String> deckList = new JList<String>(deckListModel);
+//		final JList<String> deckList = new JList<String>(deckListModel);
 		JScrollPane deckScrollPane = new JScrollPane(deckList);
 		deckScrollPane.setMaximumSize(new Dimension((int)deckPanel.getMaximumSize().getWidth(), 50));
 		deckScrollPane.setMinimumSize(new Dimension((int)deckPanel.getMaximumSize().getWidth(), 50));
@@ -153,7 +155,7 @@ public class DeckEditorWindow extends JFrame{
 		cardPanel.add(cardLabelPanel);
 		
 		//create the card list
-		final JList<String> cardList = new JList<String>(cardListModel);
+		
 		cardList.setPreferredSize(new Dimension(200, 200));
 		cardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -281,13 +283,19 @@ public class DeckEditorWindow extends JFrame{
 		
 		ListSelectionListener deckListSelectionListener = new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent listSelectionEvent) {
+		    	  System.out.println("Changing selection");
+		    	  if(deckList.getSelectedIndex() != -1 && deckList.getSelectedIndex() != deckSelection){
+		    		  System.out.println("selection actually changed");
+		    		  deckSelection = deckList.getSelectedIndex();
+		    		  clearCard();
+		    		  showCard(decks.elementAt(deckSelection).getCards());
+		    	  }
 		    	  
-		    	  	
-	    			cardListModel.clear();
-	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
-	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
-	  						
-	  		    	}
+//	    			cardListModel.clear();
+//	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
+//	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
+//	  						
+//	  		    	}
 		      }
 		    };
 		deckList.addListSelectionListener(deckListSelectionListener);
@@ -336,13 +344,15 @@ public class DeckEditorWindow extends JFrame{
 	    			
 	
 	    			Card newCard = new Card(line, blackRadioButton.isSelected());
-	    			newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
-	    			//PlayerManager.createCard(newCard);
-	    			decks.elementAt(deckList.getSelectedIndex()).getCards().add(newCard);
 	    			
-	    			
-	    			
-	    			cardListModel.addElement(newCard.getDesc());
+	    			addCard(newCard, decks.elementAt(deckSelection).getCards());
+//	    			newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
+//	    			//PlayerManager.createCard(newCard);
+//	    			decks.elementAt(deckList.getSelectedIndex()).getCards().add(newCard);
+//	    			
+//	    			
+//	    			
+//	    			cardListModel.addElement(newCard.getDesc());
 	    			
 //	    			decks = PlayerManager.getDecks();
 
@@ -361,24 +371,26 @@ public class DeckEditorWindow extends JFrame{
 			//blank card will have description string "new card" 
 			//to do this, call 
 	        public void actionPerformed(ActionEvent arg0) {
+	        	
 	        	try{
 	        		
 	    			String deckName = deckNameTF.getText();
 	    			if(!deckName.equals("")){
 		    			Deck newDeck = new Deck(deckName);
-		    			Vector<Card> newCardset = new Vector<Card>();
-		    			newDeck.setCards(newCardset);
+		    			
+		    			
 //		    			newDeck.setOwnerID(PlayerManager.getPlayerID());
 //		    			PlayerManager.createDeck(newDeck);
 		    			
-		    			decks.add(newDeck);
+		    			addDeck(newDeck);
 //	    			
-		    			deckListModel.addElement(newDeck.getName());
+//		    			deckListModel.addElement(newDeck.getName());
 		    			
 						
-		    			decks = PlayerManager.getDecks();
-		    			deckNameTF.setText("");
-	    			}
+//		    			decks = PlayerManager.getDecks();
+//		    			deckNameTF.setText("");
+		    			System.out.println("Trying to add a new deck");
+	    			} else { System.out.println("The deck name isn't valid or something"); }
 	    			
 
 	    			}catch(Exception e){
@@ -391,8 +403,72 @@ public class DeckEditorWindow extends JFrame{
 		
 		this.setVisible(true);
 	}
+	
+	public void addDeck(Deck d) { 
+		System.out.println("Adding a new deck");
+		decks.add(d);
+		System.out.println("added the deck");
+		clearDeck();
+		System.out.println("cleared the deck");
+		showDeck();
+		System.out.println("showed the deck");
+		selectDeck();
+	}
+	public void clearDeck() {
+		
+//		deckListModel.clear();
+		System.out.println("Cleaing the deck");
+//		deckListModel.addElement("TEST ELEMENT");
+		System.out.println("Deck size model sz: " + deckListModel.size());
+		deckListModel.clear();
+		System.out.println("success");
+	}
+	
+	public void selectDeck() {
+		System.out.println("deckSelection " + deckSelection);
+		
+		deckList.setSelectedIndex(deckSelection);
+	}
+	public void showDeck() {
+		for (Deck d : decks) {
+			deckListModel.addElement(d.getName());
+		}
+
+	}
+	
+	public void addCard(Card c, Vector<Card> cards) { 
+		System.out.println("Adding a new card");
+		cards.add(c);
+		System.out.println("added the card");
+		clearCard();
+		System.out.println("cleared the card");
+		showCard(cards);
+		System.out.println("showed the card");
+		selectCard();
+	}
+	public void clearCard() {
+		
+//		deckListModel.clear();
+		System.out.println("Cleaing the cards");
+//		deckListModel.addElement("TEST ELEMENT");
+		System.out.println("card size model sz: " + cardListModel.size());
+		cardListModel.clear();
+		System.out.println("success");
+	}
+	
+	public void selectCard() {
+		System.out.println("cardSelection " + cardSelection);
+		cardList.setSelectedIndex(cardSelection);
+	}
+	public void showCard(Vector<Card> cards) {
+		for (Card c : cards) {
+			cardListModel.addElement(c.getDesc());
+		}
+
+	}
 
 	public static void main(String [] args) {
+		
 		new DeckEditorWindow();
 	}
 
