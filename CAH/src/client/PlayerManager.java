@@ -17,7 +17,7 @@ public class PlayerManager {
 		return new Card(null, null);
 	}
 
-	public static void editCard(Card c){
+	public static void editCard(int cardID, String newDesc){
 		//TODO
 	}
 	public static Player login(Player p){
