@@ -19,7 +19,6 @@ public class PlayerManager {
 
 	public static void editCard(int cardID, String cardText){
 		//TODO
-		
 	}
 	
 	public static Player login(Player p) throws SQLException{
