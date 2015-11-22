@@ -53,6 +53,7 @@ public class DeckEditorWindow extends JFrame{
 	private Vector<Deck> decks = new Vector<Deck>();
 	private int deckSelection = 0;
 	private int cardSelection = 0;
+	private String line;
 	
 	
 
@@ -64,10 +65,12 @@ public class DeckEditorWindow extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
+//		final String line;
+		
 		//TEST CODE
 		
 		
-		Deck TESTDECK = new Deck("Snap");
+		final Deck TESTDECK = new Deck("Snap");
 		Vector<Card> cards = new Vector<Card>();
 		Deck TESTDECK2 = new Deck("Pop");
 		Vector<Card> cards2 = new Vector<Card>();
@@ -119,7 +122,7 @@ public class DeckEditorWindow extends JFrame{
 		deckPanel.add(deckLabelPanel);
 		
 		//create deck list
-		JList<String> deckList = new JList<String>(deckListModel);
+		final JList<String> deckList = new JList<String>(deckListModel);
 		JScrollPane deckScrollPane = new JScrollPane(deckList);
 		deckScrollPane.setMaximumSize(new Dimension((int)deckPanel.getMaximumSize().getWidth(), 50));
 		deckScrollPane.setMinimumSize(new Dimension((int)deckPanel.getMaximumSize().getWidth(), 50));
@@ -132,7 +135,7 @@ public class DeckEditorWindow extends JFrame{
 		//this part has a text field for user to enter a new deck name
 		//button for creating new deck is also added here
 		JButton createDeckButton = new JButton("Create Deck");
-		JTextField deckNameTF = new JTextField();
+		final JTextField deckNameTF = new JTextField();
 		JLabel deckNameLabel = new JLabel("New Deck Name:");
 		JPanel deckButtonPanel = new JPanel(new BorderLayout());
 		deckButtonPanel.add(deckNameLabel, BorderLayout.WEST);
@@ -159,7 +162,7 @@ public class DeckEditorWindow extends JFrame{
 		cardPanel.add(cardLabelPanel);
 		
 		//create the card list
-		JList<String> cardList = new JList<String>(cardListModel);
+		final JList<String> cardList = new JList<String>(cardListModel);
 		cardList.setPreferredSize(new Dimension(200, 200));
 		cardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -182,7 +185,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		JRadioButton whiteRadioButton = new JRadioButton("White Card");
 		radioPanel.add(whiteRadioButton);
-		JRadioButton blackRadioButton = new JRadioButton("Black Card");
+		final JRadioButton blackRadioButton = new JRadioButton("Black Card");
 		radioPanel.add(blackRadioButton);
 		whiteRadioButton.setSelected(true);
 		
@@ -275,8 +278,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		saveCardButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
-	      
-	    			String line = cardTextArea.getText();
+	    			line = cardTextArea.getText();
 	    			PlayerManager.editCard(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex()).getID(), line);
 //	    			PlayerManager.getDecks();
 	    			            
@@ -337,12 +339,7 @@ public class DeckEditorWindow extends JFrame{
 		    };
 		cardList.addListSelectionListener(cardListSelectionListener);
 	
-		           
-//		           
-		           
 
-		 
-		
 		createCardButton.addActionListener(new ActionListener() {
 			//when create card is clicked, create a blank card 
 			//blank card will have description string "new card" 
@@ -378,8 +375,9 @@ public class DeckEditorWindow extends JFrame{
 	  						
 	  		    	}
 	    			
-	    		}catch(Exception e){
-	    		
+	    		} catch(Exception e){
+	    			// print something???
+	    			e.printStackTrace();
 	    		}
 	        }
 	            
@@ -408,20 +406,11 @@ public class DeckEditorWindow extends JFrame{
 	    			cardListModel.clear();
 	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
 	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
-	  						
-<<<<<<< HEAD
 	  		        }
 	    			
 
 	    			try {
-		    			if(blackRadioButton.isSelected() ==  true){
-		    				Card newCard = new Card(line, true);
-		    				PlayerManager.createCard(newCard);
-		    			}
-		    			else{
-		    				Card newCard = new Card(line, false);
-		    				PlayerManager.createCard(newCard);
-		    			}
+	    				PlayerManager.createCard(new Card(line, blackRadioButton.isSelected()));
 	    			} catch( SQLException sqle ) {
 	    				System.out.println("Error creating card: " + sqle.getMessage());
 	    			}
@@ -446,11 +435,8 @@ public class DeckEditorWindow extends JFrame{
 					} catch (SQLException e) {
 						System.out.println("Error creating card: " + e.getMessage());
 					}
-	    			decks = PlayerManager.getDecks();
-=======
-	  		    	}
+	    				decks = PlayerManager.getDecks();
 	        	}catch(Exception e){
->>>>>>> 4c87b5c179e29466723d4c58bad2c62479380831
 
 	    		}
 	        }
