@@ -32,10 +32,11 @@ public class LobbyScreen extends ImagePanel{
 	private static JTable gameTable;
 	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
+	private boolean isGuest = false;
 	
-	public LobbyScreen(Image inImage, ActionListener connectAction){
+	public LobbyScreen(Image inImage, boolean isGuest, ActionListener connectAction){
 		super(inImage);
-		
+		this.isGuest = isGuest;
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
 		eastPanel = new JPanel();
@@ -56,12 +57,19 @@ public class LobbyScreen extends ImagePanel{
 		});
 			
 		createGameButton = new JButton("Create Game");
+		if(!isGuest) {
+			createGameButton.setEnabled(false);
+			viewDeckButton.setEnabled(false);
+
+		}
 		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		createGameButton.setPreferredSize(new Dimension(120,40));
 		createGameButton.setBackground(Color.WHITE);
 		createGameButton.setOpaque(true);
 			
+		
 		connectButton = new JButton("Connect");
+
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.setBackground(Color.WHITE);
