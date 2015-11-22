@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import GUI.GamePanel;
@@ -118,13 +119,35 @@ public class ClientPanel extends JPanel{
 		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
-				
+				String username = registerScreen.getUsername();
+				String password = registerScreen.getPassword();
+				//Check for valid parameters
+				if (username.equals(null) || password.equals(null)){
+					JOptionPane.showMessageDialog(ClientPanel.this, "Please enter valid username/password", "Notice", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if (username.length() < 4 || password.length() < 4){
+					JOptionPane.showMessageDialog(ClientPanel.this, "Username and password must contain more than 3 characters", "Notice", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					//Check if valid with server
+					//Create account with server
+					JOptionPane.showMessageDialog(ClientPanel.this, "Account Created", "Notice", JOptionPane.INFORMATION_MESSAGE);
+					ClientPanel.this.removeAll();
+					ClientPanel.this.add(loginScreen);
+					ClientPanel.this.revalidate();
+					ClientPanel.this.repaint();
+				}
+			}
+		}, new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
 				ClientPanel.this.add(loginScreen);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
 		});
+		
 		//dummy player names and scores
 		 HashMap<String, Integer> m = new HashMap<String, Integer>();
 		  m.put("You",0);  

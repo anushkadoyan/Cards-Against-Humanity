@@ -29,8 +29,9 @@ public class RegisterScreen extends ImagePanel{
 	private JTextField userText;
 	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
+	private String username, password;
 	
-	public RegisterScreen(Image inImage, ActionListener returnAction){
+	public RegisterScreen(Image inImage, ActionListener returnAction, ActionListener cancelAction){
 		super(inImage);
 		this.setOpaque(false);
 		
@@ -38,19 +39,17 @@ public class RegisterScreen extends ImagePanel{
 		registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		registerButton.setPreferredSize(new Dimension(90,40));
 		registerButton.addActionListener(returnAction);
-		registerButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent ae){
-				JOptionPane.showMessageDialog(RegisterScreen.this, "Account Created", "Notice", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
 		registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		registerButton.setBackground(Color.WHITE);
+		registerButton.setOpaque(true);
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		cancelButton.setPreferredSize(new Dimension(90,40));
-		cancelButton.addActionListener(returnAction);
+		cancelButton.addActionListener(cancelAction);
 		cancelButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		cancelButton.setBackground(Color.WHITE);
+		cancelButton.setOpaque(true);
 		
 		userLabel = new JLabel("Username:");
 		userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
@@ -97,5 +96,23 @@ public class RegisterScreen extends ImagePanel{
 		this.add(passPanel);
 		this.add(Box.createGlue());
 		this.add(buttonPanel);
+	}
+	
+	private boolean validInfo(String user, String pass){
+		if (user.equals(null) || pass.equals(null)){
+			return false;
+		}
+		if (pass.length() < 4){
+			return false;
+		}
+		return true;
+	}
+	
+	public String getUsername(){
+		return username;
+	}
+	
+	public String getPassword(){
+		return password;
 	}
 }
