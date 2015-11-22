@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import GUI.GamePanel;
 import customUI.AllImages;
 import customUI.PaintedButton;
 import server.GameController;
+import utilities.Card;
 import utilities.Deck;
 import utilities.Game;
 import utilities.Player;
@@ -67,12 +69,26 @@ public class ClientPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
+				
 				//Update to add gamePanel
 				ClientPanel.this.add(gamePanel);
-				Player player = new Player("user","pass");
-				Deck deck = new Deck(1,"dumb");
-//				Game game = new Game(player);
-				new GameController(null);
+				// DUMMY DATA
+				
+//				Player player = new Player("user","pass");
+//				Deck deck = new Deck(1,"dumb");
+//				Vector<Card> cards = new Vector<Card>();
+//				for(int a=0; a<cards.size(); a++) {
+//					Card c = new Card(a, "test card " +a,false);
+//					cards.addElement(c);
+//				}
+//				deck.setCards(cards);
+//				player.addDeck(deck);
+//				Game game = new Game(player, deck);
+//
+//				new GameController(game);
+				
+				
+				
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
@@ -94,7 +110,7 @@ public class ClientPanel extends JPanel{
 		  m.put("Guest",0);  
 		  m.put("Johnny",0); 
 			gamePanel = new GamePanel(m,AllImages.getImage("images/wallpaper.png"));
-
+			
 	}
 
 }
