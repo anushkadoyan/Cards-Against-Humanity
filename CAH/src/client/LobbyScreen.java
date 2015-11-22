@@ -9,6 +9,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,11 +38,20 @@ public class LobbyScreen extends ImagePanel{
 	private boolean isGuest = false;
 	private DeckEditorWindow deckEditor = new DeckEditorWindow();
 	
-	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction){
+	// output to server
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+
+	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction, final ObjectOutputStream oStream, ObjectInputStream iStream){
 		super(inImage);
 		this.isGuest = guest;
 		System.out.println("in lobbyscreen");
 
+		// i/o to server
+		oos = oStream;
+		ois = iStream;
+
+		System.out.println("is oos null? " + (oos == null));
 		System.out.println(isGuest);
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
@@ -56,6 +68,18 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				System.out.println("SHOW DECKS BUTTON PRESSED");
+				// let the server know that you want to see the deck
+				try {
+					System.out.println("About to write to the object");
+					System.out.println("is oos null???: " + (oos == null));
+					System.out.println("is oStream null???: " + (oStream == null));
+					oos.writeObject("showDeck");
+					oos.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				deckEditor.setVisible(true);
 				
 			}
