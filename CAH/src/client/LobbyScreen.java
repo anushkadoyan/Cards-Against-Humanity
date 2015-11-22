@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,8 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -31,26 +32,36 @@ public class LobbyScreen extends ImagePanel{
 	private JScrollPane jsp;
 	private Image img;
 	
-	public LobbyScreen(Image inImage){
+	public LobbyScreen(Image inImage, ActionListener connectAction){
 		super(inImage);
 		img = inImage;
 		
 		westPanel = new JPanel();
-			westPanel.setOpaque(false);
+		westPanel.setOpaque(false);
 		eastPanel = new JPanel();
-			eastPanel.setOpaque(false);
+		eastPanel.setOpaque(false);
 		northPanel = new JPanel();
-			northPanel.setOpaque(false);
+		northPanel.setOpaque(false);
 		
 		viewDeckButton = new JButton("View/Edit Deck");
-			viewDeckButton.setFont(new Font("Andalus", Font.PLAIN, 10));
-			viewDeckButton.setPreferredSize(new Dimension(110,40));
+		viewDeckButton.setFont(new Font("Andalus", Font.PLAIN, 10));
+		viewDeckButton.setPreferredSize(new Dimension(110,40));
+			
 		createGameButton = new JButton("Create Game");
-			createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			createGameButton.setPreferredSize(new Dimension(110,40));
+		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		createGameButton.setPreferredSize(new Dimension(110,40));
+			
 		connectButton = new JButton("Connect");
-			connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			connectButton.setPreferredSize(new Dimension(110,40));
+		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		connectButton.setPreferredSize(new Dimension(110,40));
+		connectButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				int index = gameTable.getSelectedRow();
+				//Connect to game with index 'index'
+			}
+		});
+		connectButton.addActionListener(connectAction);
 		
 		southPanel = new JPanel();
 		southPanel.setLayout(new FlowLayout());
@@ -86,17 +97,16 @@ public class LobbyScreen extends ImagePanel{
 			}
 		};
 		
-		gameTable.getColumn("Players").setPreferredWidth(50);
-		gameTable.getColumn("Progress").setPreferredWidth(100);
+		gameTable.getColumnModel().getColumn(0).setPreferredWidth(400);
+		gameTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+		gameTable.getColumnModel().getColumn(2).setPreferredWidth(100);
 		
-		gameTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-			@Override
-			public void valueChanged(ListSelectionEvent e){
-				if (gameTable.getSelectedRow() > -1){
-					//Do something
-				}
-			}
-		});
+		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+		center.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		for (int i = 0; i < 3; i++){
+			gameTable.getColumnModel().getColumn(i).setCellRenderer(center);
+		}
+		
 		gameTable.setOpaque(false);
 		
 		jsp = new JScrollPane(gameTable);
@@ -106,7 +116,7 @@ public class LobbyScreen extends ImagePanel{
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(jsp, BorderLayout.CENTER);
-		centerPanel.setBorder(BorderFactory.createEmptyBorder(40,40,20,40));
+		centerPanel.setBorder(BorderFactory.createEmptyBorder(80,80,30,80));
 		centerPanel.setOpaque(false);
 		
 		this.setLayout(new BorderLayout());
