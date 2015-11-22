@@ -86,7 +86,12 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setPreferredSize(new Dimension(600,130));
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
+		left.setPreferredSize(new Dimension(200, 100));
 		right = new JPanel();
+		JPanel judgePanel = new JPanel();
+		judgePanel.setOpaque(false);
+//		judgePanel.setBorder(BorderFactory.createEmptyBorder(0,305,0,0)); 
+
 		left.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JPanel info = new JPanel();
 		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
@@ -98,7 +103,7 @@ public class GamePanel extends PaintedPanel{
 			judge = "Pick a card!";
 		}
 		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+judge+"</font></html>");
-		
+		judgePanel.add(judgeLabel);
 		scoreLabel = new JLabel();
 		
 		  String stuff = "", key= null;
@@ -121,10 +126,13 @@ public class GamePanel extends PaintedPanel{
 
 		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
 		scoreLabel.setFont(new Font("Helvetica", Font.BOLD, 24));
-
+		
+//		left.add(judgePanel);
 		
 		left.setOpaque(false);
-		bottom1.add(left,BorderLayout.CENTER);
+		bottom1.add(left,BorderLayout.WEST);
+		bottom1.add(judgePanel,BorderLayout.CENTER);
+
 		bottom1.add(right, BorderLayout.EAST);
 
 		right.setPreferredSize(new Dimension(200, 100));
