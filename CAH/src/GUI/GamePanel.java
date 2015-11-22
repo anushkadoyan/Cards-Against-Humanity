@@ -27,7 +27,7 @@ public class GamePanel extends PaintedPanel{
 
 	private Image toDraw;
 	private static final long serialVersionUID = 1L;
-	private JPanel top, bottom, bottom1, bottom2, left, right;
+	private JPanel top, bottom, bottom1, bottom2, left, right, info;
 	private Image white = ImageLibrary.getImage("images/whitecard.png"); 
 	private Image black = ImageLibrary.getImage("images/blackcard.png"); 
 	private Image whiteback = ImageLibrary.getImage("images/whitecard.png"); 
@@ -38,9 +38,12 @@ public class GamePanel extends PaintedPanel{
 	private Icon whiskey = new ImageIcon("images/whiskey.png");
 	private JLabel whiskeyL = new JLabel(whiskey);
 	private boolean placedCard = false;
+	private boolean isJudge = false;
+	private int score;
 	private int cardPosition = 0;
 	private PaintedButton lastCard = new PaintedButton("",white);
-	JLabel score;
+	JLabel scoreLabel;
+	
 	
 	// menu stuff
 	JMenuBar menuBar;
@@ -49,7 +52,7 @@ public class GamePanel extends PaintedPanel{
 	//Constructor
 	public GamePanel(Image i) {
 		super(i);
-		
+		score = 0;
 		setLayout(new BorderLayout());
 		this.setOpaque(false);
 		createGUI();
@@ -81,11 +84,27 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
 		right = new JPanel();
+		left.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JPanel info = new JPanel();
+		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
+		String judge = "Judge!";
+		if(isJudge) {
+			judge= "Judge!";
+		}
+		else if(!isJudge) {
+			judge = "Pick a card!";
+		}
+		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+judge+"</font></html>");
 		
-		JLabel judgeLabel = new JLabel("Judge");
-		JLabel scores = new JLabel("0");
-		left.add(judgeLabel);
-		left.setFont(new Font("Helvetica", Font.BOLD, 20));
+		scoreLabel = new JLabel("<html><font color=\"white\">Score: 0</font></html>");
+		
+		left.add(info);
+		info.setOpaque(false);
+		info.add(judgeLabel);
+		info.add(scoreLabel);
+
+		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
+		scoreLabel.setFont(new Font("Helvetica", Font.BOLD, 24));
 
 		
 		left.setOpaque(false);
@@ -160,7 +179,7 @@ public class GamePanel extends PaintedPanel{
 			PaintedButton pCard = (PaintedButton) bottom2.getComponent(i);
 
 			if(!pCard.isVisible()) {
-				System.out.println(bottom2.getComponent(i).getClass());
+//				System.out.println(bottom2.getComponent(i).getClass());
 				
 				pCard.setText(card.getDesc());
 				pCard.setVisible(true);
@@ -234,7 +253,7 @@ public class GamePanel extends PaintedPanel{
 				        String buttonText = button.getText();
 						addCardToTable(buttonText);
 						button.setVisible(false);
-
+						updateScore();
 						
 						/*
 						 * 
@@ -255,6 +274,7 @@ public class GamePanel extends PaintedPanel{
 
 							}
 						}
+						button.setVisible(false);
 
 					}
 					
@@ -281,10 +301,7 @@ public class GamePanel extends PaintedPanel{
 				card.setBorderPainted(false);
 				card.setContentAreaFilled(false);
 				card.setVisible(false);
-				if(index==1) {
-					card.setVisible(true);
 
-				}
 				top.add(card);
 			}
 			index++;
@@ -340,7 +357,7 @@ public class GamePanel extends PaintedPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO: GO TO LOBBY (SO DISCONNECT FROM THE GAME
 				// AND SHOW THE LOBBY GUI);
-				System.out.println("Clicked on 'Go To Lobby'");
+//				System.out.println("Clicked on 'Go To Lobby'");
 			}
 		});
 		
@@ -349,7 +366,7 @@ public class GamePanel extends PaintedPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: DISCONNECT FROM GAME AND CLOSE THE FRAME
-				System.out.println("Clicked on 'Close Client'");
+//				System.out.println("Clicked on 'Close Client'");
 				
 				// close the frame
 				jf.dispose();
@@ -377,6 +394,11 @@ public class GamePanel extends PaintedPanel{
 //		exit.addActionListener(mQuitAction);
 //		exit.doClick();
 //	}
+	
+	private void setJudge() {
+		isJudge = true;
+	}
+	
 	private void swap(JPanel c) {
 		removeAll();
 		add(c);
@@ -384,8 +406,8 @@ public class GamePanel extends PaintedPanel{
 		repaint();
 	}
 	private void updateScore() {
-		
-		int s = Integer.parseInt(score.getText());
-		score.setText(Integer.toString(s+1));
+
+		score+=1;
+		scoreLabel.setText("<html><font color=\"white\">Score: "+Integer.toString(score)+"</font></html>");
 	}
 }
