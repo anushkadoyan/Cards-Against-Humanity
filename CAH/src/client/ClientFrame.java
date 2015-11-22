@@ -14,8 +14,8 @@ public class ClientFrame extends JFrame{
 	{
 
 		setTitle("CAH");
-		setSize(new Dimension(640,480));
-		setMinimumSize(new Dimension(1024,768));
+		setSize(new Dimension(1024,768));
+		setMinimumSize(new Dimension(800,600));
 		setMaximumSize(new Dimension(1024,768));
 		add(new ClientPanel());
 		setLocationRelativeTo(null);

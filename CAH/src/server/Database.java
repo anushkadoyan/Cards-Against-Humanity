@@ -20,17 +20,20 @@ public class Database {
 
     private static Connection connection = null;
 	
-//    public static void main(String[] args) {
-//    	Database db = new Database(true);
-//    }
-//   
+    public static void main(String[] args) {
+    	Database db = new Database();
+    }
     
     public Database() {
     	// create connection to db
     	selectDriver();
     	connect();
 
-    	// check if the database already exists.. if it doesn't generate the database, tables ,etc
+    	// check if the database already exists.. if it doesn't,
+    	// create the database, tables, decks, etc
+    	 if (!doesDatabaseExist(db_name)) {
+    		 createEverything();
+    	 }
     }
 
     public Database(boolean createEverything) {
@@ -42,7 +45,11 @@ public class Database {
     	if (!createEverything) {
     		return;
     	}
+    	createEverything(); // creates db, tables, default decks, etc
+    }
 
+    
+    private void createEverything() {
     	// create db
     	createDatabase(db_name, true);
     	
@@ -52,16 +59,34 @@ public class Database {
     	// create the default decks
     	try {
 			createDefaultDecks();
+			disconnect();
 		} catch (IOException e) {
+			disconnect();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
     private boolean doesDatabaseExist(String databaseName) {
-    	
-    	return true;
+    	String db_name = "";
+    	ResultSet rs;
+		try {
+			rs = connection.getMetaData().getCatalogs();
+			while (rs.next()) {
+				db_name = rs.getString(1);
+				if (db_name.equals(databaseName)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (SQLException e) {
+			System.out.println("Cannot find database: " + databaseName);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
     }
+
     // input/output: none
     // creates the decks (and cards) based on the textfiles (which must be specified inside this function)
     private void createDefaultDecks() throws IOException {
@@ -335,4 +360,10 @@ public class Database {
 			e1.printStackTrace();
 		}
     }
+
+    private static void disconnect(){
+		try {
+			connection.close();
+		} catch (SQLException e) { e.printStackTrace(); }
+	}
 }

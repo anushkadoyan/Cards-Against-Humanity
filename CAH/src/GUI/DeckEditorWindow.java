@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -202,6 +203,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		
 		class MyTextArea extends JTextArea {
+			private static final long serialVersionUID = 3469L;
 		    private Image backgroundImage;
 
 		    public MyTextArea() {
@@ -372,6 +374,7 @@ public class DeckEditorWindow extends JFrame{
 	    			String line = "new card";
 	    			System.out.println("new card created");
 	    			
+<<<<<<< HEAD
 	    			if(blackRadioButton.isSelected() ==  true){
 	    				Card newCard = new Card(line, true);
 	    				newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
@@ -441,6 +444,21 @@ public class DeckEditorWindow extends JFrame{
 	  						
 	  		        }
 	    			
+=======
+	    			try {
+		    			if(blackRadioButton.isSelected() ==  true){
+		    				Card newCard = new Card(line, true);
+		    				PlayerManager.createCard(newCard);
+		    			}
+		    			else{
+		    				Card newCard = new Card(line, false);
+		    				PlayerManager.createCard(newCard);
+		    			}
+	    			} catch( SQLException sqle ) {
+	    				System.out.println("Error creating card: " + sqle.getMessage());
+	    			}
+		    			
+>>>>>>> 1b077b047be1a2a83c40e7f9fe3e06f1fa9a6aff
 	    			//put in if statement to check if card is black or whit
 //	    			if(blackRadioButton.isSelected() ==  true){
 //	    				Card newCard = new Card(line, true);
@@ -454,7 +472,14 @@ public class DeckEditorWindow extends JFrame{
 //	    			newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
 //	    			
 //	    			decks = PlayerManager.getDecks();
-	    			
+	    			//put in if statement to check if card is black or white
+	    			try {
+						PlayerManager.createCard(new Card(line, false));
+					} catch (SQLException e) {
+						System.out.println("Error creating card: " + e.getMessage());
+					}
+	    			decks = PlayerManager.getDecks();
+
 	    		}
 	            
 	        });
@@ -464,8 +489,7 @@ public class DeckEditorWindow extends JFrame{
 	}
 
 	public static void main(String [] args) {
-	
-		DeckEditorWindow cs = new DeckEditorWindow();
+		new DeckEditorWindow();
 	}
 
 }
