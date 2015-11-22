@@ -413,7 +413,7 @@ public class GamePanel extends PaintedPanel{
 		for (HashMap.Entry<String, Integer> entry : m.entrySet()) {
 		   
 			if(entry.getKey()!=null) { key = entry.getKey();}
-		    if(entry.getValue()!=null) { value = entry.getValue();}
+		    if(entry.getValue()!=null) {  value = entry.getValue();}
 		     stuff += key+": " + value+ "<br>";
 		    
 		}

@@ -3,6 +3,7 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JPanel;
 
@@ -63,7 +64,12 @@ public class ClientPanel extends JPanel{
 				ClientPanel.this.repaint();
 			}
 		});
-		gamePanel = new GamePanel(AllImages.getImage("images/wallpaper.png"));
+		 HashMap<String, Integer> m = new HashMap<String, Integer>();
+		  m.put("You",0);  
+		  m.put("Player1",0);  
+		  m.put("Guest",0);  
+		  m.put("Johnny",0); 
+		gamePanel = new GamePanel(m,AllImages.getImage("images/wallpaper.png"));
 	}
 
 }
