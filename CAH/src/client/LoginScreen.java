@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.ObjectInputStream;
@@ -11,7 +13,6 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -116,13 +117,20 @@ public class LoginScreen extends ImagePanel{
 		passPanel.setOpaque(false);
 		buttonPanel.setOpaque(false);
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		userPanel.setPreferredSize(new Dimension(300,60));
+		passPanel.setPreferredSize(new Dimension(300,60));
+		buttonPanel.setPreferredSize(new Dimension(300,60));
+		
+		this.setLayout(new GridBagLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		this.add(Box.createGlue());
-		this.add(userPanel);
-		this.add(passPanel);
-		this.add(Box.createGlue());
-		this.add(buttonPanel);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 1;
+		gbc.gridy = 1;
+		this.add(userPanel, gbc);
+		gbc.gridy = 2;
+		this.add(passPanel, gbc);
+		gbc.gridy = 4;
+		this.add(buttonPanel, gbc);
 		
 	}
 	

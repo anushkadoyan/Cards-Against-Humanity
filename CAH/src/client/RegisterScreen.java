@@ -4,16 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -110,15 +110,23 @@ public class RegisterScreen extends ImagePanel{
 		passPanel.setOpaque(false);
 		buttonPanel.setOpaque(false);
 		
+		namePanel.setPreferredSize(new Dimension(250,60));
+		userPanel.setPreferredSize(new Dimension(300,60));
+		passPanel.setPreferredSize(new Dimension(300,60));
+		buttonPanel.setPreferredSize(new Dimension(300,60));
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(new GridBagLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		
-		this.add(namePanel);
-		this.add(userPanel);
-		this.add(passPanel);
-		this.add(Box.createGlue());
-		this.add(buttonPanel);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 1;
+		gbc.gridy = 1;
+		this.add(namePanel, gbc);
+		gbc.gridy = 2;
+		this.add(userPanel, gbc);
+		gbc.gridy = 3;
+		this.add(passPanel, gbc);
+		gbc.gridy = 5;
+		this.add(buttonPanel, gbc);
 	}
 	
 	public String getUsername(){
