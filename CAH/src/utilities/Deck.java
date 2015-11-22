@@ -69,5 +69,9 @@ public class Deck {
 	public void setCards(Vector<Card> cards){
 		this.cards = cards;
 	}
+	
+	public Vector<Card> getCards(){
+		return cards;
+	}
 	//do NOT call ServerManager methods directly here. Load the deck from the ServerManager and set the cards from there.
 }

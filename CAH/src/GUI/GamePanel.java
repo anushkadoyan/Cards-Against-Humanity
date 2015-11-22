@@ -5,6 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.*;
 
 import customUI.ImageLibrary;
@@ -33,6 +40,7 @@ public class GamePanel extends PaintedPanel{
 	//Constructor
 	public GamePanel(Image i) {
 		super(i);
+		
 		setLayout(new BorderLayout());
 		this.setOpaque(false);
 		toDraw = white;
@@ -123,14 +131,33 @@ public class GamePanel extends PaintedPanel{
 
 		add(top, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
+	}
+	
+	public static void main(String[] args) {
+		createGamePanel();
+	}
+	
+	private static void createGamePanel() {
+		System.out.println("Running the game panel");
 
+		// create the image
+		Image i = ImageLibrary.getImage("images/wallpaper.png");
+		
+		// create the game panel
+		GamePanel gp = new GamePanel(i);
+		gp.displayCards(null);
+
+		// create the frame
+		JFrame jf = new JFrame("THE FRAME");
+		jf.add(gp); // add the panel
+		jf.setBounds(0, 0, 1200, 800); // 3:2 display ratio for now
+		jf.repaint();
+		jf.setVisible(true);
 	}
 
 	public void displayCards(Card[] cardss) {
 		PaintedButton[] cards = new PaintedButton[5];
 		int counter = 1;
-
-		
 		
 		for(int i = 1; i<=5;i++) {
 			cards[i] = new PaintedButton("Bad word " + Integer.toString(counter),white);
