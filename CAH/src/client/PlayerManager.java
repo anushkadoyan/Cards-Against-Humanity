@@ -18,7 +18,12 @@ public class PlayerManager {
 	}
 
 
+<<<<<<< HEAD
 	public static void editCard(int cardID, String cardText) throws SQLException{
+=======
+	public static void editCard(int cardID, String cardText){
+
+>>>>>>> 4c87b5c179e29466723d4c58bad2c62479380831
 		//TODO
 		DBAccess.editCardDescription(cardID, cardText);
 	}
