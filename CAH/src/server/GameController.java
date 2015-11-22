@@ -46,7 +46,18 @@ public class GameController extends Thread {
 	}
 	
 	public void run() {
-		//start game, game logic here
+		while(true){
+			if(game.getJudge()==null){
+				game.setJudge(sccVector.get(0).getPlayer());
+				startGame();
+			}
+			if(game.getNumMovesExpected()>0){
+				//not all players have finished selecting
+			}
+			else{
+				
+			}
+		}
 	}
 	
 	public Game getGame(){
@@ -66,6 +77,10 @@ public class GameController extends Thread {
 	
 	public void selectCard(int playerID, Card c){
 		//todo: 
+	}
+	
+	public void startGame(){
+		game.startGame();;
 	}
 	
 }
