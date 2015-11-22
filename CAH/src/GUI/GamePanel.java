@@ -153,36 +153,40 @@ public class GamePanel extends PaintedPanel{
 		jf.setBounds(0, 0, 1200, 800); // 3:2 display ratio for now
 		jf.repaint();
 		jf.setVisible(true);
+		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 	}
 
-	public void displayCards(Card[] cardss) {
+	public void displayCards(Card[] pCards) {
 		PaintedButton[] cards = new PaintedButton[5];
 		int counter = 1;
 		
-		for(int i = 1; i<=5;i++) {
-			cards[i] = new PaintedButton("Bad word " + Integer.toString(counter),white);
-			cards[i].setOpaque(false);
-//			card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
-			cards[i].setHorizontalAlignment(SwingConstants.LEFT);
-			cards[i].setVerticalAlignment(SwingConstants.TOP);
-			cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
-			cards[i].setMargin(new Insets(20,20, 20, 20));
-//			  cards[i].setMargin(new Insets(1,1,1,1));
-			cards[i].setBackground(null);
-			cards[i].setOpaque(false);
-			cards[i].setBorderPainted(false);
-			cards[i].setContentAreaFilled(false);
-			bottom2.add(cards[i]);
-			counter++;
-			cards[i].addActionListener(new ActionListener() {
+		for(int i = 0; i<=4;i++) {
+			if(pCards!=null) {
+				cards[i] = new PaintedButton(pCards[0].getDesc(),white);
+				cards[i].setOpaque(false);
+//				card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
+				cards[i].setHorizontalAlignment(SwingConstants.LEFT);
+				cards[i].setVerticalAlignment(SwingConstants.TOP);
+				cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
+				cards[i].setMargin(new Insets(20,20, 20, 20));
+//				  cards[i].setMargin(new Insets(1,1,1,1));
+				cards[i].setBackground(null);
+				cards[i].setOpaque(false);
+				cards[i].setBorderPainted(false);
+				cards[i].setContentAreaFilled(false);
+				bottom2.add(cards[i]);
+				counter++;
+				cards[i].addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
 					
-				}
-				
-			});
+				});
+			}
+			
 			
 		}
 	}
