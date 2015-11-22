@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import customUI.ImagePanel;
+import customUI.PaintedPanel;
 import utilities.Player;
 
 public class LoginScreen extends ImagePanel{

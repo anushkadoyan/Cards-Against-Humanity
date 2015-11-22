@@ -44,7 +44,16 @@ public class ClientPanel extends JPanel{
 	}
 	
 	private void refreshComponents(){
-		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"));
+		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				ClientPanel.this.removeAll();
+				//Update to add gamePanel
+				ClientPanel.this.add(loginScreen);
+				ClientPanel.this.revalidate();
+				ClientPanel.this.repaint();
+			}
+		});
 		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
