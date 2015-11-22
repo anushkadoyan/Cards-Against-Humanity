@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import GUI.GamePanel;
 import customUI.AllImages;
+import customUI.PaintedButton;
 
 public class ClientPanel extends JPanel{
 	
@@ -18,13 +20,19 @@ public class ClientPanel extends JPanel{
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
 	private GamePanel gamePanel;
+	private boolean isGuest;
 	
 	{	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
 			new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				JButton button = (JButton)ae.getSource();
+				if(button.getText().equals("Guest")) {
+					isGuest= true;
+				}
 				ClientPanel.this.removeAll();
+				
 				ClientPanel.this.add(lobbyScreen);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
@@ -45,7 +53,7 @@ public class ClientPanel extends JPanel{
 	}
 	
 	private void refreshComponents(){
-		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
+		lobbyScreen = new LobbyScreen(AllImages.getImage("images/wallpaper.png"), isGuest, new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
@@ -58,6 +66,7 @@ public class ClientPanel extends JPanel{
 		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				
 				ClientPanel.this.removeAll();
 				ClientPanel.this.add(loginScreen);
 				ClientPanel.this.revalidate();
