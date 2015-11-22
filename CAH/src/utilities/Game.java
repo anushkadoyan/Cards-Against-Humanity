@@ -24,4 +24,10 @@ public class Game {
 	public void setID(int ID){
 		this.ID = ID;
 	}
+	public Vector<Player> getPlayers(){
+		return players;
+	}
+	public void addPlayer(Player p){
+		players.add(p);
+	}
 }

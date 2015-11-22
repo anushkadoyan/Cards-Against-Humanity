@@ -40,4 +40,8 @@ public class Card {
 	public int getDeckID() {
 		return deckID;
 	}
+	
+	public void setDesc(String newDesc){
+		description = newDesc;
+	}
 }

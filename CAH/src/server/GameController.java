@@ -6,26 +6,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import utilities.Card;
 import utilities.Deck;
 import utilities.Game;
 import utilities.Player;
 
 public class GameController extends Thread {
 	private Game game;
-	
-	//The actual players playing the game
-	private Player livePlayers[];
-	private int currentPlaying;
-	
-	//Winning information
-	private boolean gameOver = false;
-	public boolean isGameOver() {return gameOver;}
-	private String winnerName = null;
-	public String getWinner() {return winnerName;}
-	
-	//GamePanel to update
-	private GUI.GamePanel mGamePanel;
-		
 	
 	private Vector<ServerClientCommunicator> sccVector;
 	public GameController(Game g) {
@@ -39,8 +26,46 @@ public class GameController extends Thread {
 	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
 		sccVector.remove(scc);
 	}
+	public void sendGameState(){
+		try{
+			for(ServerClientCommunicator scc:sccVector){
+				scc.sendGameState(game);
+			}
+		}
+		catch(IOException ioe){
+			//error
+		}
+	}
+	
+	public void addPlayer(Player p){
+		game.addPlayer(p);
+	}
+	
+	public Vector<Player> getPlayers(){
+		return game.getPlayers();
+	}
 	
 	public void run() {
 		//start game, game logic here
 	}
+	
+	public Game getGame(){
+		return game;
+	}
+	
+	public void sendMessage(String text){
+		try{
+			for(ServerClientCommunicator scc:sccVector){
+				scc.sendChatMessage(text);
+			}
+		}
+		catch(IOException ioe){
+			//error
+		}
+	}
+	
+	public void selectCard(int playerID, Card c){
+		//todo: 
+	}
+	
 }
