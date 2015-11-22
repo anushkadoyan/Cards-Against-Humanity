@@ -8,7 +8,7 @@ public class Server {
 	private ServerListener serverListener;
 	public Server() {
 		try{
-			ss = new ServerSocket(6788);
+			ss = new ServerSocket(6789);
 		}
 		catch(IOException ioe){
 			System.out.println("Error initializing server: " + ioe.getMessage());

@@ -147,4 +147,33 @@ public class DBAccess {
 			e.printStackTrace();
 		}
 	}
+	public static int addDeck(Deck d) throws SQLException{
+		connect();
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO Decks_Table (deck_name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
+		ps.setString(1, d.getName());
+		int affectedRows = ps.executeUpdate();
+		disconnect();
+		int deckID;
+		if(affectedRows==0){
+			throw new SQLException("Create deck failed, no rows affected.");
+		}
+		try(ResultSet generatedKeys = ps.getGeneratedKeys()){
+			if(generatedKeys.next()){
+				deckID = generatedKeys.getInt(1);
+			}
+			else{
+				throw new SQLException("Create card failed, no ID obtained.");
+			}
+		}
+		
+		connect();
+		PreparedStatement ps2 = conn.prepareStatement("INSERT INTO Players_Decks_Table (deck_id, player_id) VALUES (?, ?);");
+		ps2.setInt(1, deckID);
+		ps2.setInt(2,  d.getOwnerID());
+		disconnect();
+		return deckID;
+	}
+	public static void editDeck(Deck d){
+		
+	}
 }

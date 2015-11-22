@@ -1,13 +1,13 @@
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+import GUI.GamePanel;
 import customUI.AllImages;
 
 public class ClientPanel extends JPanel{
@@ -17,6 +17,7 @@ public class ClientPanel extends JPanel{
 	private LoginScreen loginScreen;
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
+	private GamePanel gamePanel;
 	
 	{	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
@@ -49,7 +50,7 @@ public class ClientPanel extends JPanel{
 			public void actionPerformed(ActionEvent ae){
 				ClientPanel.this.removeAll();
 				//Update to add gamePanel
-				ClientPanel.this.add(loginScreen);
+				ClientPanel.this.add(gamePanel);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
@@ -63,6 +64,13 @@ public class ClientPanel extends JPanel{
 				ClientPanel.this.repaint();
 			}
 		});
+		//dummy player names and scores
+		 HashMap<String, Integer> m = new HashMap<String, Integer>();
+		  m.put("You",0);  
+		  m.put("Player1",0);  
+		  m.put("Guest",0);  
+		  m.put("Johnny",0); 
+		gamePanel = new GamePanel(m,AllImages.getImage("images/wallpaper.png"));
 	}
 
 }

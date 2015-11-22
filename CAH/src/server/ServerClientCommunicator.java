@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import client.PlayerManager;
 import utilities.Card;
+import utilities.DBAccess;
 import utilities.Deck;
 import utilities.Game;
 import utilities.Player;
@@ -60,35 +61,34 @@ public class ServerClientCommunicator extends Thread {
 				}
 			}
 			
-			
 			obj = ois.readObject();
 			while(obj!=null){
 				if(gc==null){
 					if(obj instanceof Game){
 						Game g = (Game)obj;
 						if(g.getID()==-1){
-							//create Game
+							g = ServerManager.getGame(g);
 						}
 						else{
-							//join Game
+							serverListener.joinGame(player, g.getID());
 						}
 					}
 					else if(obj instanceof Deck){
 						Deck d = (Deck)obj;
 						if(d.getID()==-1){
-							//create Deck
+							ServerManager.addDeck(d);
 						}
 						else{
-							//modify deck
+							ServerManager.editDeck(d);
 						}
 					}
 					else if(obj instanceof Card){
 						Card c = (Card)obj;
 						if(c.getID()==-1){
-							//create Card
+							ServerManager.AddCard(c);
 						}
 						else{
-							//modify Card
+							ServerManager.editCard(c);
 						}
 					}
 					else{
@@ -97,15 +97,16 @@ public class ServerClientCommunicator extends Thread {
 				}
 				else{
 					if(obj instanceof Card){
-						//select Card
+						Card c = (Card)obj;
+						gc.selectCard(player.getID(), c);
 					}
 					else if(obj instanceof String){
-						//chat stuff
+						String s = (String)obj;
+						gc.sendMessage(s);
 					}
 					else{
 						//error
 					}
-					//game stuff
 				}
 				obj = ois.readObject();
 			}			
@@ -121,5 +122,18 @@ public class ServerClientCommunicator extends Thread {
 		} catch (ClassNotFoundException e) {
 			System.out.println("ClassNotFoundException in ServerClientCommunicator.run(): " + e.getMessage());
 		}
+	}
+	public void sendGameState(Game g) throws IOException{
+		oos.reset();
+		oos.writeObject(g);
+		oos.flush();
+	}
+	public Player getPlayer(){
+		return player;
+	}
+	public void sendChatMessage(String text) throws IOException{
+		oos.reset();
+		oos.writeObject(text);
+		oos.flush();
 	}
 }
