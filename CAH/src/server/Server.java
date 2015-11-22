@@ -7,6 +7,7 @@ public class Server {
 	private ServerSocket ss;
 	private ServerListener serverListener;
 	public Server() {
+		System.out.println("Creating a server.");
 		try{
 			ss = new ServerSocket(6789);
 		}

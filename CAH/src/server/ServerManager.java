@@ -27,6 +27,8 @@ public class ServerManager {
 		p.setID(result);
 		if(result>0){
 			p=loadPlayerInfo(p);
+		} else {
+			p = null; // no player
 		}
 		return p;
 	}

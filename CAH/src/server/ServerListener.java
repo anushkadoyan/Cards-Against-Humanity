@@ -35,14 +35,19 @@ public class ServerListener extends Thread {
 	public void run() {
 		try {
 			while(true) {
+				System.out.println("Server is listening for clients.");
 				Socket s = ss.accept();
-				try {
+				System.out.println("Client found, holy shit.");
+				
+//				try {
+					System.out.println("Starting the scc");
 					ServerClientCommunicator scc = new ServerClientCommunicator(s, this);
+					System.out.println("scc created");
 					scc.start();
 					sccVector.add(scc);
-				} catch (IOException ioe) {
-					System.out.println("ioe in ServerListener.run() while(true): " + ioe.getMessage());
-				}
+//				} catch (IOException ioe) {
+//					System.out.println("ioe in ServerListener.run() while(true): " + ioe.getMessage());
+//				}
 			}
 		} catch(BindException be) {
 			System.out.println("be in ServerListener.run(): " + be.getMessage());

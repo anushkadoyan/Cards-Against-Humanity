@@ -22,6 +22,7 @@ public class Database {
 	
     public static void main(String[] args) {
     	Database db = new Database();
+//    	db.createPlayers();
     }
     
     public Database() {
@@ -65,6 +66,11 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    private void createPlayers() {
+    	insertRecord("Player_Table", new String[] {"user_name", "password", "name"},
+    			new String[] {"jm", "pw", "Jamal"});
     }
     
     private boolean doesDatabaseExist(String databaseName) {

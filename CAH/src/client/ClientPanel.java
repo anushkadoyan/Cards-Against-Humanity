@@ -3,6 +3,9 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JPanel;
 
@@ -17,16 +20,39 @@ public class ClientPanel extends JPanel{
 	private RegisterScreen registerScreen;
 	private LobbyScreen lobbyScreen;
 	private GamePanel gamePanel;
+
+	// stream
+	private ObjectOutputStream oos;
+	private ObjectInputStream ios;
 	
+	public ClientPanel(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
+		oos = outputStream;
+		ios = inputStream;
+	}
 	{	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
 			new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
-				ClientPanel.this.removeAll();
-				ClientPanel.this.add(lobbyScreen);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
+				System.out.println("Lobby screen");
+
+				String userName = loginScreen.getUsername();
+				String password = loginScreen.getPassword();
+				System.out.println("username, pw: " + userName + ", " + password);
+
+				try {
+					oos.writeObject(userName + "," + password);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				boolean valid = false;
+
+				if (valid) {
+					ClientPanel.this.removeAll();
+					ClientPanel.this.add(lobbyScreen);
+					ClientPanel.this.revalidate();
+					ClientPanel.this.repaint();
+				}
 			}
 		}, new ActionListener(){
 			@Override

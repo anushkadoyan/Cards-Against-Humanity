@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,8 +19,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import customUI.ImagePanel;
-import customUI.PaintedPanel;
-import utilities.Player;
 
 public class LoginScreen extends ImagePanel{
 	private static final long serialVersionUID = -7404180270690905673L;
@@ -31,8 +29,12 @@ public class LoginScreen extends ImagePanel{
 	private JPasswordField passText;
 	private JPanel userPanel, passPanel, buttonPanel;
 	
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+	
 	public LoginScreen(Image inImage, ActionListener loginAction, ActionListener registerAction){
 		super(inImage);
+		System.out.println("ON LOGIN SCREEN");
 		
 		this.setOpaque(false);
 		
@@ -123,5 +125,8 @@ public class LoginScreen extends ImagePanel{
 		this.add(buttonPanel);
 		
 	}
+	
+	public String getUsername() { return userText.getText(); }
+	public String getPassword() { return new String(passText.getPassword()); }
 
 }
