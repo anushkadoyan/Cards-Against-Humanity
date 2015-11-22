@@ -101,7 +101,17 @@ public class GamePanel extends PaintedPanel{
 		
 		scoreLabel = new JLabel();
 		
-		
+		  String stuff = "", key= null;
+		  int value = 0;
+		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
+		   
+			if(entry.getKey()!=null) { key = entry.getKey();}
+		    if(entry.getValue()!=null) {  value = entry.getValue();}
+		     stuff += key+": " + value+ "<br>";
+		    
+		}
+		score+=1;
+		scoreLabel.setText("<html><font color=\"white\">"+stuff+"</font></html>");
 		
 		
 		left.add(info);
