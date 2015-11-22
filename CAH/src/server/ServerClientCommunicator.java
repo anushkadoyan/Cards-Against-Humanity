@@ -41,7 +41,7 @@ public class ServerClientCommunicator  extends Thread {
 			Object obj = null;
 			System.out.println("Validating.");
 			boolean validated = false;
-			while(obj==null) {
+			while (!validated) {
 				try {
 					obj = ois.readObject();
 				} catch (ClassNotFoundException e) {
@@ -56,13 +56,18 @@ public class ServerClientCommunicator  extends Thread {
 					System.out.println("Server receives username and password: " + username + ", " + password);
 					Player player = ServerManager.VerifyCredentials(new Player(username, password));
 					if (player == null) {
-						System.out.println("Could not find the player. You suck shit.");
+						System.out.println("Could not find the player. Sadface.");
+						oos.writeObject(null);
 					} else {
 						System.out.println("Found the player.");
 						System.out.println("player un: " + username + "... player pw: " +password);
+						valid = true;
+						serverListener.addValidSCC(this);
+						oos.writeObject(player);
+						oos.flush();
 					}
-					
 				}
+				
 //				if(obj instanceof Player){
 //					Player p = (Player)obj;
 //					player = ServerManager.VerifyCredentials(p);

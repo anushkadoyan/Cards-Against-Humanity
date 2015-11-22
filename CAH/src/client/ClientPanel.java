@@ -45,13 +45,27 @@ public class ClientPanel extends JPanel{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				boolean valid = false;
 
-				if (valid) {
-					ClientPanel.this.removeAll();
-					ClientPanel.this.add(lobbyScreen);
-					ClientPanel.this.revalidate();
-					ClientPanel.this.repaint();
+				Object player = null;
+				try {
+					System.out.println("Trying to receive player object back from server to fulfill the login credentials");
+					player = ios.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					if (player != null) {
+						System.out.println("Going to lobby screen cuz the player credentials were correct");
+						ClientPanel.this.removeAll();
+						ClientPanel.this.add(lobbyScreen);
+						ClientPanel.this.revalidate();
+						ClientPanel.this.repaint();
+					} else {
+						System.out.println("Player credentials incorrect. Go back to login screen.");
+					}
 				}
 			}
 		}, new ActionListener(){

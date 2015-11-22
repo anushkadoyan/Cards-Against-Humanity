@@ -387,24 +387,6 @@ public class Database {
 		}
     }
     
-    public int checkCredentials(String user, String password) throws SQLException{
-		System.out.println("Checking credentials");
-		System.out.println("username, pw: " + user + ", " + password);
-		connect();
-		PreparedStatement ps = connection.prepareStatement("SELECT id FROM Player_Table WHERE user_name = ? AND password = ?");
-		ps.setString(1, "jm");
-		ps.setString(2, "pw");
-		ResultSet rs = ps.executeQuery();
-//		disconnect();
-		int id = -1;
-		if(rs.next()){
-			System.out.println("id: " + id);
-			id=rs.getInt("id");
-		}
-		System.out.println("THE ID IS: " + id);
-		return id;
-	}
-
     public void disconnect(){
 		try {
 			connection.close();

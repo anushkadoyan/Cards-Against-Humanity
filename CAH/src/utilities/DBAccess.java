@@ -54,9 +54,20 @@ public class DBAccess {
 		}
 	}
 	public static int checkCredentials(String user, String password) throws SQLException{
-		return db.checkCredentials(user, password);
-//		return db.testDBRetreival();
+		System.out.println("Checking credentials");
+		connect();
+		PreparedStatement ps = conn.prepareStatement("SELECT id FROM Player_Table WHERE user_name = ? AND password = ?");
+		ps.setString(1, user);
+		ps.setString(2, password);
+		ResultSet rs = ps.executeQuery();
+		int id = -1;
+		if(rs.next()){
+			id=rs.getInt("id");
+		}
+		disconnect();
+		return id;
 	}
+
 	public static Vector<Deck> getPlayerDecks(int playerID) throws SQLException{
 		Vector<Deck> result = new Vector<Deck>();
 		Vector<Integer> deckIDs = getPlayerDeckIDs(playerID);
