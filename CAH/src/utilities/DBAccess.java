@@ -8,8 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import server.Database;
+
 public class DBAccess {
 	private static Connection conn = null;
+	private static Database db = null;
+	
 	private static void connect(){
 		try{
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/factory?user=root&password=root");
@@ -128,5 +132,19 @@ public class DBAccess {
 		player.loadDecks(playerDecks);
 		player.setID(playerID);
 		return player;
+	}
+	
+	public static void editCardDescription(int cardId, String txt) {
+		String statement = "UPDATE Cards_Table set text = ? where id = ?";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, txt);
+			ps.setInt(2, cardId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
