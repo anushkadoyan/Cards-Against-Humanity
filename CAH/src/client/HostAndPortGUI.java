@@ -26,9 +26,19 @@ public class HostAndPortGUI extends JFrame {
 	private Lock hostAndPortLock;
 	private Condition hostAndPortCondition;
 	private Socket socket;
+	private ActionListener connectAction;
 
-	public HostAndPortGUI() {
+	public String getHostname(){
+		return hostnameTextField.getText();
+	}
+	
+	public int getPort(){
+		return Integer.valueOf(portTextField.getText());
+	}
+	
+	public HostAndPortGUI(ActionListener connectAction) {
 		super(Constants.hostAndPortGUITitleString);
+		this.connectAction = connectAction;
 		initializeVariables();
 		createGUI();
 		addActionAdapters();
@@ -110,6 +120,7 @@ public class HostAndPortGUI extends JFrame {
 				System.exit(0);
 			}
 		});
+		connectButton.addActionListener(connectAction);
 	}
 	
 	public Socket getSocket() {

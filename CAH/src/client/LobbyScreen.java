@@ -43,15 +43,15 @@ public class LobbyScreen extends ImagePanel{
 		
 		viewDeckButton = new JButton("View/Edit Deck");
 		viewDeckButton.setFont(new Font("Andalus", Font.PLAIN, 10));
-		viewDeckButton.setPreferredSize(new Dimension(110,40));
+		viewDeckButton.setPreferredSize(new Dimension(120,40));
 			
 		createGameButton = new JButton("Create Game");
 		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-		createGameButton.setPreferredSize(new Dimension(110,40));
+		createGameButton.setPreferredSize(new Dimension(120,40));
 			
 		connectButton = new JButton("Connect");
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-		connectButton.setPreferredSize(new Dimension(110,40));
+		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
