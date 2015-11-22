@@ -37,6 +37,7 @@ public class GamePanel extends PaintedPanel{
 	private JLabel whiskeyL = new JLabel(whiskey);
 	private boolean placedCard = false;
 	private int cardPosition = 0;
+	private PaintedButton lastCard = new PaintedButton("",white);
 	// menu stuff
 	JMenuBar menuBar;
 	JMenu menu;
@@ -47,6 +48,11 @@ public class GamePanel extends PaintedPanel{
 		
 		setLayout(new BorderLayout());
 		this.setOpaque(false);
+		createGUI();
+	}
+	
+	
+	public void createGUI () {
 		toDraw = white;
 		
 		PaintedPanel wCard = new PaintedPanel(white);
@@ -115,7 +121,6 @@ public class GamePanel extends PaintedPanel{
 		add(top, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
 	}
-	
 	public static void main(String[] args) {
 		createGamePanel();
 	}
@@ -146,7 +151,6 @@ public class GamePanel extends PaintedPanel{
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 		gp.addMenu(jf);
-		gp.removeCards();
 		
 	}
 
@@ -178,9 +182,21 @@ public class GamePanel extends PaintedPanel{
 
 				        String buttonText = button.getText();
 						addCard(buttonText);
-
 						// TODO Auto-generated method stub
 						
+						//When other card placed, the one before reappears in its original position
+						for(int i=0; i<bottom2.getComponents().length; i++) {
+							PaintedButton card = (PaintedButton) bottom2.getComponent(i);
+
+							if(!card.isVisible()) {
+//								System.out.println(top.getComponent(i).getClass());
+								
+								card.setVisible(true);
+
+							}
+						}
+						button.setVisible(false);
+
 					}
 					
 				});
@@ -225,7 +241,7 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	public void addCard(String text) {
-
+		String lastCard = "";
 		//if haven't placed card yet, find available card area
 		if(!placedCard) {
 			for(int i=1; i<top.getComponents().length; i++) {
