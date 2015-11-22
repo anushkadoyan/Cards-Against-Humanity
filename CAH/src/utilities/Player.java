@@ -12,12 +12,15 @@ public class Player implements Serializable {
 	private Boolean isJudge;
 	private Vector<Deck> decks;
 	
+	private Vector<Card> availableCards;
+	
 	public Player(String username, String pwd){
 		name = username;
 		password = pwd;
 		ID=0;
 		isJudge = false;
 		guest = name.startsWith("Guest");
+		availableCards = new Vector<Card>();
 	}
 	
 	public String getName(){
@@ -54,5 +57,12 @@ public class Player implements Serializable {
 	
 	public Vector<Deck> getPlayerDecks() {
 		return decks;
+	}
+	
+	public void setAvailableCards(Vector<Card> temp){
+		availableCards = temp;
+	}
+	public Vector<Card> getAvailableCards(){
+		return availableCards;
 	}
 }

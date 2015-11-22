@@ -44,51 +44,56 @@ public class ServerClientCommunicator extends Thread {
 				Object obj = readObject();
 				System.out.println("Validating.");
 				if (!loggedIn) {
-					if (obj instanceof String) {
-						System.out.println("Received stuff.");
-						String loginInfo = (String) obj;
-
-						String username = loginInfo.substring(0,
-								loginInfo.indexOf(','));
-						String password = loginInfo.substring(
-								loginInfo.indexOf(',') + 1, loginInfo.length());
-						System.out
-								.println("Server receives username and password: "
-										+ username + ", " + password);
-						Player player = ServerManager
-								.VerifyCredentials(new Player(username,
-										password));
-						if (player == null) {
+					if(gc==null){
+						if (obj instanceof String) {
+							System.out.println("Received stuff.");
+							String loginInfo = (String) obj;
+	
+							String username = loginInfo.substring(0,
+									loginInfo.indexOf(','));
+							String password = loginInfo.substring(
+									loginInfo.indexOf(',') + 1, loginInfo.length());
 							System.out
-									.println("Could not find the player. Sadface.");
-							oos.writeObject(null);
-						} else {
-							System.out.println("Found the player.");
-							System.out.println("player un: " + username
-									+ "... player pw: " + password);
-							valid = true;
-							serverListener.addValidSCC(this);
-							oos.writeObject(player);
-							oos.flush();
-							loggedIn = true;
-							PlayerManager.setPlayer(player);
+									.println("Server receives username and password: "
+											+ username + ", " + password);
+							Player player = ServerManager
+									.VerifyCredentials(new Player(username,
+											password));
+							if (player == null) {
+								System.out
+										.println("Could not find the player. Sadface.");
+								oos.writeObject(null);
+							} else {
+								System.out.println("Found the player.");
+								System.out.println("player un: " + username
+										+ "... player pw: " + password);
+								valid = true;
+								serverListener.addValidSCC(this);
+								oos.writeObject(player);
+								oos.flush();
+								loggedIn = true;
+								PlayerManager.setPlayer(player);
+							}
+						}
+	
+						// if(obj instanceof Player){
+						// Player p = (Player)obj;
+						// player = ServerManager.VerifyCredentials(p);
+						// oos.writeObject(player);
+						// oos.flush();
+						// valid=player.getID()>0||player.isGuest();
+						// if(valid){
+						// serverListener.addValidSCC(this);
+						// break;
+						// }
+						// }
+						else {
+							System.out
+									.println("Expected to receive log-in credentials");
 						}
 					}
-
-					// if(obj instanceof Player){
-					// Player p = (Player)obj;
-					// player = ServerManager.VerifyCredentials(p);
-					// oos.writeObject(player);
-					// oos.flush();
-					// valid=player.getID()>0||player.isGuest();
-					// if(valid){
-					// serverListener.addValidSCC(this);
-					// break;
-					// }
-					// }
-					else {
-						System.out
-								.println("Expected to receive log-in credentials");
+					else{
+						//game related actions
 					}
 				} else {
 

@@ -9,11 +9,13 @@ public class Deck {
 	private Vector<Card> cards;
 	private int ID;
 	private int playerID;
+	private Vector<Card> usedCards;
 	
 	public Deck(int id, String name){
 		this.ID = id;
 		this.name = name;
 		cards = new Vector<Card>();
+		usedCards = new Vector<Card>();
 	}
 	
 	public Deck(String name){
@@ -65,15 +67,28 @@ public class Deck {
 	}
 	
 	public void reshuffle() {
+		for(Card c: usedCards){
+			cards.add(c);
+		}
+		usedCards.clear();
 		Collections.shuffle(cards);
 	}
 	
 	public void setCards(Vector<Card> cards){
 		this.cards = cards;
 	}
-	
+
 	public Vector<Card> getCards(){
 		return cards;
+	}
+	
+	public Card useCard(){
+		if(cards.size()==0){
+			reshuffle();
+		}
+		Card temp = cards.remove(0);
+		usedCards.add(temp);
+		return temp;
 	}
 	//do NOT call ServerManager methods directly here. Load the deck from the ServerManager and set the cards from there.
 }

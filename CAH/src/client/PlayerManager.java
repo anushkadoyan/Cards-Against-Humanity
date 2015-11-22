@@ -106,4 +106,5 @@ public class PlayerManager {
 	public static Vector<Deck> getDecks() {
 		return player.getPlayerDecks();
 	}
+	
 }
