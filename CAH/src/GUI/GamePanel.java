@@ -35,8 +35,8 @@ public class GamePanel extends PaintedPanel{
 	private JLabel cigarL = new JLabel(cigar);
 	private Icon whiskey = new ImageIcon("images/whiskey.png");
 	private JLabel whiskeyL = new JLabel(whiskey);
-	
-	
+	private boolean placedCard = false;
+	private int cardPosition = 0;
 	// menu stuff
 	JMenuBar menuBar;
 	JMenu menu;
@@ -136,6 +136,7 @@ public class GamePanel extends PaintedPanel{
 		}
 
 		gp.displayCards(cards);
+		
 		gp.setTopCards();
 		// create the frame
 		JFrame jf = new JFrame("THE FRAME");
@@ -145,6 +146,8 @@ public class GamePanel extends PaintedPanel{
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 		gp.addMenu(jf);
+		
+		
 	}
 
 	public void displayCards(Card[] pCards) {
@@ -175,7 +178,6 @@ public class GamePanel extends PaintedPanel{
 
 				        String buttonText = button.getText();
 						addCard(buttonText);
-						System.out.println("Clicked " +buttonText);
 
 						// TODO Auto-generated method stub
 						
@@ -193,7 +195,7 @@ public class GamePanel extends PaintedPanel{
 
 		for(PaintedButton card: topCards) {
 			if(index!=5) {
-				card = new PaintedButton("<html><font color=\"black\">Bad word?</font></html>",white);
+				card = new PaintedButton("-1",white);
 				card.setHorizontalAlignment(SwingConstants.LEFT);
 				card.setVerticalAlignment(SwingConstants.TOP);
 				card.setFont(new Font("Helvetica", Font.BOLD, 16));
@@ -204,13 +206,15 @@ public class GamePanel extends PaintedPanel{
 				card.setBorderPainted(false);
 				card.setContentAreaFilled(false);
 				card.setVisible(false);
+				if(index==1) {
+					card.setVisible(true);
 
+				}
 				top.add(card);
-				
-				
 			}
 			index++;
 		}
+		
 	}
 	
 	public void removeCards() {
@@ -218,30 +222,31 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	public void addCard(String text) {
-		
-//	  	PaintedButton pCard = new PaintedButton("<html><font color=\"white\">"+text+"</font></html>",white);
-//	  	pCard.setHorizontalAlignment(SwingConstants.LEFT);
-//	  	pCard.setVerticalAlignment(SwingConstants.TOP);
-//	  	pCard.setFont(new Font("Helvetica", Font.BOLD, 16));
-////	  	pCard.setMargin(new Insets(20,20, 20, 20));
-//	  	pCard.setBackground(null);
-//	  	pCard.setOpaque(false);
-//	  	pCard.setBorderPainted(false);
-//	  	pCard.setContentAreaFilled(false);
-//	  	pCard.setVisible(true);
-//		top.add(pCard);
-		
 
-		for(int i=1; i<top.getComponents().length; i++) {
-			if(top.getComponent(i)!=null) {
-				System.out.println(top.getComponent(i).getClass());
+		//if haven't placed card yet, find available card area
+		if(!placedCard) {
+			for(int i=1; i<top.getComponents().length; i++) {
 				PaintedButton card = (PaintedButton) top.getComponent(i);
-				
-				card.setText(text);
-				card.setVisible(true);
-				break;
+
+				if(!card.isVisible()) {
+//					System.out.println(top.getComponent(i).getClass());
+					
+					card.setText(text);
+					card.setVisible(true);
+					placedCard=true;
+					cardPosition = i;
+					break;
+				}
 			}
 		}
+		else {
+			PaintedButton card = (PaintedButton) top.getComponent(cardPosition);
+			card.setText(text);
+			card.setVisible(true);
+			placedCard=true;
+
+		}
+		
 		 
 	}
 
