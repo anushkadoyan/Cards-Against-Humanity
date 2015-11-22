@@ -29,7 +29,7 @@ public class GamePanel extends PaintedPanel{
 
 	private Image toDraw;
 	private static final long serialVersionUID = 1L;
-	private JPanel top, bottom, bottom1, bottom2, left, right, info, judgePanel ;
+	private JPanel top, bottom, bottom1, bottom2, left, right, info, middle ;
 	private Image white = ImageLibrary.getImage("images/whitecard.png"); 
 	private Image black = ImageLibrary.getImage("images/blackcard.png"); 
 	private Image whiteback = ImageLibrary.getImage("images/whiteback.png"); 
@@ -55,29 +55,18 @@ public class GamePanel extends PaintedPanel{
 	public GamePanel(HashMap<String,Integer>map , Image i) {
 		super(i);
 		this.map = map;
-
 		score = 0;
 		setLayout(new BorderLayout());
 		this.setOpaque(false);
 		createGUI();
-		// create the image
-		Image image = ImageLibrary.getImage("images/wallpaper.png");
-//		Card blackCard = new Card(567, "Black card description", true);
-//
-//		setBlackCard(blackCard);
-
-//		displayHand(cards);
 		showBacks();
-//		initializeGame();
 		createMiddleInfo();
-
 		setWaitingForPlayers();
-		
-		
+//		initializeGame(null);
 	}
 	
 	//show user's cards
-	public void initializeGame() {
+	public void initializeGame(HashMap<String, Integer> c) {
 		
 		//dummy cards
 		HashMap<String, Integer> m = new HashMap<String, Integer>();
@@ -114,13 +103,25 @@ public class GamePanel extends PaintedPanel{
 	
 	public void setMiddleInfo(String text) {
 		System.out.println(text);
-		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
+		JLabel label = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
+		JButton start = new JButton("Start game");
+		start.addActionListener(new ActionListener() {
 
-		judgePanel = new JPanel();
-		judgePanel.setOpaque(false);
-		judgePanel.add(judgeLabel);
-		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
-		bottom1.add(judgePanel,BorderLayout.CENTER);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JButton b = (JButton)e.getSource();
+				System.out.println(b.getText());
+				initializeGame(null);
+			}
+			
+		});
+		middle = new JPanel();
+		middle.setOpaque(false);
+		middle.add(label);
+		middle.add(start);
+		label.setFont(new Font("Helvetica", Font.BOLD, 30));
+		bottom1.add(middle,BorderLayout.CENTER);
 	}
 	
 	public void createScoreLabel() {
@@ -200,11 +201,7 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
 		left.setPreferredSize(new Dimension(200, 100));
-
-
 		left.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		
 		left.setOpaque(false);
 		bottom1.add(left,BorderLayout.WEST);
 		right = new JPanel();
