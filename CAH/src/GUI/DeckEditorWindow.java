@@ -38,11 +38,11 @@ public class DeckEditorWindow extends JFrame{
 	
 	
 	private static final long serialVersionUID = 1L;
-	private Deck cDeck;
+
 	private ButtonGroup group;
 	private DefaultListModel <String> deckListModel = new DefaultListModel<String>(), cardListModel = new DefaultListModel<String>();
-	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
-	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT);
+	private Image blackCard = new ImageIcon("blackcard.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT);
+	private Image whiteCard = new ImageIcon("whitecard.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT);
 	private Vector<Deck> decks = new Vector<Deck>();
 	private int deckSelection = -1;
 	private int cardSelection = -1;
@@ -53,7 +53,7 @@ public class DeckEditorWindow extends JFrame{
 
 	public DeckEditorWindow() {
 		super("Deck Editor");
-		setSize(500, 900);
+		setSize(500, 750);
 		setResizable(false);
 		setLocation(100, 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -233,9 +233,9 @@ public class DeckEditorWindow extends JFrame{
 		cardTextArea.setText("Cards Against Humanity");
 		cardTextArea.setLineWrap(true);
 		cardTextArea.setBackgroundImage(whiteCard);
-		cardTextArea.setFont(new Font("Helvetica", Font.BOLD, 32));
+		cardTextArea.setFont(new Font("Helvetica", Font.BOLD, 16));
 		cardTextArea.setForeground(Color.BLACK);
-		cardTextArea.setPreferredSize(new Dimension(400, 400));
+		cardTextArea.setPreferredSize(new Dimension(300, 300));
 		cardDisplayPanel.add(cardTextArea);
 		
 		JButton saveCardButton = new JButton("Save Card");
@@ -253,16 +253,24 @@ public class DeckEditorWindow extends JFrame{
 	    			System.out.println("Changing the card.. oldDesc:" + oldDesc);
 	    			
 	    			selectedCard.setDesc(line);
-	    			System.out.println("kine: " + line);
+	    			System.out.println("line: " + line);
 	    			System.out.println("new desc: " + selectedCard.getDesc());
+	    			editCard( decks.elementAt(deckSelection).getCards());
 	    			
 	    			
-//	    			cardList.setSelectedValue(line, true);
 	    			
-	    			int index = cardList.getSelectedIndex();
-	    			cardListModel.remove(index);
-	    			cardListModel.insertElementAt(line, index);
-//	    			cardListModel.getElementAt(cardList.getSelectedIndex());
+//	    			Card selectedCard = decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex());
+//	    			String oldDesc = selectedCard.getDesc();
+//	    			System.out.println("Changing the card.. oldDesc:" + oldDesc);
+//	    			
+//	    			selectedCard.setDesc(line);
+//	    			System.out.println("line: " + line);
+//	    			System.out.println("new desc: " + selectedCard.getDesc());
+//	    			int index = cardList.getSelectedIndex();
+//	    			cardListModel.remove(index);
+//	    			cardListModel.insertElementAt(line, index);
+
+//	    			editCard( decks.elementAt(deckSelection).getCards());
 	    			
 	    			
 	    			
@@ -303,9 +311,19 @@ public class DeckEditorWindow extends JFrame{
 		ListSelectionListener cardListSelectionListener = new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent listSelectionEvent) {
 		    	try{
+		    		System.out.println("Changing Card Selection");
+		    		if(cardList.getSelectedIndex() != -1 && cardList.getSelectedIndex() != deckSelection){
+		    			System.out.println("selection actually changed");
+		    			cardSelection = cardList.getSelectedIndex();
+		    			System.out.println("selection is now: " + cardSelection);
+		    		}
+		    		
+		    		
+		    		
+		    		
 		    	  if(cardList.getSelectedValue() == null){
-		    		  cardTextArea.setText("");
-		    	  }
+		    			cardTextArea.setText("");
+		    		}
 		    	  else{
 		    		  cardTextArea.setText(cardList.getSelectedValue());
 		    	  }
@@ -379,8 +397,7 @@ public class DeckEditorWindow extends JFrame{
 		    			Deck newDeck = new Deck(deckName);
 		    			
 		    			
-//		    			newDeck.setOwnerID(PlayerManager.getPlayerID());
-//		    			PlayerManager.createDeck(newDeck);
+
 		    			
 		    			addDeck(newDeck);
 //	    			
@@ -407,6 +424,9 @@ public class DeckEditorWindow extends JFrame{
 	public void addDeck(Deck d) { 
 		System.out.println("Adding a new deck");
 		decks.add(d);
+		
+//		d.setOwnerID(PlayerManager.getPlayerID());
+//		PlayerManager.createDeck(d);
 		System.out.println("added the deck");
 		clearDeck();
 		System.out.println("cleared the deck");
@@ -436,10 +456,24 @@ public class DeckEditorWindow extends JFrame{
 
 	}
 	
+	public void editCard(Vector<Card> cards){
+		clearDeck();
+		showDeck();
+		selectDeck();
+		clearCard();
+		System.out.println("cleared the card");
+		showCard(cards);
+		System.out.println("showed the card");
+		selectCard();
+	}
+	
 	public void addCard(Card c, Vector<Card> cards) { 
 		System.out.println("Adding a new card");
 		cards.add(c);
 		System.out.println("added the card");
+		clearDeck();
+		showDeck();
+		selectDeck();
 		clearCard();
 		System.out.println("cleared the card");
 		showCard(cards);
@@ -449,7 +483,7 @@ public class DeckEditorWindow extends JFrame{
 	public void clearCard() {
 		
 //		deckListModel.clear();
-		System.out.println("Cleaing the cards");
+		System.out.println("Clearing the cards");
 //		deckListModel.addElement("TEST ELEMENT");
 		System.out.println("card size model sz: " + cardListModel.size());
 		cardListModel.clear();
@@ -460,6 +494,7 @@ public class DeckEditorWindow extends JFrame{
 		System.out.println("cardSelection " + cardSelection);
 		cardList.setSelectedIndex(cardSelection);
 	}
+	
 	public void showCard(Vector<Card> cards) {
 		for (Card c : cards) {
 			cardListModel.addElement(c.getDesc());
