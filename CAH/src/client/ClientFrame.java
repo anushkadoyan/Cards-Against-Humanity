@@ -16,7 +16,7 @@ public class ClientFrame extends JFrame{
 		this.socket = socket;
 		setTitle("CAH");
 		setSize(new Dimension(1024,768));
-		setMinimumSize(new Dimension(800,600));
+		setMinimumSize(new Dimension(1024,768));
 		setMaximumSize(new Dimension(1024,768));
 		add(new ClientPanel());
 		setLocationRelativeTo(null);

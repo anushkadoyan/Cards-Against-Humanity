@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import GUI.DeckEditorWindow;
 import customUI.ImagePanel;
 
 public class LobbyScreen extends ImagePanel{
@@ -31,10 +32,11 @@ public class LobbyScreen extends ImagePanel{
 	private static JTable gameTable;
 	private static DefaultTableModel tableModel;
 	private JScrollPane jsp;
+	private boolean isGuest = false;
 	
-	public LobbyScreen(Image inImage, ActionListener connectAction){
+	public LobbyScreen(Image inImage, boolean isGuest, ActionListener connectAction){
 		super(inImage);
-		
+		this.isGuest = isGuest;
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
 		eastPanel = new JPanel();
@@ -47,14 +49,27 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.setPreferredSize(new Dimension(120,40));
 		viewDeckButton.setBackground(Color.WHITE);
 		viewDeckButton.setOpaque(true);
+		viewDeckButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				new DeckEditorWindow();
+			}
+		});
 			
 		createGameButton = new JButton("Create Game");
+		if(!isGuest) {
+			createGameButton.setEnabled(false);
+			viewDeckButton.setEnabled(false);
+
+		}
 		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		createGameButton.setPreferredSize(new Dimension(120,40));
 		createGameButton.setBackground(Color.WHITE);
 		createGameButton.setOpaque(true);
 			
+		
 		connectButton = new JButton("Connect");
+
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.setBackground(Color.WHITE);
@@ -136,7 +151,7 @@ public class LobbyScreen extends ImagePanel{
 	}
 	
 	public void add (String host, int numPlayers, String progress){
-		Object[] row = {host, numPlayers + "/4", progress};
+		Object[] row = {host, numPlayers + "/5", progress};
 		tableModel.addRow(row);
 	}
 }

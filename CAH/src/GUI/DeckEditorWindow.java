@@ -56,7 +56,7 @@ public class DeckEditorWindow extends JFrame{
 		setSize(500, 750);
 		setResizable(false);
 		setLocation(100, 100);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
 		

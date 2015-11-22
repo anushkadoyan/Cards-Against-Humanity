@@ -3,6 +3,8 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import client.CAHClient;
+
 public class Server {
 	private ServerSocket ss;
 	private ServerListener serverListener;
@@ -18,5 +20,6 @@ public class Server {
 	}
 	public static void main(String [] args) {
 		new Server();
+		new CAHClient();
 	}
 }
