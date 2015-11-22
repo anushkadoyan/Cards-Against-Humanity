@@ -69,27 +69,78 @@ public class GamePanel extends PaintedPanel{
 //		displayHand(cards);
 		showBacks();
 //		initializeGame();
+		createMiddleInfo();
 
+		setWaitingForPlayers();
 		
 		
 	}
 	
+	//show user's cards
 	public void initializeGame() {
-		 HashMap<String, Integer> m = new HashMap<String, Integer>();
-		  m.put("You",0);  
-		  m.put("Player1",0);  
-		  m.put("Guest",0);  
-		  m.put("Johnny",0);  
-		  Card[] cards = new Card[5];
-			for(int a=0; a<cards.length; a++) {
-				cards[a] = new Card(a, "test card " +a,false);
-			}
-			displayHand(cards);
-			Card blackCard = new Card(567, "Black card description", true);
+		
+		//dummy cards
+		HashMap<String, Integer> m = new HashMap<String, Integer>();
+		m.put("You",0);  
+		m.put("Player1",0);  
+		m.put("Guest",0);  
+		m.put("Johnny",0);  
+        Card[] cards = new Card[5];
+		for(int a=0; a<cards.length; a++) {
+			cards[a] = new Card(a, "test card " +a,false);
+		}
+		displayHand(cards);
+		Card blackCard = new Card(567, "Black card description", true);
 		setBlackCard(blackCard);
-		createInfo();
+		if(isJudge) {
+			infoText= "Judge!";
+		}
+		else if(!isJudge) {
+			infoText = "Pick a card!";
+		}
+		createMiddleInfo();
+		createScoreLabel();
+		setMiddleInfo(infoText);
 		setTable();
 	}
+	public void createMiddleInfo(){
+		info = new JPanel();
+		info.setOpaque(false);
+		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
+		left.add(info);
+		
+		
+	}
+	
+	public void setMiddleInfo(String text) {
+		System.out.println(text);
+		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
+
+		judgePanel = new JPanel();
+		judgePanel.setOpaque(false);
+		judgePanel.add(judgeLabel);
+		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
+		bottom1.add(judgePanel,BorderLayout.CENTER);
+	}
+	
+	public void createScoreLabel() {
+		scoreLabel = new JLabel();
+		scoreLabel.setFont(new Font("Helvetica", Font.BOLD, 24));
+
+		String stuff = "", key= null;
+		int value = 0;
+		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
+		   
+			if(entry.getKey()!=null) { key = entry.getKey();}
+		    if(entry.getValue()!=null) {  value = entry.getValue();}
+		     stuff += key+": " + value+ "<br>";
+		    
+		}
+		scoreLabel.setText("<html><font color=\"white\">"+stuff+"</font></html>");
+		info.add(scoreLabel);
+	}
+	
+	//Show backs of cards
 	public void showBacks () {
 		bottom2.removeAll();
 		PaintedButton[] cards = new PaintedButton[6];
@@ -102,24 +153,24 @@ public class GamePanel extends PaintedPanel{
 				cards[i] = new PaintedButton("",blackback);
 
 		    }
-				cards[i].setOpaque(false);
+			cards[i].setOpaque(false);
 //				card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
-				cards[i].setHorizontalAlignment(SwingConstants.LEFT);
-				cards[i].setVerticalAlignment(SwingConstants.TOP);
-				cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
-				cards[i].setMargin(new Insets(20,10, 20, 20));
+			cards[i].setHorizontalAlignment(SwingConstants.LEFT);
+			cards[i].setVerticalAlignment(SwingConstants.TOP);
+			cards[i].setFont(new Font("Helvetica", Font.BOLD, 16));
+			cards[i].setMargin(new Insets(20,10, 20, 20));
 //				  cards[i].setMargin(new Insets(1,1,1,1));
-				cards[i].setBackground(null);
-				cards[i].setOpaque(false);
-				cards[i].setBorderPainted(false);
-				cards[i].setContentAreaFilled(false);
-			    Border border = new LineBorder(Color.BLACK, 5);
-				
-			    if(i!=5) {
-			    	bottom2.add(cards[i]);
+			cards[i].setBackground(null);
+			cards[i].setOpaque(false);
+			cards[i].setBorderPainted(false);
+			cards[i].setContentAreaFilled(false);
+		    Border border = new LineBorder(Color.BLACK, 5);
+			
+		    if(i!=5) {
+		    	bottom2.add(cards[i]);
 //				
-			    } else top.add(cards[i]);
-			}
+		    } else top.add(cards[i]);
+		}
 		setTable();
 	}
 	
@@ -149,21 +200,17 @@ public class GamePanel extends PaintedPanel{
 		bottom1.setLayout(new BorderLayout());
 		left = new JPanel();
 		left.setPreferredSize(new Dimension(200, 100));
-		right = new JPanel();
-		 judgePanel = new JPanel();
-		judgePanel.setOpaque(false);
-//		judgePanel.setBorder(BorderFactory.createEmptyBorder(0,305,0,0)); 
+
 
 		left.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-//		left.add(judgePanel);
 		
 		left.setOpaque(false);
 		bottom1.add(left,BorderLayout.WEST);
-		bottom1.add(judgePanel,BorderLayout.CENTER);
+		right = new JPanel();
 
 		bottom1.add(right, BorderLayout.EAST);
-
+		
 		right.setPreferredSize(new Dimension(200, 100));
 		right.setOpaque(false);
 		right.setLayout(new FlowLayout());
@@ -190,42 +237,6 @@ public class GamePanel extends PaintedPanel{
 		add(bottom, BorderLayout.SOUTH);
 	}
 	
-	public void createInfo(){
-		info = new JPanel();
-		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
-		 infoText = "Judge!";
-		if(isJudge) {
-			infoText= "Judge!";
-		}
-		else if(!isJudge) {
-			infoText = "Pick a card!";
-		}
-		
-		JLabel judgeLabel = new JLabel("<html><font color=\"white\">"+infoText+"</font></html>");
-		judgePanel.add(judgeLabel);
-		scoreLabel = new JLabel();
-		scoreLabel.setFont(new Font("Helvetica", Font.BOLD, 24));
-
-		  String stuff = "", key= null;
-		  int value = 0;
-		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
-		   
-			if(entry.getKey()!=null) { key = entry.getKey();}
-		    if(entry.getValue()!=null) {  value = entry.getValue();}
-		     stuff += key+": " + value+ "<br>";
-		    
-		}
-		score+=1;
-		scoreLabel.setText("<html><font color=\"white\">"+stuff+"</font></html>");
-		
-		
-		left.add(info);
-		info.setOpaque(false);
-//		info.add(judgeLabel);
-		info.add(scoreLabel);
-
-		judgeLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
-	}
 	
 	public static void main(String[] args) {
 		createGamePanel();
@@ -493,7 +504,7 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	public void setWaitingForPlayers() {
-		
+		setMiddleInfo("Waiting for players...");
 	}
 	
 	
