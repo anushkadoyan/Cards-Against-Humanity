@@ -81,11 +81,11 @@ public class GamePanel extends PaintedPanel{
 		right.setLayout(new FlowLayout());
 		right.add(whiskeyL);
 		right.add(cigarL);
-		right.setBorder(BorderFactory.createEmptyBorder(0,0,20,0)); // Especially important
+		right.setBorder(BorderFactory.createEmptyBorder(0,0,20,0)); 
 
 
 		//top left bottom right
-		top.setBorder(BorderFactory.createEmptyBorder(40,0,50,0)); // Especially important
+		top.setBorder(BorderFactory.createEmptyBorder(40,0,30,0));
 //		top.setBorder(BorderFactory.creatEmpty // Especially important
 //		bottom1.setBackground(Color.red);
 		top.setLayout(new GridLayout(1,5,10,40));
@@ -146,7 +146,7 @@ public class GamePanel extends PaintedPanel{
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
 		gp.addMenu(jf);
-		
+		gp.removeCards();
 		
 	}
 
@@ -195,7 +195,7 @@ public class GamePanel extends PaintedPanel{
 
 		for(PaintedButton card: topCards) {
 			if(index!=5) {
-				card = new PaintedButton("-1",white);
+				card = new PaintedButton("Test card",white);
 				card.setHorizontalAlignment(SwingConstants.LEFT);
 				card.setVerticalAlignment(SwingConstants.TOP);
 				card.setFont(new Font("Helvetica", Font.BOLD, 16));
@@ -218,7 +218,10 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	public void removeCards() {
-		
+		for(int i=1; i<top.getComponents().length; i++) {
+			PaintedButton card = (PaintedButton) top.getComponent(i);
+			card.setVisible(false);
+		}
 	}
 	
 	public void addCard(String text) {
