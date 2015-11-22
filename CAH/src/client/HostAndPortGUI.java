@@ -26,7 +26,6 @@ public class HostAndPortGUI extends JFrame {
 	private Lock hostAndPortLock;
 	private Condition hostAndPortCondition;
 	private Socket socket;
-	private ActionListener connectAction;
 
 	public String getHostname(){
 		return hostnameTextField.getText();
@@ -36,9 +35,12 @@ public class HostAndPortGUI extends JFrame {
 		return Integer.valueOf(portTextField.getText());
 	}
 	
-	public HostAndPortGUI(ActionListener connectAction) {
+	public static boolean connected(){
+		return true;
+	}
+	
+	public HostAndPortGUI() {
 		super(Constants.hostAndPortGUITitleString);
-		this.connectAction = connectAction;
 		initializeVariables();
 		createGUI();
 		addActionAdapters();
@@ -93,6 +95,7 @@ public class HostAndPortGUI extends JFrame {
 				if (portInt > utilities.Constants.lowPort && portInt < utilities.Constants.highPort) {
 					// try to connect
 					String hostnameStr = hostnameTextField.getText();
+					
 					try {
 						socket = new Socket(hostnameStr, portInt);
 						
@@ -105,6 +108,12 @@ public class HostAndPortGUI extends JFrame {
 						//error
 						return;
 					}
+					/*
+					hostAndPortLock.lock();
+					hostAndPortCondition.signal();
+					hostAndPortLock.unlock();
+					HostAndPortGUI.this.setVisible(false);
+					*/
 				}
 				else { // port value out of range
 					errorLabel.setText(Constants.portErrorString);
@@ -120,7 +129,6 @@ public class HostAndPortGUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		connectButton.addActionListener(connectAction);
 	}
 	
 	public Socket getSocket() {

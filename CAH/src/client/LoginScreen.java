@@ -41,6 +41,8 @@ public class LoginScreen extends ImagePanel{
 			loginButton.setPreferredSize(new Dimension(90,40));
 			loginButton.addActionListener(loginAction);
 			loginButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+			loginButton.setBackground(Color.WHITE);
+			loginButton.setOpaque(true);
 			/*
 			loginButton.addActionListener(new ActionListener(){
 				@Override
@@ -60,17 +62,23 @@ public class LoginScreen extends ImagePanel{
 						//do stuff
 					}
 				}
-			});*/
+			});
+			*/
 		registerButton = new JButton("Register");
 			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			registerButton.setPreferredSize(new Dimension(90,40));
 			registerButton.addActionListener(registerAction);
 			registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+			registerButton.setBackground(Color.WHITE);
+			registerButton.setOpaque(true);
+			
 		guestButton = new JButton("Guest");
 			guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 			guestButton.setPreferredSize(new Dimension(90,40));
 			guestButton.addActionListener(loginAction);
 			guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+			guestButton.setBackground(Color.WHITE);
+			guestButton.setOpaque(true);
 		
 		userLabel = new JLabel("Username:");
 			userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
