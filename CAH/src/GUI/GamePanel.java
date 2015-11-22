@@ -37,6 +37,10 @@ public class GamePanel extends PaintedPanel{
 	private JLabel whiskeyL = new JLabel(whiskey);
 	
 	
+	// menu stuff
+	JMenuBar menuBar;
+	JMenu menu;
+
 	//Constructor
 	public GamePanel(Image i) {
 		super(i);
@@ -85,7 +89,6 @@ public class GamePanel extends PaintedPanel{
 //		top.setBorder(BorderFactory.creatEmpty // Especially important
 //		bottom1.setBackground(Color.red);
 		top.setLayout(new GridLayout(1,5,10,40));
-		PaintedButton[] topCards = new PaintedButton[5];
 //		PaintedButton blackC = new PaintedButton("<html><font color=\"white\">Bad word?</font></html>",black);
 		PaintedButton blackC = new PaintedButton("",blackback);
 
@@ -99,27 +102,7 @@ public class GamePanel extends PaintedPanel{
 		blackC.setBorderPainted(false);
 		blackC.setContentAreaFilled(false);
 		top.add(blackC);
-		int index = 1;
-		for(PaintedButton card: topCards) {
-			if(index!=5) {
-				card = new PaintedButton("<html><font color=\"white\">Bad word?</font></html>",white);
-				card.setHorizontalAlignment(SwingConstants.LEFT);
-				card.setVerticalAlignment(SwingConstants.TOP);
-				card.setFont(new Font("Helvetica", Font.BOLD, 16));
-				card.setMargin(new Insets(20,20, 20, 20));
-//				  card.setMargin(new Insets(1,1,1,1));
-				card.setBackground(null);
-				card.setOpaque(false);
-				card.setBorderPainted(false);
-				card.setContentAreaFilled(false);
-				card.setVisible(false);
 
-				top.add(card);
-				
-				
-			}
-			index++;
-		}
 		
 //		top.add(wCard);
 //		top.add(new JButton("1"));
@@ -151,9 +134,9 @@ public class GamePanel extends PaintedPanel{
 		for(int a=0; a<cards.length; a++) {
 			cards[a] = new Card(a, "test card " +a,false);
 		}
-		
-		gp.displayCards(cards);
 
+		gp.displayCards(cards);
+		gp.setTopCards();
 		// create the frame
 		JFrame jf = new JFrame("THE FRAME");
 		jf.add(gp); // add the panel
@@ -161,6 +144,7 @@ public class GamePanel extends PaintedPanel{
 		jf.repaint();
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
+		gp.addMenu(jf);
 	}
 
 	public void displayCards(Card[] pCards) {
@@ -169,6 +153,7 @@ public class GamePanel extends PaintedPanel{
 		
 		for(int i = 0; i<=4;i++) {
 			if(pCards!=null) {
+
 				cards[i] = new PaintedButton(pCards[i].getDesc(),white);
 				cards[i].setOpaque(false);
 //				card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
@@ -184,9 +169,14 @@ public class GamePanel extends PaintedPanel{
 				bottom2.add(cards[i]);
 				counter++;
 				cards[i].addActionListener(new ActionListener() {
-
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						PaintedButton button = (PaintedButton)e.getSource();
+
+				        String buttonText = button.getText();
+						addCard(buttonText);
+						System.out.println("Clicked " +buttonText);
+
 						// TODO Auto-generated method stub
 						
 					}
@@ -197,27 +187,101 @@ public class GamePanel extends PaintedPanel{
 			
 		}
 	}
+	public void setTopCards() {
+		PaintedButton[] topCards = new PaintedButton[5];
+		int index = 1;
 
+		for(PaintedButton card: topCards) {
+			if(index!=5) {
+				card = new PaintedButton("<html><font color=\"black\">Bad word?</font></html>",white);
+				card.setHorizontalAlignment(SwingConstants.LEFT);
+				card.setVerticalAlignment(SwingConstants.TOP);
+				card.setFont(new Font("Helvetica", Font.BOLD, 16));
+				card.setMargin(new Insets(20,20, 20, 20));
+//				  card.setMargin(new Insets(1,1,1,1));
+				card.setBackground(null);
+				card.setOpaque(false);
+				card.setBorderPainted(false);
+				card.setContentAreaFilled(false);
+				card.setVisible(false);
+
+				top.add(card);
+				
+				
+			}
+			index++;
+		}
+	}
 	
 	public void removeCards() {
 		
 	}
 	
-	public void addCard(Card card) {
+	public void addCard(String text) {
 		
-	  	PaintedButton pCard = new PaintedButton("<html><font color=\"white\">"+card.getDesc()+"</font></html>",white);
-	  	pCard.setHorizontalAlignment(SwingConstants.LEFT);
-	  	pCard.setVerticalAlignment(SwingConstants.TOP);
-	  	pCard.setFont(new Font("Helvetica", Font.BOLD, 16));
-	  	pCard.setMargin(new Insets(20,20, 20, 20));
-	  	pCard.setBackground(null);
-	  	pCard.setOpaque(false);
-	  	pCard.setBorderPainted(false);
-	  	pCard.setContentAreaFilled(false);
-	  	pCard.setVisible(false);
-		top.add(pCard);
+//	  	PaintedButton pCard = new PaintedButton("<html><font color=\"white\">"+text+"</font></html>",white);
+//	  	pCard.setHorizontalAlignment(SwingConstants.LEFT);
+//	  	pCard.setVerticalAlignment(SwingConstants.TOP);
+//	  	pCard.setFont(new Font("Helvetica", Font.BOLD, 16));
+////	  	pCard.setMargin(new Insets(20,20, 20, 20));
+//	  	pCard.setBackground(null);
+//	  	pCard.setOpaque(false);
+//	  	pCard.setBorderPainted(false);
+//	  	pCard.setContentAreaFilled(false);
+//	  	pCard.setVisible(true);
+//		top.add(pCard);
+		
+
+		for(int i=1; i<top.getComponents().length; i++) {
+			if(top.getComponent(i)!=null) {
+				System.out.println(top.getComponent(i).getClass());
+				PaintedButton card = (PaintedButton) top.getComponent(i);
 				
+				card.setText(text);
+				card.setVisible(true);
+				break;
+			}
+		}
 		 
 	}
 
+	// creates menu bar and attaches it to the given JFrame
+	private void addMenu(final JFrame jf) {
+		// initialize
+		menuBar = new JMenuBar();
+		menu = new JMenu("Settings");
+
+		// setting options
+		JMenuItem menuItem1 = new JMenuItem("Go to Lobby");
+		JMenuItem menuItem2 = new JMenuItem("Close Client");
+
+		// add the "Go To Lobby" listener
+		menuItem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: GO TO LOBBY (SO DISCONNECT FROM THE GAME
+				// AND SHOW THE LOBBY GUI);
+				System.out.println("Clicked on 'Go To Lobby'");
+			}
+		});
+		
+		// add the "Close Client" listener
+		menuItem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: DISCONNECT FROM GAME AND CLOSE THE FRAME
+				System.out.println("Clicked on 'Close Client'");
+				
+				// close the frame
+				jf.dispose();
+			}
+		});
+		
+		// add menuItems to menu. Add menu to menuBar. Add menuBar to JFrame
+		menuBar.add(menu);
+		menu.add(menuItem1);
+		menu.add(menuItem2);
+		jf.setJMenuBar(menuBar);
+	}
+	
 }
