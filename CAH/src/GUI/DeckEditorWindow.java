@@ -35,16 +35,9 @@ import utilities.Card;
 import utilities.Deck;
 
 public class DeckEditorWindow extends JFrame{
-	/**
-	 * 
-	 */
+	
 	
 	private static final long serialVersionUID = 1L;
-//	private JList deckList, cardList;
-//	private JScrollPane deckScroll, cardScroll;
-//	private JButton createDeckButton, createCardButton, saveCardButton;
-//	private JTextArea cardViewer;
-//	private JRadioButton blackCard, whiteCard;
 	private Deck cDeck;
 	private ButtonGroup group;
 	private DefaultListModel <String>deckListModel, cardListModel;
@@ -53,7 +46,6 @@ public class DeckEditorWindow extends JFrame{
 	private Vector<Deck> decks = new Vector<Deck>();
 	private int deckSelection = 0;
 	private int cardSelection = 0;
-	private String line;
 	
 	
 
@@ -65,7 +57,6 @@ public class DeckEditorWindow extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-//		final String line;
 		
 		//TEST CODE
 		
@@ -247,15 +238,7 @@ public class DeckEditorWindow extends JFrame{
 		
 		JButton saveCardButton = new JButton("Save Card");
 		cardDisplayPanel.add(saveCardButton);
-		
-//		JTextPane cardTextPane = new JTextPane();
-//		StyledDocument doc = cardTextPane.getStyledDocument();
-//		SimpleAttributeSet center = new SimpleAttributeSet();
-//		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-//		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-//		cardTextPane.setPreferredSize(new Dimension(400, 400));
-//		cardDisplayPanel.add(cardTextPane);
-		
+
 		
 		/*
 		-----------------------------------------------------------------------
@@ -278,10 +261,15 @@ public class DeckEditorWindow extends JFrame{
 		
 		saveCardButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
-	    			line = cardTextArea.getText();
-	    			PlayerManager.editCard(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex()).getID(), line);
+	        	try{
+	    			String line = cardTextArea.getText();
+//	    			PlayerManager.editCard(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(cardList.getSelectedIndex()).getID(), line);
 //	    			PlayerManager.getDecks();
-	    			            
+	    			
+	        	}
+	        	catch(Exception e){
+	        		
+	        	}
 	        }});
 		/*
 		-----------------------------------------------------------------
@@ -296,7 +284,7 @@ public class DeckEditorWindow extends JFrame{
 		ListSelectionListener deckListSelectionListener = new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent listSelectionEvent) {
 		    	  
-		    	 
+		    	  	
 	    			cardListModel.clear();
 	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
 	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
@@ -348,32 +336,14 @@ public class DeckEditorWindow extends JFrame{
 	        	try{
 	    			String line = "new card";
 	    			System.out.println("new card created");
-	    			
+	
+	    			Card newCard = new Card(line, blackRadioButton.isSelected());
+	    			newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
+	    			//PlayerManager.createCard(newCard);
+	    			decks.elementAt(deckList.getSelectedIndex()).getCards().add(newCard);
+	    			cardListModel.addElement(newCard.getDesc());
 
-	    			if(blackRadioButton.isSelected() ==  true){
-	    				Card newCard = new Card(line, true);
-	    				newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
-	    				PlayerManager.createCard(newCard);
-	    				TESTDECK.getCards().add(newCard);
-	    			}
-	    			else{
-	    				Card newCard = new Card(line, false);
-	    				newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
-	    				PlayerManager.createCard(newCard);
-	    				TESTDECK.getCards().add(newCard);
-	    			}
-//	    			decks = PlayerManager.getDecks();
-    				
-	    			deckListModel.clear();
-    				for(int i = 0; i < decks.size(); i++){
-    					deckListModel.addElement(decks.elementAt(i).getName());
-    					
-    				}
-	    			cardListModel.clear();
-	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
-	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
-	  						
-	  		    	}
+				
 	    			
 	    		} catch(Exception e){
 	    			// print something???
@@ -389,56 +359,33 @@ public class DeckEditorWindow extends JFrame{
 			//to do this, call 
 	        public void actionPerformed(ActionEvent arg0) {
 	        	try{
+	        		
 	    			String deckName = deckNameTF.getText();
-	    			Deck newDeck = new Deck(deckName);
-//	    			newDeck.setOwnerID(PlayerManager.getPlayerID());
-//	    			PlayerManager.createDeck(newDeck);
-//	    			PlayerManager.getDecks();
-	    			
-	    			
-	    			decks.add(newDeck);
-	    			
-    				deckListModel.clear();
-    				for(int i = 0; i < decks.size(); i++){
-    					deckListModel.addElement(decks.elementAt(i).getName());
-    					
-    				}
-	    			cardListModel.clear();
-	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
-	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
-	  		        }
-	    			
-
-	    			try {
-	    				PlayerManager.createCard(new Card(line, blackRadioButton.isSelected()));
-	    			} catch( SQLException sqle ) {
-	    				System.out.println("Error creating card: " + sqle.getMessage());
-	    			}
+	    			if(!deckName.equals("")){
+		    			Deck newDeck = new Deck(deckName);
 		    			
-
-	    			//put in if statement to check if card is black or whit
-//	    			if(blackRadioButton.isSelected() ==  true){
-//	    				Card newCard = new Card(line, true);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
-//	    			else{
-//	    				Card newCard = new Card(line, false);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
+		    			
+		    			
+		    			Vector<Card> newCardset = new Vector<Card>();
+		    			newDeck.setCards(newCardset);
+		    			
+		    			decks.add(newDeck);
 //	    			
-//	    			newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
-//	    			
-//	    			decks = PlayerManager.getDecks();
-	    			//put in if statement to check if card is black or white
-	    			try {
-						PlayerManager.createCard(new Card(line, false));
-					} catch (SQLException e) {
-						System.out.println("Error creating card: " + e.getMessage());
-					}
-	    				decks = PlayerManager.getDecks();
-	        	}catch(Exception e){
+		    			deckListModel.addElement(newDeck.getName());
+		    			
+//		    			
+		    			
+	
+						
+						
+		    			decks = PlayerManager.getDecks();
+		    			deckNameTF.setText("");
+	    			}
+	    			
 
-	    		}
+	    			}catch(Exception e){
+
+	    			}
 	        }
 	            
 	    });
