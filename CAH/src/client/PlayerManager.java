@@ -17,11 +17,10 @@ public class PlayerManager {
 		return c;
 	}
 
-<<<<<<< HEAD
-	public static void editCard(int cardID, String newDesc){
-=======
+
+
 	public static void editCard(int cardID, String cardText){
->>>>>>> 1b077b047be1a2a83c40e7f9fe3e06f1fa9a6aff
+
 		//TODO
 		
 	}

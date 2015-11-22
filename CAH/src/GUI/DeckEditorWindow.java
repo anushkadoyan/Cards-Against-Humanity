@@ -92,10 +92,12 @@ public class DeckEditorWindow extends JFrame{
 		deckListModel = new DefaultListModel<String>();
 		
 	
-		for(int i = decks.size()-1; i >= 0; i--){
+		
+		for(int i = 0; i < decks.size(); i++){
 			deckListModel.addElement(decks.elementAt(i).getName());
 			
 		}
+		
 	
         //card list model
         cardListModel = new DefaultListModel<String>();
@@ -267,31 +269,6 @@ public class DeckEditorWindow extends JFrame{
 		------------------------------------------------------------------------
 		*/
 		
-		/*whiteRadioButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent arg0) {
-	        	cardTextArea.setBackgroundImage(whiteCard);
-	        	cardTextArea.setForeground(Color.BLACK);
-	        	revalidate();
-	        	repaint();
-	        	
-	    			
-	    			//put in if statement to check if card is black or white
-	    			//PlayerManager.editCard(new Card(line, true));
-	    		
-	            
-	        }});
-		blackRadioButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent arg0) {
-	        	
-	        	
-	    			
-	    			//put in if statement to check if card is black or white
-	    			//PlayerManager.editCard(new Card(line, true));
-	    		
-	            
-	        }});*/
-		
-		
 		
 		
 		
@@ -317,11 +294,12 @@ public class DeckEditorWindow extends JFrame{
 		ListSelectionListener deckListSelectionListener = new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent listSelectionEvent) {
 		    	  
-		    	  cardListModel.clear();
-		    	  for(int i = decks.elementAt(deckList.getSelectedIndex()).getCards().size()-1; i >= 0; i--){
-						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
-						
-		          }
+		    	 
+	    			cardListModel.clear();
+	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
+	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
+	  						
+	  		    	}
 		      }
 		    };
 		deckList.addListSelectionListener(deckListSelectionListener);
@@ -370,11 +348,11 @@ public class DeckEditorWindow extends JFrame{
 			//blank card will have description string "new card" 
 			//to do this, call 
 	        public void actionPerformed(ActionEvent arg0) {
-	        	
+	        	try{
 	    			String line = "new card";
 	    			System.out.println("new card created");
 	    			
-<<<<<<< HEAD
+
 	    			if(blackRadioButton.isSelected() ==  true){
 	    				Card newCard = new Card(line, true);
 	    				newCard.setDeckID(decks.elementAt(deckList.getSelectedIndex()).getID());
@@ -387,34 +365,23 @@ public class DeckEditorWindow extends JFrame{
 	    				PlayerManager.createCard(newCard);
 	    				TESTDECK.getCards().add(newCard);
 	    			}
-	    			PlayerManager.getDecks();
+//	    			decks = PlayerManager.getDecks();
     				
 	    			deckListModel.clear();
-    				for(int i = decks.size()-1; i >= 0; i--){
+    				for(int i = 0; i < decks.size(); i++){
     					deckListModel.addElement(decks.elementAt(i).getName());
     					
     				}
 	    			cardListModel.clear();
-	  		    	for(int i = decks.elementAt(deckList.getSelectedIndex()).getCards().size()-1; i >= 0; i--){
+	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
 	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
 	  						
-	  		        }
+	  		    	}
 	    			
-	    			//put in if statement to check if card is black or whit
-//	    			if(blackRadioButton.isSelected() ==  true){
-//	    				Card newCard = new Card(line, true);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
-//	    			else{
-//	    				Card newCard = new Card(line, false);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
-//	    			
-//	    			newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
-//	    			
-//	    			decks = PlayerManager.getDecks();
-	    			
+	    		}catch(Exception e){
+	    		
 	    		}
+	        }
 	            
 	        });
 		
@@ -423,66 +390,32 @@ public class DeckEditorWindow extends JFrame{
 			//blank card will have description string "new card" 
 			//to do this, call 
 	        public void actionPerformed(ActionEvent arg0) {
-	        	
+	        	try{
 	    			String deckName = deckNameTF.getText();
 	    			Deck newDeck = new Deck(deckName);
-	    			//newDeck.setOwnerID(PlayerManager.getPlayerID());
-	    			PlayerManager.createDeck(newDeck);
-	    			//PlayerManager.getDecks();
+//	    			newDeck.setOwnerID(PlayerManager.getPlayerID());
+//	    			PlayerManager.createDeck(newDeck);
+//	    			PlayerManager.getDecks();
 	    			
 	    			
 	    			decks.add(newDeck);
 	    			
     				deckListModel.clear();
-    				for(int i = decks.size()-1; i >= 0; i--){
+    				for(int i = 0; i < decks.size(); i++){
     					deckListModel.addElement(decks.elementAt(i).getName());
     					
     				}
 	    			cardListModel.clear();
-	  		    	for(int i = decks.elementAt(deckList.getSelectedIndex()).getCards().size()-1; i >= 0; i--){
+	  		    	for(int i = 0; i < decks.elementAt(deckList.getSelectedIndex()).getCards().size(); i++){
 	  						cardListModel.addElement(decks.elementAt(deckList.getSelectedIndex()).getCards().elementAt(i).getDesc());
 	  						
-	  		        }
-	    			
-=======
-	    			try {
-		    			if(blackRadioButton.isSelected() ==  true){
-		    				Card newCard = new Card(line, true);
-		    				PlayerManager.createCard(newCard);
-		    			}
-		    			else{
-		    				Card newCard = new Card(line, false);
-		    				PlayerManager.createCard(newCard);
-		    			}
-	    			} catch( SQLException sqle ) {
-	    				System.out.println("Error creating card: " + sqle.getMessage());
-	    			}
-		    			
->>>>>>> 1b077b047be1a2a83c40e7f9fe3e06f1fa9a6aff
-	    			//put in if statement to check if card is black or whit
-//	    			if(blackRadioButton.isSelected() ==  true){
-//	    				Card newCard = new Card(line, true);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
-//	    			else{
-//	    				Card newCard = new Card(line, false);
-//	    				PlayerManager.createCard(newCard);
-//	    			}
-//	    			
-//	    			newCard.setDeckID(PlayerManager.getDecks().elementAt(int selectedIndex).getID());
-//	    			
-//	    			decks = PlayerManager.getDecks();
-	    			//put in if statement to check if card is black or white
-	    			try {
-						PlayerManager.createCard(new Card(line, false));
-					} catch (SQLException e) {
-						System.out.println("Error creating card: " + e.getMessage());
-					}
-	    			decks = PlayerManager.getDecks();
+	  		    	}
+	        	}catch(Exception e){
 
 	    		}
+	        }
 	            
-	        });
+	    });
 		
 		
 		this.setVisible(true);
