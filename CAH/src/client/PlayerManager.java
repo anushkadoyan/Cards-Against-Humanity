@@ -58,6 +58,21 @@ public class PlayerManager {
 	}
 	*/
 
+	public Vector<Deck> getPlayerDecks() {
+		// no player -> no id -> no decks
+		if (player == null) {
+			return null;
+		}
+		Vector<Deck> decks = null;
+		try {
+			decks = DBAccess.getPlayerDecks(player.getID());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return decks;
+	}
 		
 	public static void setServerCommunicator(ServerCommunicator sc2){
 		sc = sc2;

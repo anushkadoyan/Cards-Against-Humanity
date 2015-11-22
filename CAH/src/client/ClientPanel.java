@@ -36,8 +36,8 @@ public class ClientPanel extends JPanel{
 	public ClientPanel(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
 		oos = outputStream;
 		ios = inputStream;
-	}
-	{	
+
+	
 		loginScreen = new LoginScreen(AllImages.getImage("images/wallpaper.png"), 
 			new ActionListener() {
 			@Override
@@ -114,7 +114,7 @@ public class ClientPanel extends JPanel{
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
-		});
+		}, oos, ios);
 		registerScreen = new RegisterScreen(AllImages.getImage("images/wallpaper.png"), new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
