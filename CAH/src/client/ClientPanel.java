@@ -64,6 +64,7 @@ public class ClientPanel extends JPanel{
 				ClientPanel.this.repaint();
 			}
 		});
+		//dummy player names and scores
 		 HashMap<String, Integer> m = new HashMap<String, Integer>();
 		  m.put("You",0);  
 		  m.put("Player1",0);  
