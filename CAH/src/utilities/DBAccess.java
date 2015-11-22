@@ -11,20 +11,23 @@ import java.util.Vector;
 import server.Database;
 
 public class DBAccess {
-	private static Connection conn = null;
-	private static Database db = null;
-	
+	private static Database db = new Database();
+	private static Connection conn = db.getConnection();
+
 	private static void connect(){
-		try{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/factory?user=root&password=root");
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
+//		try{
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql?user=root&password=root");
+//		}catch(SQLException e){
+//			e.printStackTrace();
+//		}
+		db.connect();
+		conn = db.getConnection();
 	}
 	private static void disconnect(){
-		try{
-			conn.close();
-		}catch(SQLException e){e.printStackTrace();}
+//		try{
+//			conn.close();
+//		}catch(SQLException e){e.printStackTrace();}
+		db.disconnect();
 	}
 	public DBAccess() throws SQLException{
 		conn = DriverManager.getConnection(Constants.databaseURL, Constants.databaseUsername, Constants.databasePassword);
@@ -51,17 +54,8 @@ public class DBAccess {
 		}
 	}
 	public static int checkCredentials(String user, String password) throws SQLException{
-		connect();
-		PreparedStatement ps = conn.prepareStatement("SELECT id FROM Player_Table WHERE user_name = ? AND password = ?");
-		ps.setString(1, user);
-		ps.setString(2, password);
-		ResultSet rs = ps.executeQuery();
-		disconnect();
-		int id = -1;
-		if(rs.next()){
-			id=rs.getInt("ID");
-		}
-		return id;
+		return db.checkCredentials(user, password);
+//		return db.testDBRetreival();
 	}
 	public static Vector<Deck> getPlayerDecks(int playerID) throws SQLException{
 		Vector<Deck> result = new Vector<Deck>();
@@ -74,13 +68,13 @@ public class DBAccess {
 	public static Vector<Integer> getPlayerDeckIDs(int playerID) throws SQLException{
 		Vector<Integer> result = new Vector<Integer>();
 		connect();
-		PreparedStatement ps = conn.prepareStatement("SELECT deck_id FROM Player_Decks_Table WHERE player_id = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT deck_id FROM Players_Decks_Table WHERE player_id = ?");
 		ps.setInt(1, playerID);
 		ResultSet rs = ps.executeQuery();
-		disconnect();
 		while(rs.next()){
 			result.add(rs.getInt("deck_id"));
 		}
+		disconnect();
 		return result;
 	}
 	public static Deck getPlayerDeck(int deckID) throws SQLException{
@@ -88,13 +82,13 @@ public class DBAccess {
 		PreparedStatement ps = conn.prepareStatement("SELECT deck_name FROM Decks_Table WHERE id = ?");
 		ps.setInt(1, deckID);
 		ResultSet rs = ps.executeQuery();
-		disconnect();
 		String name = "";
 		if(rs.next()){
 			name=rs.getString("deck_name");
 		}
 		Deck deck = new Deck(deckID, name);
 		deck.setCards(getDeckCards(deckID));
+		disconnect();
 		return deck;
 	}
 	public static Vector<Card> getDeckCards(int deckID) throws SQLException{
@@ -103,12 +97,12 @@ public class DBAccess {
 		PreparedStatement ps = conn.prepareStatement("SELECT id, text, is_black FROM Cards_Table WHERE deck_id = ?");
 		ps.setInt(1, deckID);
 		ResultSet rs = ps.executeQuery();
-		disconnect();
 		while(rs.next()){
 			Card c = new Card(rs.getInt("id"), rs.getString("text"), rs.getBoolean("is_black"));
 			c.setDeckID(deckID);
 			result.add(c);
 		}
+		disconnect();
 		return result;
 	}
 	

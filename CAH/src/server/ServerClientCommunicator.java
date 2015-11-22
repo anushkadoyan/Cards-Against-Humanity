@@ -52,10 +52,16 @@ public class ServerClientCommunicator  extends Thread {
 					String loginInfo = (String) obj;
 
 					String username = loginInfo.substring(0, loginInfo.indexOf(','));
-					String password = loginInfo.substring(loginInfo.indexOf(',')+1, loginInfo.length()-1);
+					String password = loginInfo.substring(loginInfo.indexOf(',')+1, loginInfo.length());
 					System.out.println("Server receives username and password: " + username + ", " + password);
+					Player player = ServerManager.VerifyCredentials(new Player(username, password));
+					if (player == null) {
+						System.out.println("Could not find the player. You suck shit.");
+					} else {
+						System.out.println("Found the player.");
+						System.out.println("player un: " + username + "... player pw: " +password);
+					}
 					
-					S
 				}
 //				if(obj instanceof Player){
 //					Player p = (Player)obj;
