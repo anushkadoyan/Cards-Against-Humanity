@@ -30,13 +30,6 @@ public class DBAccess {
 		conn = DriverManager.getConnection(Constants.databaseURL, Constants.databaseUsername, Constants.databasePassword);
 	}
 	
-	public static void editCard(int cardID, String cardDescription) throws SQLException {
-		connect();
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards_Table (text) VALUES (?)");
-		//ps.setString();
-		disconnect();
-	}
-	
 	public static int addCard(String cardDescription, Boolean isBlack, int deckID) throws SQLException{
 		connect();
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards_Table (text, is_black, deck_id) VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);

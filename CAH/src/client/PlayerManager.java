@@ -17,15 +17,10 @@ public class PlayerManager {
 		return c;
 	}
 
-<<<<<<< HEAD
 
 	public static void editCard(int cardID, String cardText) throws SQLException{
-		DBAccess.editCard(cardID, cardText);
-=======
-	public static void editCard(int cardID, String cardText){
 		//TODO
-		DBAccess.editCardDescription(cardId, cardText);
->>>>>>> 86a5ed73294b7e1465f1c9802abb94ecf1881e33
+		DBAccess.editCardDescription(cardID, cardText);
 	}
 	
 	public static Player login(Player p) throws SQLException{
@@ -45,6 +40,8 @@ public class PlayerManager {
 		return d;
 	}
 	
+	
+	/*
 	public static void editDeck(Deck d){
 		//TODO
 	}
@@ -57,6 +54,7 @@ public class PlayerManager {
 		return new Vector<Player>();
 		//TODO
 	}
+	*/
 
 		
 	public static void setServerCommunicator(ServerCommunicator sc2){
