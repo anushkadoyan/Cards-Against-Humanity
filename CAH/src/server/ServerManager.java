@@ -31,10 +31,9 @@ public class ServerManager {
 		return p;
 	}
 	
-	public static Card AddCard(Card c, int deckID) throws SQLException{//receives card with no id
+	public static Card AddCard(Card c) throws SQLException{//receives card with no id
 		c.setID(DBAccess.addCard(c.getDesc(), c.getBlackness(), c.getDeckID()));
 		return c;
-		//TODO: see verifyCredentials(), pass primitives only to DBAccess, get ID, return card with id.
 	}
 	
 	public static Game getGame(Game g){
@@ -53,5 +52,19 @@ public class ServerManager {
 		}
 		
 		return p;
+	}
+	
+	public static void addDeck(Deck d){
+		try {
+			DBAccess.addDeck(d);
+		} catch (SQLException e) {
+			//error
+		}
+	}
+	public static void editDeck(Deck d){
+		DBAccess.editDeck(d);
+	}
+	public static void editCard(Card c){
+		DBAccess.editCardDescription(c.getID(), c.getDesc());
 	}
 }
