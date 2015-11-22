@@ -145,12 +145,19 @@ public class GamePanel extends PaintedPanel{
 		
 		// create the game panel
 		GamePanel gp = new GamePanel(i);
-		gp.displayCards(null);
+		//	public Card(int id, String desc, Boolean black){
+
+		Card[] cards = new Card[5];
+		for(int a=0; a<cards.length; a++) {
+			cards[a] = new Card(a, "test card " +a,false);
+		}
+		
+		gp.displayCards(cards);
 
 		// create the frame
 		JFrame jf = new JFrame("THE FRAME");
 		jf.add(gp); // add the panel
-		jf.setBounds(0, 0, 1200, 800); // 3:2 display ratio for now
+		jf.setBounds(0, 0, 1024, 768); 
 		jf.repaint();
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(jf.EXIT_ON_CLOSE);
@@ -162,7 +169,7 @@ public class GamePanel extends PaintedPanel{
 		
 		for(int i = 0; i<=4;i++) {
 			if(pCards!=null) {
-				cards[i] = new PaintedButton(pCards[0].getDesc(),white);
+				cards[i] = new PaintedButton(pCards[i].getDesc(),white);
 				cards[i].setOpaque(false);
 //				card.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // Especially important
 				cards[i].setHorizontalAlignment(SwingConstants.LEFT);
