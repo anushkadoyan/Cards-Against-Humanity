@@ -42,22 +42,4 @@ public class ClientFrame extends JFrame{
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	public static void main(String [] args){
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		
-		SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-		    	ClientFrame cf = new ClientFrame();
-		    	cf.setVisible(true);
-		    }
-		});
-	}
-	*/
-	
 }
