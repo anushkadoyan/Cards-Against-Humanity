@@ -49,7 +49,7 @@ public class DeckEditorWindow extends JFrame{
 	JList<String> deckList = new JList<String>(deckListModel);
 	JList<String> cardList = new JList<String>(cardListModel);
 	
-	
+	//Currently a proof of concept. Need server 
 
 	public DeckEditorWindow() {
 		super("Deck Editor");
@@ -419,7 +419,7 @@ public class DeckEditorWindow extends JFrame{
 	    });
 		
 		
-		this.setVisible(false);
+		this.setVisible(true);
 	}
 	
 	public void addDeck(Deck d) { 
@@ -506,9 +506,8 @@ public class DeckEditorWindow extends JFrame{
 
 	}
 
-//	public static void main(String [] args) {
-//		
-//		new DeckEditorWindow();
-//	}
+	public static void main(String [] args) {
+		new DeckEditorWindow();
+	}
 
 }

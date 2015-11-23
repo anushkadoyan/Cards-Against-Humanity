@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +15,10 @@ import utilities.DeckReader;
 public class Database {
 	private static String jdbcDriver = "com.mysql.jdbc.Driver";
 	
-	private static String db_name= "CAH_db";
+	private static String db_name= "CAH_db2";
 	private static String db_username = "root";
 	private static String db_password = "root";
+	private static String connectionName = "mysql3";
 
     private static Connection connection = null;
 	
@@ -79,7 +81,7 @@ public class Database {
     	
     	// create the default decks and player
     	try {
-			createDefaultDecks();
+			createDefaultDecks(false);
 			createPlayers();
 			disconnect();
 		} catch (IOException e) {
@@ -102,7 +104,20 @@ public class Database {
 			while (rs.next()) {
 				db_name = rs.getString(1);
 				if (db_name.equals(databaseName)) {
-					return true;
+					// now look for tables just to make sure the database isn't empty
+					DatabaseMetaData meta = connection.getMetaData();
+					ResultSet result = meta.getTables(null, null, "Decks_Table",
+							new String[] {"TABLE"});
+
+					String resStr = null;
+					while (result.next()) {
+//						System.out.println("Result: " + resStr);
+						System.out.println("tb name: " + result.getString("TABLE_NAME"));
+						resStr = result.getString("TABLE_NAME");
+					}
+					
+					if (resStr != null && resStr.equals("Decks_Table"))
+						return true;
 				}
 			}
 			return false;
@@ -116,7 +131,7 @@ public class Database {
 
     // input/output: none
     // creates the decks (and cards) based on the textfiles (which must be specified inside this function)
-    private void createDefaultDecks() throws IOException {
+    private void createDefaultDecks(boolean everything) throws IOException {
     	DeckReader dr = new DeckReader();
     	String path = "decks/"; // path to textfile
     	String[][] whiteCards1, blackCards1, blackCards2, blackCards3;
@@ -141,8 +156,10 @@ public class Database {
     	// create the decks
     	try {
     		createDeck(deck1Name, deck1);
-    		createDeck(deck2Name, deck2);
-			createDeck(deck3Name, deck3);
+    		if (everything) {
+    			createDeck(deck2Name, deck2);
+    			createDeck(deck3Name, deck3);
+    		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.err.println("could not create the decks :(");
@@ -368,12 +385,25 @@ public class Database {
     public void connect() {
     	System.out.println("Connecting to mySQL database.");
     	try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull",
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName + "?zeroDateTimeBehavior=convertToNull",
 				    db_username, db_password);
     		System.out.println("Successfully connected to database.");
 
     	} catch (SQLException e) {
     		e.printStackTrace();
+    		System.out.println("TRYING TO CREATE DATABASE");
+    		try {
+    			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/", db_username, db_password);
+    			System.out.println("Connected to default db.. now must create db");
+    			createDatabase(connectionName, true);
+    			
+    			System.out.println("TRYING ONE MORE TIME TO CONNECT TO THIS SHIT");
+    			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName + "?zeroDateTimeBehavior=convertToNull",
+				    db_username, db_password);
+    			System.out.println("Successfully connected to database.");
+    		} catch (SQLException e2) {
+    			e.printStackTrace();
+    		}
     	}
     }
     

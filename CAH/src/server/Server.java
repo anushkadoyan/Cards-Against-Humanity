@@ -24,7 +24,6 @@ public class Server {
 	}
 	private void createDatabase() {
 		db = new Database();
-//		db.drop();
 	}
 
 	public static void main(String [] args) {

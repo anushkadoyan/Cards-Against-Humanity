@@ -42,7 +42,7 @@ public class ClientPanel extends JPanel{
 			new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae){
-				
+				/*
 				JButton button = (JButton)ae.getSource();
 				if(button.getText().equals("Guest")) {
 					System.out.println("guest");
@@ -72,18 +72,18 @@ public class ClientPanel extends JPanel{
 					e.printStackTrace();
 				} finally {
 					if (player != null) {
-					
+					*/
 						System.out.println("Going to lobby screen cuz the player credentials were correct");
 						ClientPanel.this.removeAll();
 						ClientPanel.this.add(lobbyScreen);
 						ClientPanel.this.revalidate();
 						ClientPanel.this.repaint();
-						
+					/*	
 					} else {
 						System.out.println("Player credentials incorrect. Go back to login screen.");
 					}
 				}
-			
+			*/
 			}
 			
 		}, new ActionListener(){
