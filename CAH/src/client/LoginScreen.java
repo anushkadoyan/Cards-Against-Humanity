@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.ObjectInputStream;
@@ -11,7 +13,6 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -67,40 +68,42 @@ public class LoginScreen extends ImagePanel{
 			});
 			*/
 		registerButton = new JButton("Register");
-			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			registerButton.setPreferredSize(new Dimension(90,40));
-			registerButton.addActionListener(registerAction);
-			registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
-			registerButton.setBackground(Color.WHITE);
-			registerButton.setOpaque(true);
+		registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		registerButton.setPreferredSize(new Dimension(90,40));
+		registerButton.addActionListener(registerAction);
+		registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		registerButton.setBackground(Color.WHITE);
+		registerButton.setOpaque(true);
 			
 		guestButton = new JButton("Guest");
-			guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			guestButton.setPreferredSize(new Dimension(90,40));
-			guestButton.addActionListener(loginAction);
-			guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
-			guestButton.setBackground(Color.WHITE);
-			guestButton.setOpaque(true);
+		guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		guestButton.setPreferredSize(new Dimension(90,40));
+		guestButton.addActionListener(loginAction);
+		guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		guestButton.setBackground(Color.WHITE);
+		guestButton.setOpaque(true);
 		
 		userLabel = new JLabel("Username:");
-			userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
-			userLabel.setForeground(Color.WHITE);
+		userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
+		userLabel.setForeground(Color.WHITE);
 		passLabel = new JLabel("Password:");
-			passLabel.setFont(new Font("Andalus", Font.BOLD, 20));
-			passLabel.setForeground(Color.WHITE);
+		passLabel.setFont(new Font("Andalus", Font.BOLD, 20));
+		passLabel.setForeground(Color.WHITE);
 			
 		userText = new JTextField(8);
-			userText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		userText.setFont(new Font("Andalus", Font.PLAIN, 20));
 		passText = new JPasswordField(8);
-			passText.setFont(new Font("Andalus", Font.PLAIN, 20));
-			passText.setEchoChar('*');
+		passText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		passText.setEchoChar('*');
 			
 		userPanel = new JPanel();
-			userPanel.setLayout(new FlowLayout());
+		userPanel.setLayout(new FlowLayout());
+		
 		passPanel = new JPanel();
-			passPanel.setLayout(new FlowLayout());
+		passPanel.setLayout(new FlowLayout());
+		
 		buttonPanel = new JPanel();
-			buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setLayout(new FlowLayout());
 		
 		userPanel.add(userLabel);
 		userPanel.add(userText);
@@ -116,17 +119,29 @@ public class LoginScreen extends ImagePanel{
 		passPanel.setOpaque(false);
 		buttonPanel.setOpaque(false);
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		userPanel.setPreferredSize(new Dimension(300,60));
+		passPanel.setPreferredSize(new Dimension(300,60));
+		buttonPanel.setPreferredSize(new Dimension(300,60));
+		
+		this.setLayout(new GridBagLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-		this.add(Box.createGlue());
-		this.add(userPanel);
-		this.add(passPanel);
-		this.add(Box.createGlue());
-		this.add(buttonPanel);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 1;
+		gbc.gridy = 1;
+		this.add(userPanel, gbc);
+		gbc.gridy = 2;
+		this.add(passPanel, gbc);
+		gbc.gridy = 4;
+		this.add(buttonPanel, gbc);
 		
 	}
 	
-	public String getUsername() { return userText.getText(); }
-	public String getPassword() { return new String(passText.getPassword()); }
+	public String getUsername() {
+		return userText.getText();
+	}
+	
+	public String getPassword() {
+		return new String(passText.getPassword()); 
+	}
 
 }

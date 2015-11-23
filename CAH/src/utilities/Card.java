@@ -5,16 +5,19 @@ public class Card {
 	private Boolean isBlack;
 	private int ID;
 	private int deckID;
+	private Player user;
 	
 	public Card(int id, String desc, Boolean black){
 		ID = id;
 		description = desc;
 		isBlack = black;
+		user = null;
 	}
 	public Card(String desc, Boolean black){
 		ID = -1;
 		description = desc;
 		isBlack = black;
+		user = null;
 	}
 	
 	public String getDesc(){
@@ -43,5 +46,12 @@ public class Card {
 	
 	public void setDesc(String newDesc){
 		description = newDesc;
+	}
+	
+	public void setUser(Player p){
+		user = p;
+	}
+	public Player getUser(){
+		return user;
 	}
 }

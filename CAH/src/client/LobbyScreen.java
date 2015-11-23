@@ -9,6 +9,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -35,11 +40,20 @@ public class LobbyScreen extends ImagePanel{
 	private boolean isGuest = false;
 	private DeckEditorWindow deckEditor = new DeckEditorWindow();
 	
-	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction){
+	// output to server
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+
+	public LobbyScreen(Image inImage, boolean guest, ActionListener connectAction, final ObjectOutputStream oStream, ObjectInputStream iStream){
 		super(inImage);
 		this.isGuest = guest;
 		System.out.println("in lobbyscreen");
 
+		// i/o to server
+		oos = oStream;
+		ois = iStream;
+
+		System.out.println("is oos null? " + (oos == null));
 		System.out.println(isGuest);
 		westPanel = new JPanel();
 		westPanel.setOpaque(false);
@@ -56,6 +70,18 @@ public class LobbyScreen extends ImagePanel{
 		viewDeckButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				System.out.println("SHOW DECKS BUTTON PRESSED");
+				// let the server know that you want to see the deck
+				try {
+					System.out.println("About to write to the object");
+					System.out.println("is oos null???: " + (oos == null));
+					System.out.println("is oStream null???: " + (oStream == null));
+					oos.writeObject("showDeck");
+					oos.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				deckEditor.setVisible(true);
 				
 			}
@@ -74,7 +100,7 @@ public class LobbyScreen extends ImagePanel{
 			
 		
 		connectButton = new JButton("Connect");
-//		connectButton.setEnabled(false);
+		connectButton.setEnabled(false);
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.setBackground(Color.WHITE);
@@ -132,6 +158,15 @@ public class LobbyScreen extends ImagePanel{
 			gameTable.getColumnModel().getColumn(i).setCellRenderer(center);
 		}
 		
+		gameTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e){
+				if (gameTable.getSelectedRow() >= 0){
+					connectButton.setEnabled(true);
+				}
+			}
+		});
+		
 		jsp = new JScrollPane(gameTable);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -152,6 +187,9 @@ public class LobbyScreen extends ImagePanel{
 		this.setOpaque(false);
 		centerPanel.setOpaque(false);
 		southPanel.setOpaque(false);
+		
+		add("Test Game", 3, "Waiting");
+		add("Test Game 2", 4, "In Progress");
 	
 	}
 	

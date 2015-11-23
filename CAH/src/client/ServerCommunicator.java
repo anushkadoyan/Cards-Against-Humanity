@@ -12,12 +12,13 @@ import utilities.Deck;
 import utilities.Game;
 import utilities.Player;
 
-public class ServerCommunicator {
+public class ServerCommunicator extends Thread{
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private Player p;
 	private Boolean valid;
+	private Game game;
 	
 	public ServerCommunicator(Socket socket, Player p) throws IOException {
 		this.socket = socket;
@@ -34,5 +35,21 @@ public class ServerCommunicator {
 	}
 	public Boolean isValid(){
 		return valid;
+	}
+	public void run(){
+		try{
+			Object obj = ois.readObject();
+			while(obj!=null){
+				if(obj instanceof Game){
+					game = (Game)obj;
+				}
+			}
+		}
+		catch(IOException ioe){
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
