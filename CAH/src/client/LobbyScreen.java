@@ -86,6 +86,9 @@ public class LobbyScreen extends ImagePanel{
 				
 			}
 		});
+		if (isGuest){
+			viewDeckButton.setEnabled(false);
+		}
 			
 		createGameButton = new JButton("Create Game");
 		if(isGuest == true) {
@@ -97,6 +100,9 @@ public class LobbyScreen extends ImagePanel{
 		createGameButton.setPreferredSize(new Dimension(120,40));
 		createGameButton.setBackground(Color.WHITE);
 		createGameButton.setOpaque(true);
+		if (isGuest){
+			createGameButton.setEnabled(false);
+		}
 			
 		
 		connectButton = new JButton("Connect");
