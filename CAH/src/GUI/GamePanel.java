@@ -117,9 +117,9 @@ public class GamePanel extends PaintedPanel{
 	}
 	
 	public void setMiddleInfo(String text) {
-		middle.removeAll();
-		if(text.equals("Waiting for players...")) {
-			
+		if(!text.equals("Waiting for players...")) {
+			middle.removeAll();
+
 		}
 		System.out.println(text);
 		JLabel label = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
