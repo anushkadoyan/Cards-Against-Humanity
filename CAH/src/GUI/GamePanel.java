@@ -496,13 +496,13 @@ public class GamePanel extends PaintedPanel{
 		isJudge = true;
 	}
 	
-	private void swap(JPanel c) {
-		removeAll();
-		add(c);
-		revalidate();
-		repaint();
-	}
-	
+//	private void swap(JPanel c) {
+//		removeAll();
+//		add(c);
+//		revalidate();
+//		repaint();
+//	}
+//	
 	public void setWaitingForPlayers() {
 		setMiddleInfo("Waiting for players...");
 	}
