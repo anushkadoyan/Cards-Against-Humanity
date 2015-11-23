@@ -1,27 +1,37 @@
 package GUI;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import com.sun.glass.events.MouseEvent;
-
-import javax.swing.*;
-
+import utilities.Card;
 import customUI.ImageLibrary;
 import customUI.PaintedButton;
 import customUI.PaintedPanel;
-import utilities.Card;
 
 public class GamePanel extends PaintedPanel{
 	
@@ -133,7 +143,7 @@ public class GamePanel extends PaintedPanel{
 
 		String stuff = "", key= null;
 		int value = 0;
-		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
+		for (Entry<String, Integer> entry : map.entrySet()) {
 		   
 			if(entry.getKey()!=null) { key = entry.getKey();}
 		    if(entry.getValue()!=null) {  value = entry.getValue();}
@@ -511,7 +521,7 @@ public class GamePanel extends PaintedPanel{
 	private void updateScore(HashMap<String,Integer> m) {
 		  String stuff = "", key= null;
 		  int value = 0;
-		for (HashMap.Entry<String, Integer> entry : m.entrySet()) {
+		for (Entry<String, Integer> entry : m.entrySet()) {
 		   
 			if(entry.getKey()!=null) { key = entry.getKey();}
 		    if(entry.getValue()!=null) {  value = entry.getValue();}
