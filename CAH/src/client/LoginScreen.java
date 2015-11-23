@@ -68,40 +68,42 @@ public class LoginScreen extends ImagePanel{
 			});
 			*/
 		registerButton = new JButton("Register");
-			registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			registerButton.setPreferredSize(new Dimension(90,40));
-			registerButton.addActionListener(registerAction);
-			registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
-			registerButton.setBackground(Color.WHITE);
-			registerButton.setOpaque(true);
+		registerButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		registerButton.setPreferredSize(new Dimension(90,40));
+		registerButton.addActionListener(registerAction);
+		registerButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		registerButton.setBackground(Color.WHITE);
+		registerButton.setOpaque(true);
 			
 		guestButton = new JButton("Guest");
-			guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
-			guestButton.setPreferredSize(new Dimension(90,40));
-			guestButton.addActionListener(loginAction);
-			guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
-			guestButton.setBackground(Color.WHITE);
-			guestButton.setOpaque(true);
+		guestButton.setFont(new Font("Andalus", Font.PLAIN, 12));
+		guestButton.setPreferredSize(new Dimension(90,40));
+		guestButton.addActionListener(loginAction);
+		guestButton.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+		guestButton.setBackground(Color.WHITE);
+		guestButton.setOpaque(true);
 		
 		userLabel = new JLabel("Username:");
-			userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
-			userLabel.setForeground(Color.WHITE);
+		userLabel.setFont(new Font("Andalus", Font.BOLD, 20));
+		userLabel.setForeground(Color.WHITE);
 		passLabel = new JLabel("Password:");
-			passLabel.setFont(new Font("Andalus", Font.BOLD, 20));
-			passLabel.setForeground(Color.WHITE);
+		passLabel.setFont(new Font("Andalus", Font.BOLD, 20));
+		passLabel.setForeground(Color.WHITE);
 			
 		userText = new JTextField(8);
-			userText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		userText.setFont(new Font("Andalus", Font.PLAIN, 20));
 		passText = new JPasswordField(8);
-			passText.setFont(new Font("Andalus", Font.PLAIN, 20));
-			passText.setEchoChar('*');
+		passText.setFont(new Font("Andalus", Font.PLAIN, 20));
+		passText.setEchoChar('*');
 			
 		userPanel = new JPanel();
-			userPanel.setLayout(new FlowLayout());
+		userPanel.setLayout(new FlowLayout());
+		
 		passPanel = new JPanel();
-			passPanel.setLayout(new FlowLayout());
+		passPanel.setLayout(new FlowLayout());
+		
 		buttonPanel = new JPanel();
-			buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setLayout(new FlowLayout());
 		
 		userPanel.add(userLabel);
 		userPanel.add(userText);
@@ -134,7 +136,12 @@ public class LoginScreen extends ImagePanel{
 		
 	}
 	
-	public String getUsername() { return userText.getText(); }
-	public String getPassword() { return new String(passText.getPassword()); }
+	public String getUsername() {
+		return userText.getText();
+	}
+	
+	public String getPassword() {
+		return new String(passText.getPassword()); 
+	}
 
 }

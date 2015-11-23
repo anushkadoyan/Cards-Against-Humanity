@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -98,7 +100,7 @@ public class LobbyScreen extends ImagePanel{
 			
 		
 		connectButton = new JButton("Connect");
-//		connectButton.setEnabled(false);
+		connectButton.setEnabled(false);
 		connectButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		connectButton.setPreferredSize(new Dimension(120,40));
 		connectButton.setBackground(Color.WHITE);
@@ -156,6 +158,15 @@ public class LobbyScreen extends ImagePanel{
 			gameTable.getColumnModel().getColumn(i).setCellRenderer(center);
 		}
 		
+		gameTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e){
+				if (gameTable.getSelectedRow() >= 0){
+					connectButton.setEnabled(true);
+				}
+			}
+		});
+		
 		jsp = new JScrollPane(gameTable);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -176,6 +187,9 @@ public class LobbyScreen extends ImagePanel{
 		this.setOpaque(false);
 		centerPanel.setOpaque(false);
 		southPanel.setOpaque(false);
+		
+		add("Test Game", 3, "Waiting");
+		add("Test Game 2", 4, "In Progress");
 	
 	}
 	
