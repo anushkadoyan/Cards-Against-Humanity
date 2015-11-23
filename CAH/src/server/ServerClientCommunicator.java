@@ -19,6 +19,8 @@ public class ServerClientCommunicator extends Thread {
 	private GameController gc;
 	private Boolean valid;
 	private Player player;
+	private Object objToSend;
+	private Boolean readySend;
 
 	private boolean loggedIn;
 
@@ -31,6 +33,7 @@ public class ServerClientCommunicator extends Thread {
 		this.ois = new ObjectInputStream(this.socket.getInputStream());
 		gc = null;
 		loggedIn = false;
+		readySend = false;
 	}
 
 	public Boolean isValid() {
@@ -93,7 +96,11 @@ public class ServerClientCommunicator extends Thread {
 						}
 					}
 					else{
-						//game related actions
+						while(true){
+							while(!readySend){}
+							oos.writeObject(objToSend);
+							readySend = false;
+						}
 					}
 				} else {
 
@@ -181,5 +188,10 @@ public class ServerClientCommunicator extends Thread {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	private void sendObject(Object obj){		
+		objToSend = obj;
+		readySend = true;
 	}
 }
