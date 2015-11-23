@@ -67,7 +67,7 @@ public class GamePanel extends PaintedPanel{
 	
 	//show user's cards
 	public void initializeGame(HashMap<String, Integer> c) {
-		
+		System.out.println("initializing");
 		//dummy cards
 		HashMap<String, Integer> m = new HashMap<String, Integer>();
 		m.put("You",0);  
@@ -87,7 +87,7 @@ public class GamePanel extends PaintedPanel{
 		else if(!isJudge) {
 			infoText = "Pick a card!";
 		}
-		createMiddleInfo();
+//		createMiddleInfo();
 		createScoreLabel();
 		setMiddleInfo(infoText);
 		setTable();
@@ -97,13 +97,6 @@ public class GamePanel extends PaintedPanel{
 		info.setOpaque(false);
 		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
 		left.add(info);
-		
-		
-	}
-	
-	public void setMiddleInfo(String text) {
-		System.out.println(text);
-		JLabel label = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
 		JButton start = new JButton("Start game");
 		start.addActionListener(new ActionListener() {
 
@@ -118,10 +111,20 @@ public class GamePanel extends PaintedPanel{
 		});
 		middle = new JPanel();
 		middle.setOpaque(false);
-		middle.add(label);
 		middle.add(start);
-		label.setFont(new Font("Helvetica", Font.BOLD, 30));
 		bottom1.add(middle,BorderLayout.CENTER);
+
+	}
+	
+	public void setMiddleInfo(String text) {
+		middle.removeAll();
+		if(text.equals("Waiting for players...")) {
+			
+		}
+		System.out.println(text);
+		JLabel label = new JLabel("<html><font color=\"white\">"+text+"</font></html>");
+		middle.add(label);
+		label.setFont(new Font("Helvetica", Font.BOLD, 30));
 	}
 	
 	public void createScoreLabel() {
