@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -91,11 +92,6 @@ public class LobbyScreen extends ImagePanel{
 		}
 			
 		createGameButton = new JButton("Create Game");
-		if(isGuest == true) {
-			createGameButton.setEnabled(false);
-			viewDeckButton.setEnabled(false);
-
-		}
 		createGameButton.setFont(new Font("Andalus", Font.PLAIN, 12));
 		createGameButton.setPreferredSize(new Dimension(120,40));
 		createGameButton.setBackground(Color.WHITE);
@@ -169,6 +165,10 @@ public class LobbyScreen extends ImagePanel{
 			public void valueChanged(ListSelectionEvent e){
 				if (gameTable.getSelectedRow() >= 0){
 					connectButton.setEnabled(true);
+					Rectangle cell = gameTable.getCellRect(gameTable.getSelectedRow(), 0, false);
+					if (cell != null){
+						gameTable.scrollRectToVisible(cell);
+					}
 				}
 			}
 		});
